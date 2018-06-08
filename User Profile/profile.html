@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>PeerPal | Profile</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css" type="text/css">
+        <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
+        <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+        <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Montserrat:400,700'>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    </head>
+    
+    <body>
+        <!-- Profile Page , Modal -->
+        <div class="page-header"></div>
+    <div class="profile-container">
+      <div class="row">
+      <div class="col-md-2">
+        <img src="sample.png" class="img-responsive" width="150px" height="150px" />
+      </div>
+      <div class="col-md-7 profile-info">
+        <button onclick="document.getElementById('id01').style.display='block'" type="button" class="btn btn-primary col-md-7 col-xs-7" >Change Profile Picture</button><br>
+      </div>
+      <div class="col-md-7 profile-info">
+        <button onclick="document.getElementById('id02').style.display='block'" type="button" class="btn btn-primary col-md-7 col-xs-7">Change Password</button>
+      </div>
+    </div>
+      <br/><br/>
+      <div class="row more-info">
+      <div class="col-md-6">
+        <h5><b>Name</b></h5>
+        <p>Dela Cruz, Juan </p>
+      </div>
+        <div class="col-md-6">
+          <h5><b>ID Number</b></h5>
+        <p>217890</p>
+      </div>
+      </div>
+       <div class="row more-info">
+      <div class="col-md-6">
+        <h5><b>Course</b></h5>
+        <p>BSIT</p>
+      </div>
+        <div class="col-md-6">
+          <h5><b>Email</b></h5>
+        <p>217890@slu.edu.ph</p>
+      </div>
+      </div>
+      <br/>
+    </div>
+        
+    <div id="id01" class="w3-modal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+        <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <form action="/action_page.php">
+            <br>
+  <input type="file" name="pic" accept="image/*"> <br>
+  <input type="submit">
+</form>
+      </div>
+    </div>
+  </div>
+
+            <div id="id02" class="w3-modal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+        <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <form action="/action_page.php">
+            <br>
+  <input type="file" name="pic" accept="image/*"> <br>
+  <input type="submit">
+</form>
+      </div>
+    </div>
+  </div>
+    </body>
+    
+</html>

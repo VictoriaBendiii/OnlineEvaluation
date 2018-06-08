@@ -68,10 +68,17 @@
     <div class="w3-modal-content">
       <div class="w3-container">
         <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-        <form action="/action_page.php">
-            <br>
-  <input type="file" name="pic" accept="image/*"> <br>
-  <input type="submit">
+        <form action="/action_page.php" target="_blank" method="POST">
+  Old Password:<br>
+  <input type="text" name="oldPW" value="">
+  <br>
+  New Password:<br>
+  <input type="text" name="newPW" value="">
+  <br>
+  Verify New Password:<br>
+  <input type="text" name="verifyPW" value="">
+  <br><br>
+  <input type="submit" value="Submit"> <br><br>
 </form>
       </div>
     </div>

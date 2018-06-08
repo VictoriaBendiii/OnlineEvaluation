@@ -68,4 +68,5 @@ div h5{
 
 .w3-container {
     min-height: 150px;
+    max-height: 250px;
 }

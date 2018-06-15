@@ -1,0 +1,6 @@
+[
+{"criteria": "choices", "choices": ["1 - Poor", "2 - Fair", "3 - Satisfactory", "4 - Excellent"]},
+{"criteria": "How is Life?"},
+{"criteria": "What is Life?"},
+{"criteria": "Why is Life?"}
+]

@@ -16,6 +16,7 @@
         $form_ID = 0;
         $group_ID = 0;
         $groupmates = array();
+        $id = array();
         $url = '';
 
         $get_form_id = "SELECT * FROM form JOIN group_form USING(formID) JOIN user_course USING(groupID) JOIN users ON users.id = user_course.id WHERE username = '$user' AND courseCode = '$course';";
@@ -49,6 +50,7 @@
             $form_ID = $row['formID'];          
             $group_ID = $row['groupID'];
             array_push($groupmates, $row['firstname'] .' '. $row['lastname']);
+            array_push($id, $row['id']);
         }
         
         if($form_type == 'form1'){
@@ -98,7 +100,7 @@
                     for($counter = 0; $counter < $size_groupmates; $counter++){
                         echo "<tr>
                                 <td>$groupmates[$counter]
-                                    <input type='hidden' name='name[]' value='".$groupmates[$counter]."'>
+                                    <input type='hidden' name='id[]' value='".$id[$counter]."'>
                                 </td>";
                         for($ct = 1; $ct <= $size_criteria; $ct++){
                             echo "<td><input type='number' name='score[]' min='1' max='$length' value='0' required></td>";
@@ -156,7 +158,9 @@
                                 <tr>
                                     <td></td>";
                     for($ctr = 0; $ctr < $size_groupmates; $ctr++){
-                        echo "<td>$groupmates[$ctr]</td>";
+                        echo "<td>$groupmates[$ctr]
+                                <input type='hidden' name='idFormTwo[]' value='".$id[$ctr]."'>
+                            </td>";
                     }
                     echo "</tr>";                                   
                 }else if($formCriterias['criteria'] != 'choices'){

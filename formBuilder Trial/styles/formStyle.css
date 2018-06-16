@@ -264,6 +264,8 @@ input[name*="total"] {
 	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
 }
 
+#submitGroup
+
 /*class*/
 .quiz{
 	margin: auto;
@@ -431,5 +433,31 @@ input[name*="total"] {
 
 .tableContainer{
 	width: 90%;
+	margin: 0 auto;
+}
+
+.tableFormGroup {
+	margin-top: 5%;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 20px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.tableFormGroup td, .tableFormGroup th {
+    text-align: center;
+    padding: 8px;
+}
+
+.tableFormGroup tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.tableFormGroup tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.tableContainerGroup{
+	width: 50%;
 	margin: 0 auto;
 }

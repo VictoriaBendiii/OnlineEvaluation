@@ -8,12 +8,14 @@
 	if($form == 'form1'){
 	    $score = $_POST["score"];
 	    $remarks = $_POST["remarks"];
+	    $id = $_POST["id"];
 
 	    $score = implode("-", $score);
 	    $remarks = implode("-", $remarks);
+	    $id = implode("-", $id);
 
-	    $query = "INSERT INTO result (score, formID, groupID, courseCode, evaluator, remarks)
-	        VALUES ('$score', '$form_ID', '$group_ID', '$course', '$user', '$remarks')";
+	    $query = "INSERT INTO result (score, formID, groupID, courseCode, evaluator, remarks, userID)
+	        VALUES ('$score', '$form_ID', '$group_ID', '$course', '$user', '$remarks', '$id')";
 
 	    if (mysqli_query($conn, $query)) {
 	    } else {
@@ -21,10 +23,12 @@
 	    }
 	}else if($form == 'form2'){
 		$score = $_POST["score"];
-	    $score = implode("-", $score);  
+		$id = $_POST["idFormTwo"];
+	    $score = implode("-", $score);
+	    $id = implode("-", $id);  
 
-	        $query = "INSERT INTO result (score, formID, groupID, courseCode, evaluator)
-	        VALUES ('$score', '$form_ID', '$group_ID', '$course', '$user')";
+	        $query = "INSERT INTO result (score, formID, groupID, courseCode, evaluator, userID)
+	        VALUES ('$score', '$form_ID', '$group_ID', '$course', '$user', '$id')";
 
 	    if (mysqli_query($conn, $query)) {
 	    } else {

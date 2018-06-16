@@ -13,6 +13,38 @@ body {
   font-size: 18px;
   background: #FFFFFF;
 }
+
+/* Nav Bar */
+.content {
+    width: 90%;
+    margin: 4em auto;
+    font-size: 20px;
+    font-family: 'Quicksand', sans-serif;
+    line-height: 30px;
+    text-align: justify;
+    color: #344B63;
+}
+
+.logo {
+    position: fixed;
+    float: left;
+    margin: 16px 36px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 24px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.contents {
+    width: 90%;
+    margin: 4em auto;
+    font-size: 20px;
+    font-family: 'Quicksand', sans-serif;
+    line-height: 30px;
+    text-align: justify;
+    color: #FFFFFF;
+	padding-top: 80px;
+}
 /* Nav Bar */
 
 .content {

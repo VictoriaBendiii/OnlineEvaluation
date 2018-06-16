@@ -26,14 +26,12 @@
 					<img src="css/images/slogo.png" style="height: 45px; width: 36px; position: fixed; top: 10px; left: 10px;">
                     <div class="logo">&emsp;SLU Peer Evaluation</div>
                     <div class="menu">
-                         <ul>
-                            <li><a class="active" href="classes.php">Home</a></li>
-                            <li><a href="#">Evaluate</a></li>
-                            <li style="color: white; font-size: 20px; "><a href="profile.php">
+                        <ul>
+                            <li><a href="classes.php">Home</a></li>
+                            <li style="color: white; font-size: 20px; "><a class="active" href="profile.php">
                             <?php echo $_SESSION['firstname']. " ". $_SESSION['lastname'];?> </a>
 							</li>
                             <li><a href="signout.php">Log-out</a></li>
-
                         </ul>
                     </div>
                 </nav>

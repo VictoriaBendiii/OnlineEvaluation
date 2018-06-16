@@ -31,17 +31,23 @@
                     <div class="logo">&emsp;SLU Peer Evaluation</div>
                     <div class="menu">
                         <ul>
-                            <li><a class="active" href="classes.php">Home</a></li>
-                            <li style="color: white; font-size: 20px; "><a href="profile.php">
-                            <?php echo $_SESSION['firstname']. " ". $_SESSION['lastname'];?> </a>
-							</li>
-                            <li><a href="signout.php">Log-out</a></li>
-
+                            <li style="color: white; font-size: 20px; "><a class="active" href="#" onclick="websitenav();">
+                            <?php 
+							$username = $_SESSION['username'];
+							$query = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username';");
+    
+							while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+							$profilepicture = $row['profilepicture'];
+							$first = $row['firstname'];
+							$last = $row['lastname'];
+							echo "<img src='images/profilepictures/$profilepicture' class='navpic' alt='profile picture'>";
+							}
+							?> </a></li>
                         </ul>
                     </div>
                 </nav>
-                 <div class="container">
-    <div class="row">
+                <div class="container">
+				<div class="row">
 					<?php
                     $target_name = array();
                 $user = mysqli_real_escape_string($conn, $_SESSION['username']);
@@ -127,8 +133,16 @@
                         </div>
                       </div>
                 </div>
-      </form>  
-            	<script src="assets/js/modernizr-latest.js"></script> 
+      </form> 
+	  
+	  <div id="pictureNavigation" style="display: none;">
+		<ul>
+		<li><a href="classes.php"><img src='images/class.png' class='picnavicon'> Classes</a></li>
+		<li><a href="profile.php"><img src='images/profile.png' class='picnavicon'> Profile</a></li>
+		<li><a href="signout.php"><img src='images/logout.png' class='picnavicon'> Log out</a></li>
+		</ul>
+	  </div>
+    <script src="assets/js/modernizr-latest.js"></script> 
 	<script type='text/javascript' src='assets/js/jquery.min.js'></script>
     <script type='text/javascript' src='assets/js/fancybox/jquery.fancybox.pack.js'></script>
     
@@ -138,8 +152,17 @@
     <script src="assets/js/bootstrap.min.js"></script> 
 	<script src="assets/js/custom.js"></script>
             
-            <script type="text/javascript">
-        
+    <script type="text/javascript">
+        $(document).ready(function(){
+			$(document).mouseup(function(e){
+				var subject = $("#pictureNavigation"); 
+
+        if(e.target.id != subject.attr('id') && !subject.has(e.target).length){
+            subject.fadeOut();
+				}
+			});
+		});
+		
         $(function() {
            var welcomeSection = $('.welcome-section'),
                enterButton = welcomeSection.find('.enter-button');
@@ -171,6 +194,15 @@
                 $('nav').removeClass('black');
             }
         })    
+		
+		function websitenav(){
+			var x = document.getElementById("pictureNavigation");
+			if (x.style.display === "none") {
+				x.style.display = "block";
+			} else {
+				x.style.display = "none";
+			}
+		}
             
         </script>
         </div>

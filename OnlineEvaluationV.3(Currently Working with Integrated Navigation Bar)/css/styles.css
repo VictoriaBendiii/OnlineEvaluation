@@ -512,8 +512,61 @@ nav ul li a:hover {
 icon-bar {
     background-color: #000;}
 .navbar-toggle {
-     background-color: black;
+    background-color: black;
     border-color: #000;}
-
-
-
+	
+.navpic{
+	height: 50px;
+	width: 50px;
+	border-radius: 50%;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+#pictureNavigation{
+	z-index: 2000;
+	background: #F2F2F0;
+	width: 140px;
+	height: 105px;
+	display: inline-block;
+	padding: 10px 0px 18px 18px;
+	text-align: left;
+	font-family: 'Quicksand', sans-serif;
+	font-size: 19px;
+	position: fixed;
+	top: 84px;
+	right: 32px;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+#pictureNavigation:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 119px;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-bottom-color: #F2F2F0;
+	border-top: 0;
+	border-right: 0;
+	margin-left: -10px;
+	margin-top: -20px;
+}
+#pictureNavigation ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 140px;
+}
+#pictureNavigation li a{
+    display: block;
+    color: #000;
+    text-decoration: none;
+}
+#pictureNavigation li a:hover {
+	font-weight: bold;
+}
+.picnavicon{
+	height: 20px;
+	width: 20px;
+}

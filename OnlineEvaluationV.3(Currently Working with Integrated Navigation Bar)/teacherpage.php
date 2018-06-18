@@ -53,7 +53,6 @@
                 $user = mysqli_real_escape_string($conn, $_SESSION['username']);
                 $sql = "select * from user_course join users using(id) join course using(courseCode) where users.username ='$user'";
                 $result = mysqli_query($conn, $sql);
-
                     if (mysqli_num_rows($result) != null) {
                         // output data of each row
                         
@@ -213,7 +212,6 @@
             <?php
     function prompt($prompt_msg){
         echo("<script type='text/javascript'> var answer = prompt('".$prompt_msg."'); </script>");
-
         $answer = "<script type='text/javascript'> document.write(answer); </script>";
         return($answer);
     }
@@ -274,7 +272,6 @@
         $(document).ready(function(){
 			$(document).mouseup(function(e){
 				var subject = $("#pictureNavigation"); 
-
         if(e.target.id != subject.attr('id') && !subject.has(e.target).length){
             subject.fadeOut();
 				}

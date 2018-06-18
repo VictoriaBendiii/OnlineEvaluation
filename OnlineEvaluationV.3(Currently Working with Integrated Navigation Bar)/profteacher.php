@@ -46,8 +46,8 @@
         </div>
 		<div id="pictureNavigation" style="display: none;">
 		<ul>
-		<li><a href="classes.php"><img src='images/class.png' class='picnavicon'> Classes</a></li>
-		<li><a href="profile.php"><img src='images/profile.png' class='picnavicon'> Profile</a></li>
+		<li><a href="teacherpage.php"><img src='images/class.png' class='picnavicon'> Classes</a></li>
+		<li><a href="profteacher.php"><img src='images/profile.png' class='picnavicon'> Profile</a></li>
 		<li><a href="signout.php"><img src='images/logout.png' class='picnavicon'> Log out</a></li>
 		</ul>
 		</div>
@@ -146,11 +146,7 @@
 						</div>
 						</div>
 						<div class='row more-info'>
-						<div class='col-md-6'>
-						<h5><b>Course</b></h5>
-						<p>BSIT</p>
-						</div>
-						<div class='col-md-6'>
+						<div class='col-md-7'>
 							<h5><b>Email</b></h5>
 							<p>$username@slu.edu.ph</p>
 						</div>

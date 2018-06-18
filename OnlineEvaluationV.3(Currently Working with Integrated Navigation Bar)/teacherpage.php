@@ -60,15 +60,17 @@
                         while($row = mysqli_fetch_assoc($result)) {
                              $_SESSION['courseCode'] = $row['courseCode']; 
                          $_SESSION['courseName'] = $row['courseName']; 
-                            echo "<div class='col-md-3'> <div class='grey-box-icon'> <div class='icon-box-top grey-box-icon-pos'>
+                            echo "<form action='form.php' method='post'><div class='col-md-3'> <div class='grey-box-icon'> <div class='icon-box-top grey-box-icon-pos'>
                                         <img src='assets/images/1.PNG' alt='' style='width: 100px; height: auto;' />
-                                    </div><a href='teacherpage.php'> <h4>&nbsp; <div> ".$_SESSION["courseCode"].  "<br>" . $_SESSION["courseName"]." <br></h4> </a>
+                                    </div><button type='submit' class='btn-link'><h4>&nbsp; <div> ".$_SESSION["courseCode"].  "<br>" . $_SESSION["courseName"]." <br></h4> </button>
+                                    <input type='hidden' name='course' value='".$row['courseCode']."'>
+                                    </form>
 						</div>  
 					</div>";
                         
                         }
                          echo "<a><div class='col-md-2' data-toggle='modal' data-target='#myModal'></a>
-                                <div class='grey-box-icon'> 
+                                <div class='grey-box-icon' style='cursor: pointer;'> 
                                     <div class='icon-box-top grey-box-icon-pos' style='margin: 0px; padding-top:10px;'>
                                         <img src='assets/images/2.PNG' alt='' style='width: 100px; height: auto;' />
                                     </div> 
@@ -78,7 +80,7 @@
                     
                     } else {
                             echo "<a><div class='col-md-2' data-toggle='modal' data-target='#myModal'></a>
-                                <div class='grey-box-icon'> 
+                                <div class='grey-box-icon' style='cursor: pointer;'> 
                                     <div class='icon-box-top grey-box-icon-pos' style='margin: 0px;'>
                                         <img src='assets/images/2.PNG' alt='' style='width: 100px; height: auto;' />
                                     </div> 

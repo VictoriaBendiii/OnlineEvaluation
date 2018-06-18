@@ -30,12 +30,11 @@ input[name*="total"] {
 /*id*/
 
 #uploadContainer {	
-	background-color: var(--color-font);
 	width: 50%;
 	height: auto;
 	padding: 13px;
 	margin: auto;
-	margin-top: 5%;
+	margin-top: -40%;
 }
 
 #uploadTypeContainer {	
@@ -163,6 +162,9 @@ input[name*="total"] {
 }
 
 #formTitle{
+	position: absolute;
+	width: 100%;
+	top: 100px;
 	text-align: center;
 	font-family: 'Quicksand', sans-serif;
 	font-size: 28px;
@@ -176,6 +178,8 @@ input[name*="total"] {
 }
 
 #expForm{
+	position: absolute;
+	top: 150px;
 	text-align: center;
 	font-family: 'Quicksand', sans-serif;
 	font-size: 20px;
@@ -205,6 +209,10 @@ input[name*="total"] {
 #formContainer{
 	width: 90%;
 	margin: 0 auto;
+	position: absolute;
+	left: 5%;
+	top: 200px;
+	padding-bottom: 5%;
 }
 
 #submitBtn{
@@ -355,7 +363,7 @@ input[name*="total"] {
     width: 30%;
 }
 
-.container {
+.containerInp {
 	font-family: 'Quicksand', sans-serif;
 	cursor: pointer;
     font-size: 20px;  
@@ -366,7 +374,7 @@ input[name*="total"] {
     user-select: none;
 }
 
-.container input {
+.containerInp input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -381,11 +389,11 @@ input[name*="total"] {
     background-color: #eee;
 }
 
-.container:hover input ~ .checkmark {
+.containerInp:hover input ~ .checkmark {
     background-color: #ccc;
 }
 
-.container input:checked ~ .checkmark {
+.containerInp input:checked ~ .checkmark {
     background-color: #2196F3;
 }
 
@@ -395,11 +403,11 @@ input[name*="total"] {
     display: none;
 }
 
-.container input:checked ~ .checkmark:after {
+.containerInp input:checked ~ .checkmark:after {
     display: block;
 }
 
-.container .checkmark:after {
+.containerInp .checkmark:after {
     left: 9px;
     top: 5px;
     width: 5px;
@@ -464,8 +472,8 @@ input[name*="total"] {
 }
 
 .editForm{
-	margin: 0 auto;
-	margin-top: 5%;
+	position: absolute;
+	top: 150px;
 	-webkit-box-shadow: 0 10px 7px -7px #777;
     -moz-box-shadow: 0 10px 7px -7px #777;
     box-shadow: 0 10px 7px -7px #777; 

@@ -13,18 +13,62 @@
 ?>
 <html>
     <head>
-        <meta name=viewport content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <link href="styles/formStyle.css" rel="stylesheet" type="text/css"/>
-        <script src="jquery.min.js"></script>
-        <meta charset="UTF-8">
-        <meta name="description" content="online evaluation">
-        <meta name="author" content="Group 2">
-        <title>Online Evaluation</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>SLU Peer Evaluation | Form</title>
+        <link rel="stylesheet" href="css/styles.css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="icon" href="css/images/slogo.png">
+        <link rel="favicon" href="assets/images/favicon.png">
+        <link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/font-awesome.min.css"> 
+        <link rel="stylesheet" href="assets/css/bootstrap-theme.css" media="screen"> 
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel='stylesheet' id='camera-css'  href='assets/css/camera.css' type='text/css' media='all'>
+            <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     </head>
-    
+
     <body>
+      <div class="wrapper">
+            <header>
+                <nav style="z-index: 1000; background-color: RGBA(92,115,139, 0.6);">
+                    <div class="menu-icon">
+                        <i class="fa fa-bars fa-2x"></i>
+                    </div>
+                    <img src="css/images/slogo.png" style="height: 45px; width: 36px; position: fixed; top: 10px; left: 10px;">
+                    <div class="logo">&emsp;SLU Peer Evaluation</div>
+                    <div class="menu">
+                        <ul>
+                            <li style="color: white; font-size: 20px; "><a style="outline: 0!important;" href="#" onclick="websitenav();">
+                            <?php 
+                            $username = $_SESSION['username'];
+                            $query = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username';");
+    
+                            while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+                            $profilepicture = $row['profilepicture'];
+                            $first = $row['firstname'];
+                            $last = $row['lastname'];
+                            echo "<img src='images/profilepictures/$profilepicture' class='navpic' alt='profile picture'>";
+                            }
+                            ?> </a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <div id="pictureNavigation" style="display: none;">
+        <ul>
+        <li><a href="teacherpage.php"><img src='images/class.png' class='picnavicon'> Classes</a></li>
+        <li><a href="profile.php"><img src='images/profile.png' class='picnavicon'> Profile</a></li>
+        <li><a href="signout.php"><img src='images/logout.png' class='picnavicon'> Log out</a></li>
+        </ul>
+        </div>
+
     <div id='uploadContainer'>
-      <p id="uploadTitle">Upload Evaluation</p>
+      <p id="uploadTitle">Edit Evaluation</p>
         <form action="upload.php" method="POST" enctype="multipart/form-data" class="file-upload">  
             <label for="title" id="group">Title: </label>
             <input type="text" name="title" id="title" value='<?php echo $name; ?>' required><br>
@@ -42,7 +86,7 @@
 
                 //echo "<input type='hidden' id='course' name='course' value='$classcode'>";
               while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-                echo "<div class='inpCont'><label class='container'>Group ". $row["groupID"] ."<input type='checkbox' name='group[]' id='group[]' value=". $row["groupID"] ." /><span class='checkmark'></span></label></div>";
+                echo "<div class='inpCont'><label class='containerInp'>Group ". $row["groupID"] ."<input type='checkbox' name='group[]' id='group[]' value=". $row["groupID"] ." /><span class='checkmark'></span></label></div>";
               }
             ?>
             </div>
@@ -78,6 +122,82 @@
     }
   });
 });
+
+    $(document).ready(function(){
+            $(".menu-icon").on("click", function(){
+                $("nav ul").toggleClass("showing");
+            });
+        });
+            
+        $(window).on("scroll", function(){
+            if($(window).scrollTop()) {
+                $('nav').addClass('black');
+            } else {
+                $('nav').removeClass('black');
+            }
+        })    
+        
+        function openpSettings(){
+            var z = document.getElementById("pChoices");
+            var a = document.getElementById("up");
+            var x = document.getElementById("changepass");
+            if (z.style.display === "none") {
+                z.style.display = "block";
+            } else {
+                z.style.display = "none";
+            }
+            if (a.style.display === "block") {
+                a.style.display = "none";
+            } 
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            }
+        }
+        function upload(){
+            var a = document.getElementById("up");
+            var x = document.getElementById("changepass");
+            if (a.style.display === "none" || x.style.display === "block") {
+                a.style.display = "block";
+                x.style.display = "none";
+            } else {
+                a.style.display = "none";
+            }
+        }
+        function chpswd(){
+            var a = document.getElementById("up");
+            var x = document.getElementById("changepass");
+            if (x.style.display === "none" || a.style.display === "block") {
+                a.style.display = "none";
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+        $(document).ready(function(){
+        $(document).mouseup(function(e){
+        var subject = $("#pChoices"); 
+        if(e.target.id != subject.attr('id')){
+            subject.fadeOut();
+        }
+            });
+        });
+         $(document).ready(function(){
+            $(document).mouseup(function(e){
+                var subject = $("#pictureNavigation"); 
+
+        if(e.target.id != subject.attr('id') && !subject.has(e.target).length){
+            subject.fadeOut();
+                }
+            });
+        });
+        function websitenav(){
+            var x = document.getElementById("pictureNavigation");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
 </script>
 </body>
 </html>

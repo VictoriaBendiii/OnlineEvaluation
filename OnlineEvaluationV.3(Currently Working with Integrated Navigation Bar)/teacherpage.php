@@ -46,10 +46,11 @@
                         </ul>
                     </div>
                 </nav>
+
                  <div class="container">
     <div class="row">
 					<?php
-                    $target_name = array();
+                $target_name = array();
                 $user = mysqli_real_escape_string($conn, $_SESSION['username']);
                 $sql = "select * from user_course join users using(id) join course using(courseCode) where users.username ='$user'";
                 $result = mysqli_query($conn, $sql);
@@ -64,6 +65,8 @@
                                         <img src='assets/images/1.PNG' alt='' style='width: 100px; height: auto;' />
                                     </div><button type='submit' class='btn-link'><h4>&nbsp; <div> ".$_SESSION["courseCode"].  "<br>" . $_SESSION["courseName"]." <br></h4> </button>
                                     <input type='hidden' name='course' value='".$row['courseCode']."'>
+                                    <input type='hidden' name='courseCode' value='".$row['courseCode']."'>
+                                    <input type='hidden' name='courseName' value='".$row['courseName']."'>
                                     </form>
 						</div>  
 					</div>";
@@ -261,14 +264,14 @@
 		</ul>
 	  </div>
     <script src="assets/js/modernizr-latest.js"></script> 
-	<script type='text/javascript' src='assets/js/jquery.min.js'></script>
+	  <script type='text/javascript' src='assets/js/jquery.min.js'></script>
     <script type='text/javascript' src='assets/js/fancybox/jquery.fancybox.pack.js'></script>
     
     <script type='text/javascript' src='assets/js/jquery.mobile.customized.min.js'></script>
     <script type='text/javascript' src='assets/js/jquery.easing.1.3.js'></script> 
     <script type='text/javascript' src='assets/js/camera.min.js'></script> 
     <script src="assets/js/bootstrap.min.js"></script> 
-	<script src="assets/js/custom.js"></script>
+	   <script src="assets/js/custom.js"></script>
             
     <script type="text/javascript">
         $(document).ready(function(){

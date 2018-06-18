@@ -1,14 +1,64 @@
 <?php include('connection.php');?>
 <html>
     <head>
-        <meta name=viewport content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <link href="styles/formStyle.css" rel="stylesheet" type="text/css"/>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>SLU Peer Evaluation | Form</title>
+        <link rel="stylesheet" href="css/styles.css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="icon" href="css/images/slogo.png">
+        <link rel="favicon" href="assets/images/favicon.png">
+        <link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/font-awesome.min.css"> 
+        <link rel="stylesheet" href="assets/css/bootstrap-theme.css" media="screen"> 
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel='stylesheet' id='camera-css'  href='assets/css/camera.css' type='text/css' media='all'>
+            <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     </head>
 
     <body>
+        <div class="wrapper">
+            <header>
+                <nav style="z-index: 1000; background-color: RGBA(92,115,139, 0.6);">
+                    <div class="menu-icon">
+                        <i class="fa fa-bars fa-2x"></i>
+                    </div>
+                    <img src="css/images/slogo.png" style="height: 45px; width: 36px; position: fixed; top: 10px; left: 10px;">
+                    <div class="logo">&emsp;SLU Peer Evaluation</div>
+                    <div class="menu">
+                        <ul>
+                            <li style="color: white; font-size: 20px; "><a class="active" href="#" onclick="websitenav();">
+                            <?php 
+                            $username = $_SESSION['username'];
+                            $query = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username';");
+    
+                            while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+                            $profilepicture = $row['profilepicture'];
+                            $first = $row['firstname'];
+                            $last = $row['lastname'];
+                            echo "<img src='images/profilepictures/$profilepicture' class='navpic' alt='profile picture'>";
+                            }
+                            ?> </a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <div id="pictureNavigation" style="display: none;">
+        <ul>
+        <li><a href="teacherpage.php"><img src='images/class.png' class='picnavicon'> Classes</a></li>
+        <li><a href="profile.php"><img src='images/profile.png' class='picnavicon'> Profile</a></li>
+        <li><a href="signout.php"><img src='images/logout.png' class='picnavicon'> Log out</a></li>
+        </ul>
+        </div>
     <?php
         $user = $_SESSION['username'];
         $course = $_POST["course"];
+        //$group_ID = $_POST["groupID"];
+        //$course = '9358A';
         $counter = 1; 
         $num = 1;     
         $form_ID = 0;
@@ -16,6 +66,28 @@
         $groupmates = array();
         $id = array();
         $url = '';
+
+        $if_Null = "SELECT formID FROM users JOIN user_course USING(id) JOIN group_form USING(groupID) WHERE username='$user';";
+        $query = mysqli_query($conn, $if_Null);
+        while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+            if($row['formID'] == NULL){
+                exit("<div id='expForm'>Your group is not allowed to fill up the form. Please contact your instructor if this is a mistake.</div>
+                    <form action='studentpage'>
+                    <input type='submit' value='Go Back' id='backBtn'>
+                    <form>");
+            }
+        }
+
+        $if_result = "SELECT evaluator FROM result;";
+        $query = mysqli_query($conn, $if_result);
+        while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+            if($row['evaluator'] == $user){
+                exit("<div id='expForm'>You have already answered this form.</div>
+                    <form action='studentpage'>
+                    <input type='submit' value='Go Back' id='backBtn'>
+                    <form>");
+            }           
+        }
 
         $get_form_id = "SELECT * FROM form JOIN group_form USING(formID) JOIN user_course USING(groupID) JOIN users ON users.id = user_course.id WHERE username = '$user' AND courseCode = '$course';";
         $query = mysqli_query($conn, $get_form_id);
@@ -180,5 +252,83 @@
             </form></div>";
         }              
 ?>
+<script type="text/javascript">
+        
+        $(document).ready(function(){
+            $(".menu-icon").on("click", function(){
+                $("nav ul").toggleClass("showing");
+            });
+        });
+            
+        $(window).on("scroll", function(){
+            if($(window).scrollTop()) {
+                $('nav').addClass('black');
+            } else {
+                $('nav').removeClass('black');
+            }
+        })    
+        
+        function openpSettings(){
+            var z = document.getElementById("pChoices");
+            var a = document.getElementById("up");
+            var x = document.getElementById("changepass");
+            if (z.style.display === "none") {
+                z.style.display = "block";
+            } else {
+                z.style.display = "none";
+            }
+            if (a.style.display === "block") {
+                a.style.display = "none";
+            } 
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            }
+        }
+        function upload(){
+            var a = document.getElementById("up");
+            var x = document.getElementById("changepass");
+            if (a.style.display === "none" || x.style.display === "block") {
+                a.style.display = "block";
+                x.style.display = "none";
+            } else {
+                a.style.display = "none";
+            }
+        }
+        function chpswd(){
+            var a = document.getElementById("up");
+            var x = document.getElementById("changepass");
+            if (x.style.display === "none" || a.style.display === "block") {
+                a.style.display = "none";
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+        $(document).ready(function(){
+        $(document).mouseup(function(e){
+        var subject = $("#pChoices"); 
+        if(e.target.id != subject.attr('id')){
+            subject.fadeOut();
+        }
+            });
+        });
+         $(document).ready(function(){
+            $(document).mouseup(function(e){
+                var subject = $("#pictureNavigation"); 
+
+        if(e.target.id != subject.attr('id') && !subject.has(e.target).length){
+            subject.fadeOut();
+                }
+            });
+        });
+        function websitenav(){
+            var x = document.getElementById("pictureNavigation");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+        </script>
 </body>
 </html>

@@ -70,11 +70,11 @@
 					$queryt = mysqli_query($conn, "SELECT DISTINCT CASE WHEN EXISTS(SELECT * FROM result JOIN users ON users.username = result.evaluator WHERE users.username = '$username') THEN 'images/check.png' ELSE 'images/x.png' END AS isdone FROM result JOIN users ON users.username = result.evaluator;");
 					while($rows = mysqli_fetch_array($queryt, MYSQLI_ASSOC)) {
 					$isdone = $rows["isdone"];
-					}
 					echo "<img src='images/profilepictures/$profpic' style='height: 50px; width: 50px; padding: 2px;' alt='profile picture'>";
 					echo "&emsp;";
 					echo "$fullname&nbsp;<img src='$isdone' style='height: 30px; width: 30px; padding: 2px;' alt='mark'>";
 					echo "<br>";
+						}
 					}
 		echo "</div>";
 		}

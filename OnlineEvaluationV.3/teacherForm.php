@@ -49,7 +49,7 @@
         <div id="pictureNavigation" style="display: none;">
         <ul>
         <li><a href="teacherpage.php"><img src='images/class.png' class='picnavicon'> Classes</a></li>
-        <li><a href="profile.php"><img src='images/profile.png' class='picnavicon'> Profile</a></li>
+        <li><a href="profteacher.php"><img src='images/profile.png' class='picnavicon'> Profile</a></li>
         <li><a href="signout.php"><img src='images/logout.png' class='picnavicon'> Log out</a></li>
         </ul>
         </div>
@@ -84,8 +84,8 @@
  </div>
  <div class="teachernavigation">
 	<ul>
-        <li><a href="#"><img src='images/upload.png' class='tnavicon'> Upload New Form</a></li>
-        <li><a href="#"><img src='images/group.png' class='tnavicon'> Group Students</a></li>
+        <li><a href="uploadType.php"><img src='images/upload.png' class='tnavicon'> Upload New Form</a></li>
+        <li><a href="grouping.php"><img src='images/group.png' class='tnavicon'> Group Students</a></li>
     </ul>
  </div>
  <div class='formActivities'>

@@ -26,34 +26,112 @@
                     <div class="menu-icon">
                         <i class="fa fa-bars fa-2x"></i>
                     </div>
-                    <img src="css/images/slogo.png" style="height: 45px; width: 36px; position: fixed; top: 10px; left: 10px;">
+					<img src="css/images/slogo.png" style="height: 45px; width: 36px; position: fixed; top: 10px; left: 10px;">
                     <div class="logo">&emsp;SLU Peer Evaluation</div>
                     <div class="menu">
                         <ul>
-                            <li style="color: white; font-size: 20px; "><a class="active" href="#" onclick="websitenav();">
+                            <li style="color: white; font-size: 20px; "><a style="outline: 0;" href="#" onclick="websitenav();">
                             <?php 
-                            $username = $_SESSION['username'];
-                            $query = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username';");
+							$username = $_SESSION['username'];
+							$query = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username';");
     
-                            while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-                            $profilepicture = $row['profilepicture'];
-                            $first = $row['firstname'];
-                            $last = $row['lastname'];
-                            echo "<img src='images/profilepictures/$profilepicture' class='navpic' alt='profile picture'>";
-                            }
-                            ?> </a></li>
+							while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+							$profilepicture = $row['profilepicture'];
+							$first = $row['firstname'];
+							$last = $row['lastname'];
+							echo "<img src='images/profilepictures/$profilepicture' class='navpic' alt='profile picture'>";
+							}
+							?> </a></li>
                         </ul>
                     </div>
                 </nav>
             </header>
         </div>
-        <div id="pictureNavigation" style="display: none;">
-        <ul>
-        <li><a href="teacherpage.php"><img src='images/class.png' class='picnavicon'> Classes</a></li>
-        <li><a href="profile.php"><img src='images/profile.png' class='picnavicon'> Profile</a></li>
-        <li><a href="signout.php"><img src='images/logout.png' class='picnavicon'> Log out</a></li>
-        </ul>
-        </div>
+		<div id="pictureNavigation" style="display: none;">
+		<ul>
+		<li><a href="classes.php"><img src='images/class.png' class='picnavicon'> Classes</a></li>
+		<li><a href="profile.php"><img src='images/profile.png' class='picnavicon'> Profile</a></li>
+		<li><a href="signout.php"><img src='images/logout.png' class='picnavicon'> Log out</a></li>
+		</ul>
+		</div>
+		<script type="text/javascript">
+        
+        $(document).ready(function(){
+            $(".menu-icon").on("click", function(){
+                $("nav ul").toggleClass("showing");
+            });
+        });
+            
+        $(window).on("scroll", function(){
+            if($(window).scrollTop()) {
+                $('nav').addClass('black');
+            } else {
+                $('nav').removeClass('black');
+            }
+        })    
+		
+		function openpSettings(){
+			var z = document.getElementById("pChoices");
+			var a = document.getElementById("up");
+			var x = document.getElementById("changepass");
+			if (z.style.display === "none") {
+				z.style.display = "block";
+			} else {
+				z.style.display = "none";
+			}
+			if (a.style.display === "block") {
+				a.style.display = "none";
+			} 
+			if (x.style.display === "block") {
+				x.style.display = "none";
+			}
+		}
+		function upload(){
+			var a = document.getElementById("up");
+			var x = document.getElementById("changepass");
+			if (a.style.display === "none" || x.style.display === "block") {
+				a.style.display = "block";
+				x.style.display = "none";
+			} else {
+				a.style.display = "none";
+			}
+		}
+		function chpswd(){
+			var a = document.getElementById("up");
+			var x = document.getElementById("changepass");
+			if (x.style.display === "none" || a.style.display === "block") {
+				a.style.display = "none";
+				x.style.display = "block";
+			} else {
+				x.style.display = "none";
+			}
+		}
+		$(document).ready(function(){
+		$(document).mouseup(function(e){
+        var subject = $("#pChoices"); 
+		if(e.target.id != subject.attr('id')){
+            subject.fadeOut();
+		}
+			});
+		});
+		 $(document).ready(function(){
+			$(document).mouseup(function(e){
+				var subject = $("#pictureNavigation"); 
+
+        if(e.target.id != subject.attr('id') && !subject.has(e.target).length){
+            subject.fadeOut();
+				}
+			});
+		});
+		function websitenav(){
+			var x = document.getElementById("pictureNavigation");
+			if (x.style.display === "none") {
+				x.style.display = "block";
+			} else {
+				x.style.display = "none";
+			}
+		}
+        </script>
     <?php
         $user = $_SESSION['username'];
         $course = $_POST["course"];
@@ -113,7 +191,7 @@
             echo $time." Time";
             if(($due <= $now AND $time_now >= $time) OR ($due < $now AND $time_now < $time)){
                 exit("<div id='expForm'>You have already surpassed the due date and time. Please contact your instructor for further details.</div>
-                    <form action='studentpage'>
+                    <form action='classes.php'>
                     <input type='submit' value='Go Back' id='backBtnForm'>
                     <form>");
             }
@@ -258,83 +336,5 @@
             </form></div>";
         }              
 ?>
-<script type="text/javascript">
-        
-        $(document).ready(function(){
-            $(".menu-icon").on("click", function(){
-                $("nav ul").toggleClass("showing");
-            });
-        });
-            
-        $(window).on("scroll", function(){
-            if($(window).scrollTop()) {
-                $('nav').addClass('black');
-            } else {
-                $('nav').removeClass('black');
-            }
-        })    
-        
-        function openpSettings(){
-            var z = document.getElementById("pChoices");
-            var a = document.getElementById("up");
-            var x = document.getElementById("changepass");
-            if (z.style.display === "none") {
-                z.style.display = "block";
-            } else {
-                z.style.display = "none";
-            }
-            if (a.style.display === "block") {
-                a.style.display = "none";
-            } 
-            if (x.style.display === "block") {
-                x.style.display = "none";
-            }
-        }
-        function upload(){
-            var a = document.getElementById("up");
-            var x = document.getElementById("changepass");
-            if (a.style.display === "none" || x.style.display === "block") {
-                a.style.display = "block";
-                x.style.display = "none";
-            } else {
-                a.style.display = "none";
-            }
-        }
-        function chpswd(){
-            var a = document.getElementById("up");
-            var x = document.getElementById("changepass");
-            if (x.style.display === "none" || a.style.display === "block") {
-                a.style.display = "none";
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        }
-        $(document).ready(function(){
-        $(document).mouseup(function(e){
-        var subject = $("#pChoices"); 
-        if(e.target.id != subject.attr('id')){
-            subject.fadeOut();
-        }
-            });
-        });
-         $(document).ready(function(){
-            $(document).mouseup(function(e){
-                var subject = $("#pictureNavigation"); 
-
-        if(e.target.id != subject.attr('id') && !subject.has(e.target).length){
-            subject.fadeOut();
-                }
-            });
-        });
-        function websitenav(){
-            var x = document.getElementById("pictureNavigation");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        }
-        </script>
 </body>
 </html>

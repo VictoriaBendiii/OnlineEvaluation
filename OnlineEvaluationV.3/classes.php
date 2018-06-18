@@ -31,7 +31,7 @@
                     <div class="logo">&emsp;SLU Peer Evaluation</div>
                     <div class="menu">
                         <ul>
-                            <li style="color: white; font-size: 20px; "><a class="active" href="#" onclick="websitenav();">
+                            <li style="color: white; font-size: 20px; "><a style="outline: 0;" href="#" onclick="websitenav();">
                             <?php 
 							$username = $_SESSION['username'];
 							$query = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username';");
@@ -54,7 +54,6 @@
                 $target = "classes.php";
                 $sql = "select * from user_course join users using(id) join course using(courseCode) where users.username ='$user'";
                 $result = mysqli_query($conn, $sql);
-
                     if (mysqli_num_rows($result) > 0) {
                         // output data of each row
                         while($row = mysqli_fetch_assoc($result)) {
@@ -64,7 +63,6 @@
                                     <input type='hidden' name='course' value='".$row['courseCode']."'>
                                     <input type='hidden' name='courseCode' value='".$row['courseCode']."'>
                                     <input type='hidden' name='courseName' value='".$row['courseName']."'>
-
                                 </form>
 						</div>
 					</div>";
@@ -92,7 +90,7 @@
         
         if(isset($_POST['add'])){
             
-            $query = "SELECT * FROM USER_COURSE JOIN COURSE USING (courseCode) JOIN users using (id) where identification= 'student' and username='".$_SESSION["username"]."'";
+            $query = "SELECT * FROM USERS where identification= 'student' and username='".$_SESSION["username"]."'";
             $result = mysqli_query($conn,$query);
             $row = mysqli_fetch_array($result,MYSQLI_ASSOC);     
             $_SESSION['id'] = $row['id'];
@@ -161,7 +159,6 @@
         $(document).ready(function(){
 			$(document).mouseup(function(e){
 				var subject = $("#pictureNavigation"); 
-
         if(e.target.id != subject.attr('id') && !subject.has(e.target).length){
             subject.fadeOut();
 				}

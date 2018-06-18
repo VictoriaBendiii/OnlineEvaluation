@@ -63,21 +63,30 @@
     while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
         $exp_time = date('h:i a', strtotime($row['expTime']));
         echo "<form action='editForm.php' method='post'>
-                <div class='editForm'>
+				<div style='padding-bottom: 24px;'>
+                <div class='editForm' style='display: block; position: relative;'>
                 <p style='text-align: center'>".$row['formName']."</p><br>
                 <b>Description:</b> ".$row['formDesc']."<br>
                 <b>Due Date:</b> ".$row['due']."<br>
                 <b>Time Due:</b> ".$exp_time."<br>
                 <button type='submit' id='backBtn' style='margin-left:0%;'>Edit Form</button>
+				<a class='grouplabel' href='donegroups.php'>See students done with this form</a>
                 </div>
                 <input type='hidden' name='course' value='$course'>
                 <input type='hidden' name='formID' value='".$row['formID']."'>
+				</div>
               </form>";
     }
  ?>
  <div class="cover">
      <?php echo $_POST['courseCode'] ?> <br>
      <?php echo $_POST['courseName'] ?>
+ </div>
+ <div class="teachernavigation">
+	<ul>
+        <li><a href="#"><img src='images/upload.png' class='tnavicon'> Upload New Form</a></li>
+        <li><a href="#"><img src='images/group.png' class='tnavicon'> Group Students</a></li>
+    </ul>
  </div>
  <div class='formActivities'>
     Activities

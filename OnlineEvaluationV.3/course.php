@@ -63,7 +63,8 @@
     while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
         $exp_time = date('h:i a', strtotime($row['expTime']));
         echo "<form action='formBuilder.php' method='post'>
-                <div class='editForm'>
+                <div style='padding-bottom: 24px;'>
+                <div class='editForm' style='display: block; position: relative;'>
                 <p style='text-align: center'>".$row['formName']."</p><br>
                 <b>Description:</b> ".$row['formDesc']."<br>
                 <b>Due Date:</b> ".$row['due']."<br>
@@ -72,6 +73,7 @@
                 </div>
                 <input type='hidden' name='course' value='$course'>
                 <input type='hidden' name='formID' value='".$row['formID']."'>
+				</div>
               </form>";
     }
  ?>

@@ -366,7 +366,7 @@ input[name*="total"] {
 
 .btn {
  	font-family: 'Quicksand', sans-serif;
-  	color: #ffffff;
+  	color: #ffffff !important;
   	border-radius: 5px;
   	font-size: 20px;
   	background-color: var(--button-color);
@@ -519,21 +519,47 @@ input[name*="total"] {
 	position: absolute;
 	top: 286px;
 	left: 30%;
-	-webkit-box-shadow: 0 10px 7px -7px #777;
-    -moz-box-shadow: 0 10px 7px -7px #777;
-    box-shadow: 0 10px 7px -7px #777; 
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 	width: 50%;
-	padding-bottom: 3%;
+	padding: 18px;
 	font-size:20px;
 	text-align: center
 }
 
 .formActivities{
 	position: absolute;
-	top: 286px;
+	top: 386px;
 	width: 20%;
 	left: 2%;
 	font-family: 'Quicksand', sans-serif;
     font-size: 20px;
     border-right: 1px solid #777;
+}
+
+.grouplabel{
+	display: block;
+	padding-top: 9px;
+}
+.grouplabel:hover{
+	font-weight: bold;
+	text-decoration: none;
+	color: #000000;
+}
+
+.teacherNavigation{
+	position: absolute;
+	top: 286px;
+	width: 20%;
+	left: 2%;
+	font-family: 'Quicksand', sans-serif;
+    font-size: 20px;
+}
+.teacherNavigation a:hover{
+	font-weight: bold;
+	text-decoration: none;
+	color: #000000;
+}
+.tnavicon{
+	height: 24px;
+	width: 24px;
 }

@@ -30,6 +30,16 @@
             }
         }
 
+        $if_result = "SELECT evaluator FROM result WHERE evaluator = '$user'";
+        if (mysqli_query($conn, $if_result)) {
+            exit("<div id='expForm'>You have already answered this form.</div>
+                    <form action='studentpage'>
+                    <input type='submit' value='Go Back' id='backBtn'>
+                    <form>");
+        } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        }
+
         $get_form_id = "SELECT * FROM form JOIN group_form USING(formID) JOIN user_course USING(groupID) JOIN users ON users.id = user_course.id WHERE username = '$user' AND courseCode = '$course';";
         $query = mysqli_query($conn, $get_form_id);
         

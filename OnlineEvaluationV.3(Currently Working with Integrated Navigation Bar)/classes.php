@@ -92,7 +92,7 @@
         
         if(isset($_POST['add'])){
             
-            $query = "SELECT * FROM USER_COURSE JOIN COURSE USING (courseCode) JOIN users using (id) where identification= 'student' and username='".$_SESSION["username"]."'";
+            $query = "SELECT * FROM USERS where identification= 'student' and username='".$_SESSION["username"]."'";
             $result = mysqli_query($conn,$query);
             $row = mysqli_fetch_array($result,MYSQLI_ASSOC);     
             $_SESSION['id'] = $row['id'];

@@ -461,3 +461,15 @@ input[name*="total"] {
 	width: 50%;
 	margin: 0 auto;
 }
+
+.editForm{
+	margin: 0 auto;
+	margin-top: 5%;
+	-webkit-box-shadow: 0 10px 7px -7px #777;
+    -moz-box-shadow: 0 10px 7px -7px #777;
+    box-shadow: 0 10px 7px -7px #777; 
+	width: 50%;
+	padding-bottom: 3%;
+	font-size:20px;
+	text-align: center
+}

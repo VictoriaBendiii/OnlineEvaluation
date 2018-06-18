@@ -53,13 +53,14 @@
                 $user = mysqli_real_escape_string($conn, $_SESSION['username']);
                 $sql = "select * from user_course join users using(id) join course using(courseCode) where users.username ='$user'";
                 $result = mysqli_query($conn, $sql);
+
                     if (mysqli_num_rows($result) != null) {
                         // output data of each row
                         
                         while($row = mysqli_fetch_assoc($result)) {
                              $_SESSION['courseCode'] = $row['courseCode']; 
                          $_SESSION['courseName'] = $row['courseName']; 
-                            echo "<form action='form.php' method='post'><div class='col-md-3'> <div class='grey-box-icon'> <div class='icon-box-top grey-box-icon-pos'>
+                            echo "<form action='teacherForm.php' method='post'><div class='col-md-3'> <div class='grey-box-icon'> <div class='icon-box-top grey-box-icon-pos'>
                                         <img src='assets/images/1.PNG' alt='' style='width: 100px; height: auto;' />
                                     </div><button type='submit' class='btn-link'><h4>&nbsp; <div> ".$_SESSION["courseCode"].  "<br>" . $_SESSION["courseName"]." <br></h4> </button>
                                     <input type='hidden' name='course' value='".$row['courseCode']."'>
@@ -212,6 +213,7 @@
             <?php
     function prompt($prompt_msg){
         echo("<script type='text/javascript'> var answer = prompt('".$prompt_msg."'); </script>");
+
         $answer = "<script type='text/javascript'> document.write(answer); </script>";
         return($answer);
     }
@@ -272,6 +274,7 @@
         $(document).ready(function(){
 			$(document).mouseup(function(e){
 				var subject = $("#pictureNavigation"); 
+
         if(e.target.id != subject.attr('id') && !subject.has(e.target).length){
             subject.fadeOut();
 				}

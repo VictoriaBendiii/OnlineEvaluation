@@ -8,9 +8,9 @@
     <body>
     <?php
         $user = $_SESSION['username'];
-        //$course = $_POST["course"];
+        $course = $_POST["course"];
         //$group_ID = $_POST["groupID"];
-        $course = '9358A';
+        //$course = '9358A';
         $counter = 1; 
         $num = 1;     
         $form_ID = 0;
@@ -37,8 +37,8 @@
             $time_now = date("H:i:s");
             if($due <= $now && $time_now >= $time){
                 exit("<div id='expForm'>Sorry, you can't fill up the evaluation. Please contact your instructor for further details.</div>
-                    <form action='uploadForm.php'>
-                    <input type='submit' value='Submit' id='backBtn'>
+                    <form action='studentpage'>
+                    <input type='submit' value='Go Back' id='backBtn'>
                     <form>");
             }
             echo "<h1 id='formTitle'>".$row['formName']."</h1>";

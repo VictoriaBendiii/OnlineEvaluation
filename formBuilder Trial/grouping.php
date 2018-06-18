@@ -74,7 +74,7 @@
             				</div>
             			<div class='modal-body'>
 							<h4>Successfully Updated the Groups</h4>
-                			<form action='' method='post'>
+                			<form action='teacherpage'>
                     			<input type='submit' value='Proceed' class='btn btn-primary' style='margin:0 auto;'>
                 			</form>
             			</div>

@@ -471,9 +471,24 @@ input[name*="total"] {
 	margin: 0 auto;
 }
 
+.cover{
+	padding-top: 30px;
+	padding-bottom: 30px; 
+	position: absolute;
+	background-color: rgb(52, 75, 99);
+	top: 76px;
+	background: ;
+	font-family: 'Quicksand', sans-serif;
+    font-size: 34px;
+    color: white;
+    width: 100%;
+    text-align: center;
+}
+
 .editForm{
 	position: absolute;
-	top: 150px;
+	top: 286px;
+	left: 30%;
 	-webkit-box-shadow: 0 10px 7px -7px #777;
     -moz-box-shadow: 0 10px 7px -7px #777;
     box-shadow: 0 10px 7px -7px #777; 
@@ -481,4 +496,14 @@ input[name*="total"] {
 	padding-bottom: 3%;
 	font-size:20px;
 	text-align: center
+}
+
+.formActivities{
+	position: absolute;
+	top: 286px;
+	width: 20%;
+	left: 2%;
+	font-family: 'Quicksand', sans-serif;
+    font-size: 20px;
+    border-right: 1px solid #777;
 }

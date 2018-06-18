@@ -65,16 +65,23 @@
         echo "<form action='editForm.php' method='post'>
                 <div class='editForm'>
                 <p style='text-align: center'>".$row['formName']."</p><br>
-                Description: ".$row['formDesc']."<br>
-                Due Date: ".$row['due']."<br>
-                Time Due: ".$exp_time."<br>
-                <button type='submit' class='btn-link'>Edit Form</button>
+                <b>Description:</b> ".$row['formDesc']."<br>
+                <b>Due Date:</b> ".$row['due']."<br>
+                <b>Time Due:</b> ".$exp_time."<br>
+                <button type='submit' id='backBtn' style='margin-left:0%;'>Edit Form</button>
                 </div>
                 <input type='hidden' name='course' value='$course'>
                 <input type='hidden' name='formID' value='".$row['formID']."'>
               </form>";
     }
  ?>
+ <div class="cover">
+     <?php echo $_POST['courseCode'] ?> <br>
+     <?php echo $_POST['courseName'] ?>
+ </div>
+ <div class='formActivities'>
+    Activities
+ </div>
 <script type="text/javascript">
         
         $(document).ready(function(){

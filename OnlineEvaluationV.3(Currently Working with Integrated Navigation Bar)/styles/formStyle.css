@@ -179,11 +179,11 @@ input[name*="total"] {
 
 #expForm{
 	position: absolute;
-	top: 150px;
+	top: calc(47% + 20px);
 	text-align: center;
 	font-family: 'Quicksand', sans-serif;
 	font-size: 20px;
-	margin-top: calc(23% - 20px);
+	width: 100%;
 }
 
 #formChoice{
@@ -265,6 +265,36 @@ input[name*="total"] {
 }
 
 #backBtn:hover{
+	cursor: pointer;
+	color: rgb(43, 56, 86);
+	background-color: #ffffff;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+}
+
+#backBtnForm{
+	font-family: 'Quicksand', sans-serif;
+	position: absolute;
+	top: 55%;
+	left: calc(47% - 15px);
+	padding: 10px 15px 11px;
+	font-size: 18px;
+	background-color: rgb(43, 56, 86);
+	font-weight: bold;
+	text-shadow: 1px 1px rgb(43, 56, 86);
+	color: #ffffff;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid rgb(43, 56, 86);
+	cursor: pointer;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+	-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+}
+
+#backBtnForm:hover{
 	cursor: pointer;
 	color: rgb(43, 56, 86);
 	background-color: #ffffff;

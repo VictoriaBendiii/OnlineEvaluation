@@ -73,7 +73,7 @@
             if($row['formID'] == NULL){
                 exit("<div id='expForm'>Your group is not allowed to fill up the form. Please contact your instructor if this is a mistake.</div>
                     <form action='studentpage'>
-                    <input type='submit' value='Go Back' id='backBtn'>
+                    <input type='submit' value='Go Back' id='backBtnForm'>
                     <form>");
             }
         }
@@ -84,7 +84,7 @@
             if($row['evaluator'] == $user){
                 exit("<div id='expForm'>You have already answered this form.</div>
                     <form action='studentpage'>
-                    <input type='submit' value='Go Back' id='backBtn'>
+                    <input type='submit' value='Go Back' id='backBtnForm'>
                     <form>");
             }           
         }
@@ -105,10 +105,16 @@
             $now = strtotime($date_now);
             date_default_timezone_set('Asia/Manila');
             $time_now = date("H:i:s");
-            if($due <= $now && $time_now >= $time){
-                exit("<div id='expForm'>Sorry, you can't fill up the evaluation. Please contact your instructor for further details.</div>
+            $time = strtotime($time);
+            $time_now = strtotime($time_now);
+            echo $due." Due<br>";
+            echo $now." Now<br>";
+            echo $time_now." Time now<br>";
+            echo $time." Time";
+            if(($due <= $now AND $time_now >= $time) OR ($due < $now AND $time_now < $time)){
+                exit("<div id='expForm'>You have already surpassed the due date and time. Please contact your instructor for further details.</div>
                     <form action='studentpage'>
-                    <input type='submit' value='Go Back' id='backBtn'>
+                    <input type='submit' value='Go Back' id='backBtnForm'>
                     <form>");
             }
             echo "<h1 id='formTitle'>".$row['formName']."</h1>";

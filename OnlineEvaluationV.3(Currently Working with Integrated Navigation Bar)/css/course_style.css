@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url('https://fonts.googleapis.com/css?family=Muli');
 @import url('https://fonts.googleapis.com/css?family=Anonymous+Pro');
 
 * {
@@ -301,16 +301,48 @@ nav ul li a:hover {
     width: 100%;
     text-decoration: none;
     font-size: 50px;
-}   
+    padding: inherit;
+    font-family: Muli;
+}
 
 .head {
+    width: 100%;
     text-decoration: none;
     font-size: 40px;
     background-color: #344B63;
     text-align: center;
-        
+    margin-bottom: 4px;
+    padding: 5px;
+
 }
-.col-6 col-md-4 {
-    border-right-color: coral; 
-    border-right-width: thick;
+
+.post {
+    border: 1px solid black;
+    margin-bottom: 5px;
+    padding: 10px;
+    background-color: #a8b7c0;
+}
+
+/** button **/
+
+.animate {
+    transition: all 0.1s;
+    -webkit-transition: all 0.1s;
+}
+
+.action-button {
+    position: relative;
+    padding: 10px;
+    float: center;
+    border-radius: 10px;
+    font-family: 'Pacifico', cursive;
+    font-size: 15px;
+    color: #FFF;
+    text-decoration: none;
+}
+
+.blue {
+    background-color: #3498DB;
+    border-bottom: 5px solid #2980B9;
+    text-shadow: 0px -2px #2980B9;
 }

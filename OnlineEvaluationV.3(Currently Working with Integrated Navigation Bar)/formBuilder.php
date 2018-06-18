@@ -9,8 +9,6 @@
     <?php
         $user = $_SESSION['username'];
         $course = $_POST["course"];
-        //$group_ID = $_POST["groupID"];
-        //$course = '9358A';
         $counter = 1; 
         $num = 1;     
         $form_ID = 0;
@@ -18,27 +16,6 @@
         $groupmates = array();
         $id = array();
         $url = '';
-
-        $if_Null = "SELECT formID FROM users JOIN user_course USING(id) JOIN group_form USING(groupID) WHERE username='$user';";
-        $query = mysqli_query($conn, $if_Null);
-        while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-            if($row['formID'] == NULL){
-                exit("<div id='expForm'>Your group is not allowed to fill up the form. Please contact your instructor if this is a mistake.</div>
-                    <form action='studentpage'>
-                    <input type='submit' value='Go Back' id='backBtn'>
-                    <form>");
-            }
-        }
-
-        $if_result = "SELECT evaluator FROM result WHERE evaluator = '$user'";
-        if (mysqli_query($conn, $if_result)) {
-            exit("<div id='expForm'>You have already answered this form.</div>
-                    <form action='studentpage'>
-                    <input type='submit' value='Go Back' id='backBtn'>
-                    <form>");
-        } else {
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-        }
 
         $get_form_id = "SELECT * FROM form JOIN group_form USING(formID) JOIN user_course USING(groupID) JOIN users ON users.id = user_course.id WHERE username = '$user' AND courseCode = '$course';";
         $query = mysqli_query($conn, $get_form_id);

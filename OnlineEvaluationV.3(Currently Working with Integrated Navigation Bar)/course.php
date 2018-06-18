@@ -44,20 +44,39 @@
     <div class="container">
         <div class="head">
             <center>
-                <h1>
-                    <?php echo "<h1>".$_SESSION['courseCode']. "</h1> <br> <h2>". $_SESSION['courseName']."</h2>";?></h1>
-                <p>Course Name and Teacher's Name will be shown above</p>
+             
+                    <?php echo "<h1>".$_SESSION['courseCode']. "</h1> <h2>". $_SESSION['courseName']."</h2>";?>
             </center>
         </div>
-        <div class="row">
-            <div class="col-6 col-md-4" id="left">
+        <div class="row"> 
+            <div class="col-6 col-md-4" style="border: 2px solid black;margin: 5px;">
                 <h2>Activities </h2>
-                <p> Activities will be shown here and calendar will be shown below <br> etcetera <br> etcetera etcetera</p>
+                
 
             </div>
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-7"  style="border: 2px solid black;margin: 5px;background-color:#cadfea;padding-bottom:10px;">
                 <h2>Posts</h2>
-                <p> This is where the posts go </p>
+                     <?php 
+                        $user = $_SESSION['username'];
+                        $course = $_POST["course"];
+
+                        $get_forms = "SELECT DISTINCT formName, formDesc, formID, due, expTime from peerpal.group JOIN group_form USING(groupID) JOIN form USING(formID) WHERE courseCodeForm = '$course'";
+                        $query = mysqli_query($conn, $get_forms);
+
+                        while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+                            echo "<form action='formBuilder.php' method='post'>
+                                    <div class='post' >
+                                    <center><p>".$row['formName']."</p> 
+                                    Due Date: ".$row['due']."
+                                    Time Due: ".$row['expTime']."<br> </center> <hr>
+                                    <p>".$row['formDesc']."</p>
+                                    <center> <button type='submit' class='action-button shadow animate blue'>Open Form</button>
+                                    </div>
+                                    <input type='hidden' name='course' value='$course'>
+                                  </form>";
+                        }
+                    ?>
+                
             </div>
         </div>
 

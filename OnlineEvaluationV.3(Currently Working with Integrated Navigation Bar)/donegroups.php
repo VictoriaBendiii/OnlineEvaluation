@@ -27,11 +27,11 @@
                     <div class="menu-icon">
                         <i class="fa fa-bars fa-2x"></i>
                     </div>
-					<img src="css/images/slogo.png" style="height: 45px; width: 36px; position: fixed; top: 10px; left: 10px;">
+					<img src="css/images/slogo.png" style="height: 45px; width: 36px; position: absolute; top: 10px; left: 10px;">
                     <div class="logo">&emsp;SLU Peer Evaluation</div>
                     <div class="menu">
                         <ul>
-                            <li style="color: white; font-size: 20px; "><a href="#" onclick="websitenav();">
+                            <li style="color: white; font-size: 20px; "><a style="outline: 0 !important;" href="#" onclick="websitenav();">
                             <?php 
 							$username = $_SESSION['username'];
 							$query = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username';");
@@ -58,13 +58,19 @@
 		echo "<center><p id='classCode'>9358A</p></center>";
 		
 		for($i = 1; $i <= $groupnums; $i++){
-		$querys = mysqli_query($conn, "SELECT CONCAT(users.firstname,' ',users.lastname) AS fullname, users.profilepicture AS profpic FROM user_course JOIN users USING(id) WHERE courseCode='9358A' AND user_course.groupID=$i ORDER BY users.lastname;");
+		$querys = mysqli_query($conn, "SELECT users.username AS username, CONCAT(users.firstname,' ',users.lastname) AS fullname, users.profilepicture AS profpic FROM user_course JOIN users USING(id) WHERE courseCode='9358A' AND user_course.groupID=$i ORDER BY users.lastname;");
 		echo "<button class='accordion' id='doneText'>Group $i</button> <div class='panel'>";
 					while($row = mysqli_fetch_array($querys, MYSQLI_ASSOC)) {
 					$profpic = $row["profpic"];
+					$fullname = $row["fullname"];
+					$username = $row["username"];
+					$queryt = mysqli_query($conn, "SELECT DISTINCT CASE WHEN EXISTS(SELECT * FROM result JOIN users ON users.username = result.evaluator WHERE users.username = '$username') THEN 'images/check.png' ELSE 'images/x.png' END AS isdone FROM result JOIN users ON users.username = result.evaluator;");
+					while($rows = mysqli_fetch_array($queryt, MYSQLI_ASSOC)) {
+					$isdone = $rows["isdone"];
+					}
 					echo "<img src='images/profilepictures/$profpic' style='height: 50px; width: 50px; padding: 2px;' alt='profile picture'>";
 					echo "&emsp;";
-					echo $row["fullname"];
+					echo "$fullname&nbsp;<img src='$isdone' style='height: 30px; width: 30px; padding: 2px;' alt='mark'>";
 					echo "<br>";
 					}
 		echo "</div>";
@@ -75,8 +81,8 @@
 
 	  <div id="pictureNavigation" style="display: none;">
 		<ul>
-		<li><a href="classes.php"><img src='images/class.png' class='picnavicon'> Classes</a></li>
-		<li><a href="profile.php"><img src='images/profile.png' class='picnavicon'> Profile</a></li>
+		<li><a href="teacherpage.php"><img src='images/class.png' class='picnavicon'> Classes</a></li>
+		<li><a href="profteacher.php"><img src='images/profile.png' class='picnavicon'> Profile</a></li>
 		<li><a href="signout.php"><img src='images/logout.png' class='picnavicon'> Log out</a></li>
 		</ul>
 	  </div>

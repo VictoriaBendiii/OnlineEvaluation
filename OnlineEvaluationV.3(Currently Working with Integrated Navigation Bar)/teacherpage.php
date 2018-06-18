@@ -255,7 +255,7 @@
         </script>
         <div id="pictureNavigation" style="display: none;">
 		<ul>
-		<li><a href="#"><img src='images/class.png' class='picnavicon'> Classes</a></li>
+		<li><a href="teacherpage.php"><img src='images/class.png' class='picnavicon'> Classes</a></li>
 		<li><a href="profteacher.php"><img src='images/profile.png' class='picnavicon'> Profile</a></li>
 		<li><a href="signout.php"><img src='images/logout.png' class='picnavicon'> Log out</a></li>
 		</ul>

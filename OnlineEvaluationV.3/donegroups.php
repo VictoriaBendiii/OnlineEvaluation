@@ -49,12 +49,15 @@
 		
 		<div id="groupaccordions">
 		<?php 
-        $query = mysqli_query($conn, "SELECT COUNT(distinct(groupID)) AS groupNumbers FROM user_course WHERE courseCode='9358A';");
+		//$course = $_POST['courseCode'];
+        //$query = mysqli_query($conn, "SELECT COUNT(distinct(groupID)) AS groupNumbers FROM user_course WHERE courseCode='$course';");
+		$query = mysqli_query($conn, "SELECT COUNT(distinct(groupID)) AS groupNumbers FROM user_course WHERE courseCode='9358A';");
     
         while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
 			$groupnums = $row['groupNumbers'];
         }
 		
+		//echo "<center><p id='classCode'>$course</p></center>";
 		echo "<center><p id='classCode'>9358A</p></center>";
 		
 		for($i = 1; $i <= $groupnums; $i++){

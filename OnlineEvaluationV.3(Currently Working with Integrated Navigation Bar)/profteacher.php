@@ -146,11 +146,7 @@
 						</div>
 						</div>
 						<div class='row more-info'>
-						<div class='col-md-6'>
-						<h5><b>Course</b></h5>
-						<p>BSIT</p>
-						</div>
-						<div class='col-md-6'>
+						<div class='col-md-7'>
 							<h5><b>Email</b></h5>
 							<p>$username@slu.edu.ph</p>
 						</div>

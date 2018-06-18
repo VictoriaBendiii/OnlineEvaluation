@@ -23,21 +23,26 @@
         
         <div class="wrapper">
             <header>
-                <nav style="z-index: 1000;">
+                <nav style="z-index: 1000; background-color: RGBA(92,115,139, 0.6);">
                     <div class="menu-icon">
                         <i class="fa fa-bars fa-2x"></i>
                     </div>
 					<img src="css/images/slogo.png" style="height: 45px; width: 36px; position: fixed; top: 10px; left: 10px;">
                     <div class="logo">&emsp;SLU Peer Evaluation</div>
-                    <div class="menu">
+                     <div class="menu">
                         <ul>
-                            <li><a class="active" href="teacherpage.php">Home</a></li>
-                            <li><a href="#myModal">Add a Class</a></li>
-                            <li style="color: white; font-size: 20px; "><a href="#" data-toggle="modal" data-target="#profile"> Welcome &nbsp; 
-                            <?php echo $_SESSION['firstname']. " ". $_SESSION['lastname'];?> </a>
-                        </li>
-                            <li><a href="signout.php">Log-out</a></li>
-
+                            <li style="color: white; font-size: 20px; "><a href="#" onclick="websitenav();">
+                            <?php 
+							$username = $_SESSION['username'];
+							$query = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username';");
+    
+							while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+							$profilepicture = $row['profilepicture'];
+							$first = $row['firstname'];
+							$last = $row['lastname'];
+							echo "<img src='images/profilepictures/$profilepicture' class='navpic' alt='profile picture'>";
+							}
+							?> </a></li>
                         </ul>
                     </div>
                 </nav>
@@ -51,11 +56,14 @@
 
                     if (mysqli_num_rows($result) != null) {
                         // output data of each row
+                        
                         while($row = mysqli_fetch_assoc($result)) {
+                             $_SESSION['courseCode'] = $row['courseCode']; 
+                         $_SESSION['courseName'] = $row['courseName']; 
                             echo "<div class='col-md-3'> <div class='grey-box-icon'> <div class='icon-box-top grey-box-icon-pos'>
                                         <img src='assets/images/1.PNG' alt='' style='width: 100px; height: auto;' />
-                                    </div><a href='teacherpage.php'> <h4>&nbsp; <div> ".$row["courseCode"].  "<br>" . $row["courseName"]." <br></h4> </a>
-						</div>
+                                    </div><a href='teacherpage.php'> <h4>&nbsp; <div> ".$_SESSION["courseCode"].  "<br>" . $_SESSION["courseName"]." <br></h4> </a>
+						</div>  
 					</div>";
                         
                         }
@@ -175,7 +183,7 @@
                               <div class="form-group">
                                   <label for="desc"></label>
                                   <input type="text" class="form-control" name="num" placeholder="Course Number" required>
-                              </div>
+                              </div>    
                               
                                <div class="form-group">
                                   <label for="sched"></label>
@@ -199,7 +207,16 @@
     <script type='text/javascript' src='assets/js/camera.min.js'></script> 
     <script src="assets/js/bootstrap.min.js"></script> 
 	<script src="assets/js/custom.js"></script>
-            
+    
+            <?php
+    function prompt($prompt_msg){
+        echo("<script type='text/javascript'> var answer = prompt('".$prompt_msg."'); </script>");
+
+        $answer = "<script type='text/javascript'> document.write(answer); </script>";
+        return($answer);
+    }
+            ?>  
+
             <script type="text/javascript">
         
         $(function() {
@@ -234,6 +251,77 @@
         })    
             
         </script>
+        <div id="pictureNavigation" style="display: none;">
+		<ul>
+		<li><a href="#"><img src='images/class.png' class='picnavicon'> Classes</a></li>
+		<li><a href="profteacher.php"><img src='images/profile.png' class='picnavicon'> Profile</a></li>
+		<li><a href="signout.php"><img src='images/logout.png' class='picnavicon'> Log out</a></li>
+		</ul>
+	  </div>
+    <script src="assets/js/modernizr-latest.js"></script> 
+	<script type='text/javascript' src='assets/js/jquery.min.js'></script>
+    <script type='text/javascript' src='assets/js/fancybox/jquery.fancybox.pack.js'></script>
+    
+    <script type='text/javascript' src='assets/js/jquery.mobile.customized.min.js'></script>
+    <script type='text/javascript' src='assets/js/jquery.easing.1.3.js'></script> 
+    <script type='text/javascript' src='assets/js/camera.min.js'></script> 
+    <script src="assets/js/bootstrap.min.js"></script> 
+	<script src="assets/js/custom.js"></script>
+            
+    <script type="text/javascript">
+        $(document).ready(function(){
+			$(document).mouseup(function(e){
+				var subject = $("#pictureNavigation"); 
+
+        if(e.target.id != subject.attr('id') && !subject.has(e.target).length){
+            subject.fadeOut();
+				}
+			});
+		});
+		
+        $(function() {
+           var welcomeSection = $('.welcome-section'),
+               enterButton = welcomeSection.find('.enter-button');
+            
+            setTimeout(function() {
+                welcomeSection.removeClass('content-hidden');
+            },800);
+            
+            enterButton.on('click', function(e){
+               e.preventDefault();
+                welcomeSection.addClass('content-hidden').fadeOut();
+            });
+        });
+            
+        </script>
+        
+        <script type="text/javascript">
+        
+        $(document).ready(function(){
+            $(".menu-icon").on("click", function(){
+                $("nav ul").toggleClass("showing");
+            });
+        });
+            
+        $(window).on("scroll", function(){
+            if($(window).scrollTop()) {
+                $('nav').addClass('black');
+            } else {
+                $('nav').removeClass('black');
+            }
+        })    
+		
+		function websitenav(){
+			var x = document.getElementById("pictureNavigation");
+			if (x.style.display === "none") {
+				x.style.display = "block";
+			} else {
+				x.style.display = "none";
+			}
+		}
+            
+        </script>
         </div>
+        
     </body>
 </html>

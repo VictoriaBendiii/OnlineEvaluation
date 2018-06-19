@@ -50,15 +50,15 @@
 		<div id="groupaccordions">
 		<?php 
 		//$course = $_POST['courseCode'];
-        //$query = mysqli_query($conn, "SELECT COUNT(distinct(groupID)) AS groupNumbers FROM user_course WHERE courseCode='$course';");
-		$query = mysqli_query($conn, "SELECT COUNT(distinct(groupID)) AS groupNumbers FROM user_course WHERE courseCode='9358A';");
-    
+		$course = $_SESSION['course'];
+        $query = mysqli_query($conn, "SELECT COUNT(distinct(groupID)) AS groupNumbers FROM user_course WHERE courseCode='$course';");
+
         while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
 			$groupnums = $row['groupNumbers'];
         }
 		
 		//echo "<center><p id='classCode'>$course</p></center>";
-		echo "<center><p id='classCode'>9358A</p></center>";
+		echo "<center><p id='classCode'>$course</p></center>";
 		
 		for($i = 1; $i <= $groupnums; $i++){
 		$querys = mysqli_query($conn, "SELECT users.username AS username, CONCAT(users.firstname,' ',users.lastname) AS fullname, users.profilepicture AS profpic FROM user_course JOIN users USING(id) WHERE courseCode='9358A' AND user_course.groupID=$i ORDER BY users.lastname;");

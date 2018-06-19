@@ -57,6 +57,14 @@
  	$user = $_SESSION['username'];
     $course = $_POST["course"];
 
+    $get_course = "SELECT * FROM peerpal.course JOIN user_course USING(courseCode) JOIN users USING(id) WHERE courseCode = '$course' AND identification != 'student';";
+    $query = mysqli_query($conn, $get_course);
+
+    while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+        $schedule = $row['schedule'];
+        $instructor_name = $row['firstname'].' '.$row['lastname'];
+    }
+
     $get_forms = "SELECT DISTINCT formName, formDesc, formID, due, expTime from peerpal.group JOIN group_form USING(groupID) JOIN form USING(formID) WHERE courseCodeForm = '$course'";
     $query = mysqli_query($conn, $get_forms);
         
@@ -80,7 +88,9 @@
  ?>
  <div class="cover">
      <?php echo $_POST['courseCode'] ?> <br>
-     <?php echo $_POST['courseName'] ?>
+     <?php echo $_POST['courseName'] ?> <br>
+     <?php echo $schedule ?> <br>
+     <?php echo $instructor_name ?>
      <?php $_SESSION["course"] = $_POST['courseCode'] ?>
  </div>
  <div class="teachernavigation">

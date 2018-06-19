@@ -134,14 +134,20 @@
 <?php
 	$user = $_SESSION['username'];
 	$course = $_SESSION["course"];
+    $numGroup = 15;
+    if(isset($_SESSION["numGroup"])){
+        $numGroup = $_SESSION["numGroup"];
+    }
 	$query = "SELECT * FROM user_course JOIN users USING(id) WHERE courseCode = '$course' AND username != '$user' AND identification != 'teacher' ORDER BY lastname;";
 	$execute_query = mysqli_query($conn, $query);
 
-	echo "<div id='rating' style='text-align:center; margin: 0 auto; margin-top:10%; font-size: 27px;'>Assign Students to a Group<br>
+	echo "<div id='rating' style='text-align:center; margin: 0 auto; margin-top:10%; font-size: 27px;'>Assign Students to a Group<br><br>
 			<div class='tableContainerGroup'>
                 <form action='grouping.php' method='post'>   
                     <label for='numGroup' id='rating' style='text-align:center; margin: 0 auto; margin-top:3%; font-size: 20px;'>Number of Groups: </label>
-                    <input type='number' name='numGroup' id='numGroup' required /><br>                       
+                    <input type='number' name='numGroup' id='numGroup' />
+                    <input type='submit' value='Limit Group' id='backBtn' style='margin:0 auto;' formaction='limit.php'>
+                    <br>                       
                 <table class='tableFormGroup'>
                     <tr>
                         <th>Students</th>
@@ -151,10 +157,10 @@
 		echo "<tr>
 				<td>".$row['firstname'] .' '. $row['lastname']."<input type='hidden' value='".$row['id']."' name='id[]'></td>";
 		if($row['groupID'] == null){
-			echo "<td><input type='number' name='group[]' style='width:10%; text-align:center;'></td>
+			echo "<td><input type='number' name='group[]' min='1' max='$numGroup' style='width:10%; text-align:center;'></td>
 			  </tr>";
 		}else{
-			echo "<td><input type='number' name='group[]' style='width:10%; text-align:center;' value='".$row['groupID']."'></td>
+			echo "<td><input type='number' name='group[]' min='1' max='$numGroup' style='width:10%; text-align:center;' value='".$row['groupID']."'></td>
 			  </tr>";
 		}		  	
 	}
@@ -166,8 +172,8 @@
         </div>";
 
     if($_SERVER["REQUEST_METHOD"] == "POST") {
-    	//$course = $_POST["course"];
-    	$course = '9358A';
+    	$course = $_POST["course"];
+    	//$course = '9358A';
     	$id = $_POST["id"];
     	$group = $_POST["group"];
 

@@ -504,14 +504,14 @@ input[name*="total"] {
 }
 
 .cover{
-	padding-top: 30px;
-	padding-bottom: 30px; 
+	padding-top: 20px;
+	padding-bottom: 20px; 
 	position: absolute;
 	background-color: rgb(52, 75, 99);
 	top: 76px;
 	background: ;
 	font-family: 'Quicksand', sans-serif;
-    font-size: 34px;
+    font-size: 24px;
     color: white;
     width: 100%;
     text-align: center;

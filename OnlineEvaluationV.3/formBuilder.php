@@ -150,7 +150,7 @@
         while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
             if($row['formID'] == NULL){
                 exit("<div id='expForm'>Your group is not allowed to fill up the form. Please contact your instructor if this is a mistake.</div>
-                    <form action='studentpage'>
+                    <form action='classes.php'>
                     <input type='submit' value='Go Back' id='backBtnForm'>
                     <form>");
             }
@@ -161,7 +161,7 @@
         while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
             if($row['evaluator'] == $user){
                 exit("<div id='expForm'>You have already answered this form.</div>
-                    <form action='studentpage'>
+                    <form action='classes.php'>
                     <input type='submit' value='Go Back' id='backBtnForm'>
                     <form>");
             }           

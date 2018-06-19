@@ -133,8 +133,7 @@
 
 <?php
 	$user = $_SESSION['username'];
-	//$course = $_POST["course"];
-	$course = '9358A';
+	$course = $_SESSION["course"];
 	$query = "SELECT * FROM user_course JOIN users USING(id) WHERE courseCode = '$course' AND username != '$user' AND identification != 'teacher' ORDER BY lastname;";
 	$execute_query = mysqli_query($conn, $query);
 

@@ -81,6 +81,7 @@
  <div class="cover">
      <?php echo $_POST['courseCode'] ?> <br>
      <?php echo $_POST['courseName'] ?>
+     <?php $_SESSION["course"] = $course ?>
  </div>
  <div class="teachernavigation">
 	<ul>

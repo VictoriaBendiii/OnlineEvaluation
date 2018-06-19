@@ -9,8 +9,7 @@
     $group = $_POST["group"];
     $title = $_POST["title"];
     $desc = $_POST["desc"];
-    //$course = $_POST["course"];
-    $course = '9358A';
+    $course = $_SESSION["course"];
 
     $target_dir = "uploads/";
     $rename_file =  $course."-". $title;

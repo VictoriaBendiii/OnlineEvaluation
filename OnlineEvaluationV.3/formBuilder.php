@@ -185,10 +185,7 @@
             $time_now = date("H:i:s");
             $time = strtotime($time);
             $time_now = strtotime($time_now);
-            echo $due." Due<br>";
-            echo $now." Now<br>";
-            echo $time_now." Time now<br>";
-            echo $time." Time";
+
             if(($due <= $now AND $time_now >= $time) OR ($due < $now AND $time_now < $time)){
                 exit("<div id='expForm'>You have already surpassed the due date and time. Please contact your instructor for further details.</div>
                     <form action='classes.php'>

@@ -418,11 +418,11 @@ input[name*="total"] {
     left: 0;
     height: 25px;
     width: 25px;
-    background-color: #eee;
+    background-color: #B6B6B4;
 }
 
 .containerInp:hover input ~ .checkmark {
-    background-color: #ccc;
+    background-color: #989896;
 }
 
 .containerInp input:checked ~ .checkmark {
@@ -603,11 +603,11 @@ input[name*="total"] {
     left: 0;
     height: 25px;
     width: 25px;
-    background-color: #eee;
+    background-color: #D4D4D2;
 }
 
 .container:hover input ~ .checkmark {
-    background-color: #ccc;
+    background-color: #989896;
 }
 
 .container input:checked ~ .checkmark {

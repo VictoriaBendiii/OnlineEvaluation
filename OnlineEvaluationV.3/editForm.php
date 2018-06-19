@@ -34,7 +34,7 @@
     <body>
       <div class="wrapper">
             <header>
-                <nav style="z-index: 1000; background-color: RGBA(92,115,139, 0.6);">
+                <nav style="z-index: 1000; background-color: RGBA(92,115,139, 0.6); position: fixed; top: 0px;">
                     <div class="menu-icon">
                         <i class="fa fa-bars fa-2x"></i>
                     </div>
@@ -94,6 +94,7 @@
             <label for="upload" class="btn">Choose a file</label>
             <input type="file" name="upload" accept="application/json" id="upload" style="display: none;" required />
             <p class="file-name" id="fileName" name="fileName" style="margin-left: 23%;">Please select a JSON file</p>
+			<br>
             <input type="submit" value="Upload" class="uploadButton" /> 
         </form>
           <p id="note">Note: Your JSON file will be renamed with the following title:<br>

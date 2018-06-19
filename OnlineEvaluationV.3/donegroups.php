@@ -51,6 +51,7 @@
 		<?php 
 		//$course = $_POST['courseCode'];
 		$course = $_SESSION['course'];
+		$form_ID = $_POST['formID'];
         $query = mysqli_query($conn, "SELECT COUNT(distinct(groupID)) AS groupNumbers FROM user_course WHERE courseCode='$course';");
 
         while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
@@ -67,7 +68,7 @@
 					$profpic = $row["profpic"];
 					$fullname = $row["fullname"];
 					$username = $row["username"];
-					$queryt = mysqli_query($conn, "SELECT DISTINCT CASE WHEN EXISTS(SELECT * FROM result JOIN users ON users.username = result.evaluator WHERE users.username = '$username') THEN 'images/check.png' ELSE 'images/x.png' END AS isdone FROM result JOIN users ON users.username = result.evaluator;");
+					$queryt = mysqli_query($conn, "SELECT DISTINCT CASE WHEN EXISTS(SELECT * FROM result JOIN users ON users.username = result.evaluator WHERE formID = $form_ID AND users.username = '$username') THEN 'images/check.png' ELSE 'images/x.png' END AS isdone FROM result JOIN users ON users.username = result.evaluator;");
 					while($rows = mysqli_fetch_array($queryt, MYSQLI_ASSOC)) {
 					$isdone = $rows["isdone"];
 					echo "<img src='images/profilepictures/$profpic' style='height: 50px; width: 50px; padding: 2px;' alt='profile picture'>";

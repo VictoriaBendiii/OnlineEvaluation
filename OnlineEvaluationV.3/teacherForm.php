@@ -70,7 +70,7 @@
                 <b>Due Date:</b> ".$row['due']."<br>
                 <b>Time Due:</b> ".$exp_time."<br>
                 <button type='submit' id='backBtn' style='margin-left:0%;'>Edit Form</button>
-				<a class='grouplabel' href='donegroups.php'>See students done with this form</a>
+				<button type='submit' id='backBtn' style='margin-left:0%;' formaction='donegroups.php'>See Students Done/Not Done</a>
                 </div>
                 <input type='hidden' name='course' value='$course'>
                 <input type='hidden' name='formID' value='".$row['formID']."'>

@@ -48,29 +48,44 @@
                 </nav>
 
                  <div class="container">
-    <div class="row">
+    <div class="row" style="padding-top: 95px;">
 					<?php
                 $target_name = array();
                 $user = mysqli_real_escape_string($conn, $_SESSION['username']);
-                $sql = "select * from user_course join users using(id) join course using(courseCode) where users.username ='$user'";
+                $sql = "select * from user_course join users using(id) join course using(courseCode) where users.username ='$user' AND course.status='Active';";
                 $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) != null) {
                         // output data of each row
                         
                         while($row = mysqli_fetch_assoc($result)) {
                              $_SESSION['courseCode'] = $row['courseCode']; 
-                         $_SESSION['courseName'] = $row['courseName']; 
-                            echo "<form action='teacherForm.php' method='post'><div class='col-md-3'> <div class='grey-box-icon'> <div class='icon-box-top grey-box-icon-pos'>
-                                        <img src='assets/images/1.PNG' alt='' style='width: 100px; height: auto;' />
-                                    </div><button type='submit' class='btn-link'><h4>&nbsp; <div> ".$_SESSION["courseCode"].  "<br>" . $_SESSION["courseName"]." <br></h4> </button>
+							 $corc =  $row['courseCode']; 
+							 $_SESSION['courseName'] = $row['courseName']; 
+                            echo "<div class='col-md-3'> <div class='grey-box-icon' style='height: 260px;'> <div class='icon-box-top grey-box-icon-pos'>";
+							/*if(isset($_POST['sub'])){
+							$squery = "UPDATE course SET `status`='Archived' WHERE `courseCode`='$corc';";
+							$results = mysqli_query($conn, $squery);
+							if($results){
+								echo "<script type='text/javascript'>alert('Classroom archived.');
+								window.location.href='teacherpage.php';</script>";
+							 }
+							}else{
+							    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+							}*/
+							echo "<form action='archiveclass.php' method='post'>
+									<input id='archivebutton' name='sub' type='submit' value=''>
+								  </form>
+										<br>
+									<form action='teacherForm.php' method='post'>
+										<img src='assets/images/1.PNG' alt='' style='width: 100px; height: auto;' />
+                                    </div><button type='submit' class='btn-link'><div style='position: relative; top: -40px;'><h4>&nbsp; <div> ".$_SESSION["courseCode"].  "<br>" . $_SESSION["courseName"]." <br></h4> </button>
                                     <input type='hidden' name='course' value='".$row['courseCode']."'>
                                     <input type='hidden' name='courseCode' value='".$row['courseCode']."'>
                                     <input type='hidden' name='courseName' value='".$row['courseName']."'>
                                     </form>
 						</div>  
 					</div>";
-                        
-                        }
+					}
                          echo "<a><div class='col-md-2' data-toggle='modal' data-target='#myModal'></a>
                                 <div class='grey-box-icon' style='cursor: pointer;'> 
                                     <div class='icon-box-top grey-box-icon-pos' style='margin: 0px; padding-top:10px;'>
@@ -124,9 +139,6 @@
                         <div class="modal-content">
                           <div class="modal-header" style="background-color: #3d84e6">
                             <h5 class="modal-title" id="exampleModalLongTitle" style="text-align: center; color: white; font-size: 2em">ADD A CLASS</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
                           </div>
                           <div class="modal-body" style="text-align: center; font-size: 1.3em;">
                             To add a class, please fill in the form <br> indicated below.
@@ -167,9 +179,6 @@
                         <div class="modal-content">
                           <div class="modal-header" style="background-color: #3d84e6">
                             <h5 class="modal-title" id="exampleModalLongTitle" style="text-align: center; color: white; font-size: 2em">PROFILE</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
                           </div>
                           <div class="modal-body" style="text-align: center; font-size: 1.3em;">
                             To add a class, please fill in the form <br> indicated below.
@@ -323,6 +332,7 @@
 		}
             
         </script>
+		</div>
         </div>
         
     </body>

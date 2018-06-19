@@ -61,7 +61,7 @@
 		echo "<center><p id='classCode'>$course</p></center>";
 		
 		for($i = 1; $i <= $groupnums; $i++){
-		$querys = mysqli_query($conn, "SELECT users.username AS username, CONCAT(users.firstname,' ',users.lastname) AS fullname, users.profilepicture AS profpic FROM user_course JOIN users USING(id) WHERE courseCode='9358A' AND user_course.groupID=$i ORDER BY users.lastname;");
+		$querys = mysqli_query($conn, "SELECT users.username AS username, CONCAT(users.firstname,' ',users.lastname) AS fullname, users.profilepicture AS profpic FROM user_course JOIN users USING(id) WHERE courseCode='$course' AND user_course.groupID=$i ORDER BY users.lastname;");
 		echo "<button class='accordion' id='doneText'>Group $i</button> <div class='panel'>";
 					while($row = mysqli_fetch_array($querys, MYSQLI_ASSOC)) {
 					$profpic = $row["profpic"];

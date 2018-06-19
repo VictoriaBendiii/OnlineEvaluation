@@ -139,7 +139,7 @@
         //$course = '9358A';
         $counter = 1; 
         $num = 1;     
-        $form_ID = 0;
+        $form_ID = $_POST["formID"];;
         $group_ID = 0;
         $groupmates = array();
         $id = array();
@@ -156,7 +156,7 @@
             }
         }
 
-        $if_result = "SELECT evaluator FROM result;";
+        $if_result = "SELECT evaluator FROM result WHERE courseCode = '$course' AND formID = $form_ID;";
         $query = mysqli_query($conn, $if_result);
         while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
             if($row['evaluator'] == $user){
@@ -167,7 +167,7 @@
             }           
         }
 
-        $get_form_id = "SELECT * FROM form JOIN group_form USING(formID) JOIN user_course USING(groupID) JOIN users ON users.id = user_course.id WHERE username = '$user' AND courseCode = '$course';";
+        $get_form_id = "SELECT * FROM form JOIN group_form USING(formID) JOIN user_course USING(groupID) JOIN users ON users.id = user_course.id WHERE username = '$user' AND courseCode = '$course' AND formID = $form_ID;";
         $query = mysqli_query($conn, $get_form_id);
         
         while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {

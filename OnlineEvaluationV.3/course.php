@@ -80,6 +80,8 @@
  <div class="cover">
      <?php echo $_POST['courseCode'] ?> <br>
      <?php echo $_POST['courseName'] ?>
+     <?php $_SESSION["course"] = $_POST['courseCode'] ?>
+     <?php echo $_SESSION['course'] ?>
  </div>
  <div class='formActivities' style="top: 286px;">
     Activities

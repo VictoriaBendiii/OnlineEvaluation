@@ -139,7 +139,9 @@
 
 	echo "<div id='rating' style='text-align:center; margin: 0 auto; margin-top:10%; font-size: 27px;'>Assign Students to a Group<br>
 			<div class='tableContainerGroup'>
-                <form action='grouping.php' method='post'>                          
+                <form action='grouping.php' method='post'>   
+                    <label for='numGroup' id='rating' style='text-align:center; margin: 0 auto; margin-top:3%; font-size: 20px;'>Number of Groups: </label>
+                    <input type='number' name='numGroup' id='numGroup' required /><br>                       
                 <table class='tableFormGroup'>
                     <tr>
                         <th>Students</th>
@@ -149,10 +151,10 @@
 		echo "<tr>
 				<td>".$row['firstname'] .' '. $row['lastname']."<input type='hidden' value='".$row['id']."' name='id[]'></td>";
 		if($row['groupID'] == null){
-			echo "<td><input type='text' name='group[]' style='width:7%; text-align:center;'></td>
+			echo "<td><input type='number' name='group[]' style='width:10%; text-align:center;'></td>
 			  </tr>";
 		}else{
-			echo "<td><input type='text' name='group[]' style='width:7%; text-align:center;' value='".$row['groupID']."'></td>
+			echo "<td><input type='number' name='group[]' style='width:10%; text-align:center;' value='".$row['groupID']."'></td>
 			  </tr>";
 		}		  	
 	}

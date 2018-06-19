@@ -47,7 +47,7 @@
                     </div>
                 </nav>
                 <div class="container">
-				<div class="row">
+				<div class="row" style="padding-top: 95px;">
 					<?php
                     $target_name = array();
                 $user = mysqli_real_escape_string($conn, $_SESSION['username']);
@@ -57,9 +57,9 @@
                     if (mysqli_num_rows($result) > 0) {
                         // output data of each row
                         while($row = mysqli_fetch_assoc($result)) {
-                            echo "<form action='course.php' method='post'><div class='col-md-3'> <div class='grey-box-icon'> <div class='icon-box-top grey-box-icon-pos'>
+                            echo "<form action='course.php' method='post'><div class='col-md-3'> <div class='grey-box-icon' style='height: 240px;'> <div class='icon-box-top grey-box-icon-pos'>
                                         <img src='assets/images/1.PNG' alt='' style='width: 100px; height: auto;' />
-                                    </div><button type='submit' class='btn-link'> <h4>&nbsp; <div> ".$row["courseCode"].  "<br>" . $row["courseName"]." <br></h4> </button>
+                                    </div><button type='submit' class='btn-link'><div style='position: relative; top: -40px;'><h4>&nbsp; <div> ".$row["courseCode"].  "<br>" . $row["courseName"]." <br></h4> </button>
                                     <input type='hidden' name='course' value='".$row['courseCode']."'>
                                     <input type='hidden' name='courseCode' value='".$row['courseCode']."'>
                                     <input type='hidden' name='courseName' value='".$row['courseName']."'>
@@ -118,9 +118,6 @@
                         <div class="modal-content">
                           <div class="modal-header" style="background-color: #3d84e6">
                             <h5 class="modal-title" id="exampleModalLongTitle" style="text-align: center; color: white; font-size: 2em">JOIN A CLASS</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
                           </div>
                           <div class="modal-body" style="text-align: center; font-size: 1.3em;">
                             To join a class, type in the code given <br> by your teacher below

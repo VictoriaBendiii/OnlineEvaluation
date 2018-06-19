@@ -91,7 +91,6 @@
      <?php echo $schedule ?> <br>
      <?php echo $instructor_name ?>
      <?php $_SESSION["course"] = $_POST['courseCode'] ?>
-     <?php echo $_SESSION['course'] ?>
  </div>
  <div class='formActivities' style="top: 286px;">
     Activities

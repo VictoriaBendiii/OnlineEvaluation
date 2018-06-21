@@ -195,7 +195,7 @@
             echo "<h1 id='formTitle'>".$row['formName']."</h1>";
         }
 
-        $get_groupmates = "SELECT * FROM group_form JOIN user_course USING(groupID) JOIN users ON users.id = user_course.id WHERE identification = 'student' AND coursecodeForm = '$course' AND groupID = $group_ID AND username != '$user' ORDER BY lastname;";
+        $get_groupmates = "SELECT * FROM group_form JOIN user_course USING(groupID) JOIN users ON users.id = user_course.id WHERE identification = 'student' AND coursecodeForm = '$course' AND groupID = $group_ID AND username != '$user' AND courseCode = '$course' ORDER BY lastname;";
         $query_Two = mysqli_query($conn, $get_groupmates);
         while($row = mysqli_fetch_array($query_Two, MYSQLI_ASSOC)) {
             $form_ID = $row['formID'];          

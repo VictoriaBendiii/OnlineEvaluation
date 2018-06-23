@@ -47,12 +47,13 @@
                     </div>
                 </nav>
 
+				<p id="title">Archived Classes</p>
                  <div class="container">
     <div class="row" style="padding-top: 95px;">
 					<?php
                 $target_name = array();
                 $user = mysqli_real_escape_string($conn, $_SESSION['username']);
-                $sql = "select * from user_course join users using(id) join course using(courseCode) where users.username ='$user' AND course.status='Active';";
+                $sql = "select * from user_course join users using(id) join course using(courseCode) where users.username ='$user' AND course.status='Archived';";
                 $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) != null) {
                         // output data of each row
@@ -61,10 +62,6 @@
                              $_SESSION['courseCode'] = $row['courseCode'];  
 							 $_SESSION['courseName'] = $row['courseName']; 
                             echo "<div class='col-md-3'><div class='grey-box-icon' style='height: 260px;'> <div class='icon-box-top grey-box-icon-pos'>
-								  <form action='archiveclass.php' method='post'>
-									<input id='archivebutton' name='sub' type='submit' value=''>
-                                    <input type='hidden' name='courseCode' value='".$row['courseCode']."'>
-								  </form>
 										<br>
 									<form action='teacherForm.php' method='post'>
 										<img src='assets/images/1.PNG' alt='' style='width: 100px; height: auto;' />
@@ -75,94 +72,14 @@
                                     </form>
 						</div>  
 					</div>";
-					}
-                         echo "<a><div class='col-md-2' data-toggle='modal' data-target='#myModal'></a>
-                                <div class='grey-box-icon' style='cursor: pointer;'> 
-                                    <div class='icon-box-top grey-box-icon-pos' style='margin: 0px; padding-top:10px;'>
-                                        <img src='assets/images/2.PNG' alt='' style='width: 100px; height: auto;' />
-                                    </div> 
-                                <h4 style='margin: 10px; padding: 0px; color: black;'>Add a class</h4>
-						      </div>
-					       </div></a>";
-                    
-                    } else {
-                            echo "<a><div class='col-md-2' data-toggle='modal' data-target='#myModal'></a>
-                                <div class='grey-box-icon' style='cursor: pointer;'> 
-                                    <div class='icon-box-top grey-box-icon-pos' style='margin: 0px;'>
-                                        <img src='assets/images/2.PNG' alt='' style='width: 100px; height: auto;' />
-                                    </div> 
-                                <h4 style='margin: 10px; padding: 0px; color: black;'>Add a class</h4>
-						      </div>
-					       </div></a>";
-                        }
-        
-        
-        if(isset($_POST['add'])){
-            
-            $query = "SELECT * FROM USERS where identification= 'teacher' and username='".$_SESSION["username"]."'";
-            $result1 = mysqli_query($conn,$query);
-            $row1 = mysqli_fetch_array($result1,MYSQLI_ASSOC);      
-            $_SESSION['id'] = $row1['id'];
-            $id = $_SESSION['id'];
-			
-			
-            $query1 = "INSERT INTO course (courseCode, courseName, courseNo, schedule) VALUES ('".$_POST["code"]."', '".$_POST["name"]."', '".$_POST["num"]."', '".$_POST["sched"]."')";
-			$query2 = "INSERT INTO user_course (id, courseCode, groupID) VALUES ('$id', '".$_POST["code"]."',null)";
-			
-            
-			if ($conn->multi_query($query1) === TRUE && $conn->multi_query($query2) === TRUE) {
-                echo "<meta http-equiv='refresh' content='0'>";
-            }
-			//mysqli_close($conn);
-        }   $conn->close();
-        
+						}
+                    } 
     ?>
   
       </div>
     
     </div>
     </header>
-        <!-- Modal -->
-      <form id ="classForm" method = "post" class="form-horizontal">
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
-                      <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header" style="background-color: #3d84e6">
-                            <h5 class="modal-title" id="exampleModalLongTitle" style="text-align: center; color: white; font-size: 2em">ADD A CLASS</h5>
-                          </div>
-                          <div class="modal-body" style="text-align: center; font-size: 1.3em;">
-                            To add a class, please fill in the form <br> indicated below.
-                              <div class="form-group">
-                                  <label for="code"></label>
-                                  <input type="text" class="form-control" name="code" placeholder="Course Code" required>
-                              </div>
-                              
-                              
-                              <div class="form-group">
-                                  <label for="name"></label>
-                                  <input type="text" class="form-control" name="name" placeholder="Course Name" required>
-                              </div>
-                              
-                              <div class="form-group">
-                                  <label for="desc"></label>
-                                  <input type="text" class="form-control" name="num" placeholder="Course Number" required>
-                              </div>
-                              
-                               <div class="form-group">
-                                  <label for="sched"></label>
-                                  <input type="text" class="form-control" name="sched" placeholder="Schedule" required>
-                              </div>             
-                              
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" name ="add">Add class</button>
-                          </div>
-                        </div>
-                      </div>
-                </div>
-      </form> 
-            
         <!-- Profile Modal -->
           <div class="modal fade" id="profile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
                       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -201,10 +118,6 @@
                         </div>
                       </div>
                 </div>
-	
-	<a href="archivedclasses.php">
-	<div class="archivebox"></div>
-	</a>
 	
     <script src="assets/js/modernizr-latest.js"></script> 
 	<script type='text/javascript' src='assets/js/jquery.min.js'></script>

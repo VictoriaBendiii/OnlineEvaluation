@@ -1064,3 +1064,11 @@ list-style: none;
 .archiveicon:hover{
 	cursor: pointer;
 }
+#title{
+	font-family: 'Quicksand', sans-serif;
+	font-size: 28px;
+	text-align: center;
+	position: relative;
+	color: #000000;
+	top: 110px;
+}

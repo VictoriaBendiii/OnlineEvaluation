@@ -61,19 +61,10 @@
                              $_SESSION['courseCode'] = $row['courseCode']; 
 							 $corc =  $row['courseCode']; 
 							 $_SESSION['courseName'] = $row['courseName']; 
-                            echo "<div class='col-md-3'> <div class='grey-box-icon' style='height: 260px;'> <div class='icon-box-top grey-box-icon-pos'>";
-							/*if(isset($_POST['sub'])){
-							$squery = "UPDATE course SET `status`='Archived' WHERE `courseCode`='$corc';";
-							$results = mysqli_query($conn, $squery);
-							if($results){
-								echo "<script type='text/javascript'>alert('Classroom archived.');
-								window.location.href='teacherpage.php';</script>";
-							 }
-							}else{
-							    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-							}*/
-							echo "<form action='archiveclass.php' method='post'>
+                            echo "<div class='col-md-3'> <div class='grey-box-icon' style='height: 260px;'> <div class='icon-box-top grey-box-icon-pos'>
+								  <form action='archiveclass.php' method='post'>
 									<input id='archivebutton' name='sub' type='submit' value=''>
+                                    <input type='hidden' name='courseCode' value='".$row['courseCode']."'>
 								  </form>
 										<br>
 									<form action='teacherForm.php' method='post'>

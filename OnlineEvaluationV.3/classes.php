@@ -52,13 +52,13 @@
                     $target_name = array();
                 $user = mysqli_real_escape_string($conn, $_SESSION['username']);
                 $target = "classes.php";
-                $sql = "select * from user_course join users using(id) join course using(courseCode) where users.username ='$user'";
+                $sql = "select * from user_course join users using(id) join course using(courseCode) where users.username ='$user';";
                 $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) > 0) {
-                        // output data of each row
+                        
                         while($row = mysqli_fetch_assoc($result)) {
                             echo "<form action='course.php' method='post'><div class='col-md-3'> <div class='grey-box-icon' style='height: 240px;'> <div class='icon-box-top grey-box-icon-pos'>
-                                        <img src='assets/images/1.PNG' alt='' style='width: 100px; height: auto;' />
+                                    <img src='assets/images/1.PNG' alt='' style='width: 100px; height: auto;' />
                                     </div><button type='submit' class='btn-link'><div style='position: relative; top: -40px;'><h4>&nbsp; <div> ".$row["courseCode"].  "<br>" . $row["courseName"]." <br></h4> </button>
                                     <input type='hidden' name='course' value='".$row['courseCode']."'>
                                     <input type='hidden' name='courseCode' value='".$row['courseCode']."'>

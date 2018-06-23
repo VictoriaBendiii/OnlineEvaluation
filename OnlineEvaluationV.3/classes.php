@@ -52,11 +52,9 @@
                     $target_name = array();
                 $user = mysqli_real_escape_string($conn, $_SESSION['username']);
                 $target = "classes.php";
-<<<<<<< HEAD
-                $sql = "select * from user_course join users using(id) join course using(courseCode) where users.username ='$user';";
-=======
+
                 $sql = "select * from user_course join users using(id) join course using(courseCode) where users.username ='$user' AND course.status='Active'";
->>>>>>> cb1cfa2ef6f93edee7479d09e4e407db6168dfb2
+
                 $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) > 0) {
                         

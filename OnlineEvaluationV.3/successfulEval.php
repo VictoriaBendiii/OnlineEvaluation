@@ -4,36 +4,46 @@
 	$course = $_POST["course"];
 	$form_ID = $_POST["formID"];
 	$group_ID = $_POST["groupID"];
+    $count = 0;
+    $list_array = array();
 
 	if($form == 'form1'){
 	    $score = $_POST["score"];
 	    $remarks = $_POST["remarks"];
 	    $id = $_POST["id"];
+        $size_criteria = $_POST["sizeCriteria"];
+        array_push($list_array, array_chunk($score, $size_criteria)); 
 
-	    $score = implode("-", $score);
-	    $remarks = implode("-", $remarks);
-	    $id = implode("-", $id);
+        for($ctr = 0; $ctr < count($list_array); $ctr++){
+            for($ct = 0; $ct < count($list_array[$ctr]); $ct++){
+                $score = implode("-", $list_array[$ctr][$ct]);
+                $query = "INSERT INTO result (score, formID, groupID, courseCode, evaluator, remarks, userID) VALUES ('".$score."', '$form_ID', '$group_ID', '$course', '$user', '".$remarks[$ct]."', '".$id[$ct]."')";
 
-	    $query = "INSERT INTO result (score, formID, groupID, courseCode, evaluator, remarks, userID)
-	        VALUES ('$score', '$form_ID', '$group_ID', '$course', '$user', '$remarks', '$id')";
-
-	    if (mysqli_query($conn, $query)) {
-	    } else {
-	        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-	    }
+                if (mysqli_query($conn, $query)) {
+                } else {
+                    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                }
+            }
+        }	    
 	}else if($form == 'form2'){
 		$score = $_POST["score"];
 		$id = $_POST["idFormTwo"];
-	    $score = implode("-", $score);
-	    $id = implode("-", $id);  
+        
+        $count = count($id);
+        $size_criteria = $_POST["sizeCriteria"];
+        array_push($list_array, array_chunk($score, $size_criteria));
 
-	        $query = "INSERT INTO result (score, formID, groupID, courseCode, evaluator, userID)
-	        VALUES ('$score', '$form_ID', '$group_ID', '$course', '$user', '$id')";
+        for($ctr = 0; $ctr < count($list_array); $ctr++){
+            for($ct = 0; $ct < count($list_array[$ctr]); $ct++){
+                $score = implode("-", $list_array[$ctr][$ct]);
+                $query = "INSERT INTO result (score, formID, groupID, courseCode, evaluator, userID) VALUES ('".$score."', '$form_ID', '$group_ID', '$course', '$user', '".$id[$ct]."')";
 
-	    if (mysqli_query($conn, $query)) {
-	    } else {
-	        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-	    }  
+                if (mysqli_query($conn, $query)) {
+                } else {
+                    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                }
+            }
+        } 
 	}
 ?>
 <html>
@@ -84,8 +94,8 @@
         </div>
         <div id="pictureNavigation" style="display: none;">
         <ul>
-        <li><a href="teacherpage.php"><img src='images/class.png' class='picnavicon'>Classes</a></li>
-        <li><a href="profteacher.php"><img src='images/profile.png' class='picnavicon'>Profile</a></li>
+        <li><a href="classes.php"><img src='images/class.png' class='picnavicon'>Classes</a></li>
+        <li><a href="profile.php"><img src='images/profile.png' class='picnavicon'>Profile</a></li>
         <li><a href="signout.php"><img src='images/logout.png' class='picnavicon'>Log out</a></li>
         </ul>
         </div>

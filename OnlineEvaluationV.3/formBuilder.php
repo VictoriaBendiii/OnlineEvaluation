@@ -269,6 +269,7 @@
         echo "</table>
             <input type='hidden' value='".$form_ID."' name='formID'>
             <input type='hidden' value='".$course."' name='course'>
+            <input type='hidden' value='".$size_criteria."' name='sizeCriteria'>
             <input type='hidden' value='$group_ID' name='groupID'>
             <input type='hidden' value='form1' name='form'>
             <input type='submit' value='Submit' id='submitBtn'>
@@ -328,6 +329,7 @@
             <input type='hidden' value='".$form_ID."' name='formID'>
             <input type='hidden' value='form2' name='form'>
             <input type='hidden' value='$group_ID' name='groupID'>
+            <input type='hidden' value='".$size_criteria."' name='sizeCriteria'>
             <input type='hidden' value='".$course."' name='course'>
             <input type='submit' value='Submit' id='submitBtn'>
             </form></div>";

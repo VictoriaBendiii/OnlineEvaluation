@@ -70,20 +70,47 @@
         
     while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
         $exp_time = date('h:i a', strtotime($row['expTime']));
-        echo "<form action='editForm.php' method='post'>
-				<div style='padding-bottom: 24px;'>
+        $due = $row['due'];
+        $date_now = date("Y-m-d", time());
+        $time = $row['expTime'];
+        $due = strtotime($due);
+        $now = strtotime($date_now);
+        date_default_timezone_set('Asia/Manila');
+        $time_now = date("H:i:s");
+        $time = strtotime($time);
+        $time_now = strtotime($time_now);
+
+        if(($due <= $now AND $time_now >= $time) OR ($due < $now AND $time_now < $time)){
+            echo "<form action='resultForm.php' method='post'>
+                <div style='padding-bottom: 24px;'>
+                <div class='editForm' style='display: block; position: relative;'>
+                <p style='text-align: center'>".$row['formName']."</p><br>
+                <b>Description:</b> ".$row['formDesc']."<br>
+                <b>Due Date:</b> ".$row['due']."<br>
+                <b>Time Due:</b> ".$exp_time."<br>
+                <button type='submit' id='backBtn' style='margin-left:0%;'>See Results</button>
+                <button type='submit' id='backBtn' style='margin-left:0%;' formaction='donegroups.php'>See Students Done/Not Done</a>
+                </div>
+                <input type='hidden' name='course' value='$course'>
+                <input type='hidden' name='formID' value='".$row['formID']."'>
+                </div>
+              </form>";
+        }else{
+            echo "<form action='editForm.php' method='post'>
+                <div style='padding-bottom: 24px;'>
                 <div class='editForm' style='display: block; position: relative;'>
                 <p style='text-align: center'>".$row['formName']."</p><br>
                 <b>Description:</b> ".$row['formDesc']."<br>
                 <b>Due Date:</b> ".$row['due']."<br>
                 <b>Time Due:</b> ".$exp_time."<br>
                 <button type='submit' id='backBtn' style='margin-left:0%;'>Edit Form</button>
-				<button type='submit' id='backBtn' style='margin-left:0%;' formaction='donegroups.php'>See Students Done/Not Done</a>
+                <button type='submit' id='backBtn' style='margin-left:0%;' formaction='donegroups.php'>See Students Done/Not Done</a>
                 </div>
                 <input type='hidden' name='course' value='$course'>
                 <input type='hidden' name='formID' value='".$row['formID']."'>
-				</div>
+                </div>
               </form>";
+        }      
     }
  ?>
  <div class="cover">

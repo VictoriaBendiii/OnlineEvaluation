@@ -32,28 +32,17 @@ include('connection.php');
 	
 	//$user = $_SESSION("username");
 	$user = 2160051;
-	$course = '9358A';
-	$form_ID = 1;
+	$course = '9358B';
+	$form_ID = 2;
 	$result = '';
 	$num = 1;     
     $group_ID = 0;
     $groupmates = array();
     $id = array();
     $group_num = array();
+    $score_arr = array();
     $url = '';
 
-	$query = "SELECT * from result WHERE formID = $form_ID AND courseCode = '$course';";
-	$do_query = mysqli_query($conn, $query);
-
-	/*while($row = mysqli_fetch_array($do_query, MYSQLI_ASSOC)){
-		$result .= $row['score'].'-';		
-	}
-	$result = substr($result, 0, -1);
-	$result = explode("-", $result);
-	list($array1, $array2) = array_chunk($result, 3);
-		echo implode(" ", $array1)."<br>";
-		echo implode(" ", $array2);
-	*/
 	$get_form_id = "SELECT * FROM form JOIN group_form USING(formID) JOIN user_course USING(groupID) JOIN users ON users.id = user_course.id WHERE username = '$user' AND courseCode = '$course' AND formID = $form_ID;";
     $query = mysqli_query($conn, $get_form_id);
 
@@ -126,6 +115,7 @@ include('connection.php');
                                     <th>Students</th>
                                     <th>Group #</th>
                                     <th colspan='$size_criteria'>Criteria</th>
+                                    <th>Total</th>
                                     <th>Remarks</th>
                                 </tr>
                                 <tr>
@@ -135,6 +125,7 @@ include('connection.php');
                         echo "<td>[C$ctr]</td>";
                     }
                     echo "<td></td>
+                    	  <td></td>
                           <td></td>
                           </tr>";
 
@@ -144,12 +135,203 @@ include('connection.php');
                                     <input type='hidden' name='id[]' value='".$id[$counter]."'>
                                 </td>
                                 <td>".$group_num[$counter]."</td>";
-                        for($ct = 1; $ct <= $size_criteria; $ct++){
-                            echo "<td><input type='number' name='score[]' min='1' max='$length' value='0' required></td>";
-                            $number++;
-                        }
-                        echo "<td><input type='text' name='remarks[]' required></td>
-                            </tr>";
+                        $query = "SELECT * from result JOIN users ON id = userID WHERE formID = $form_ID AND courseCode = '$course' AND userID = $id[$counter] ORDER BY lastname;";
+                        $query_Two = mysqli_query($conn, $query);
+                        $score_avg = 0;
+                        $remarks_arr = array();
+                        $remarks = '';
+        				$ctr = 0;
+        				$result = array();
+        				$total_score = 0;
+        				while($row = mysqli_fetch_array($query_Two, MYSQLI_ASSOC)){
+        					$score_arr[$ctr] = explode("-", $row['score']);
+        					$remarks_arr[$ctr] = $row['remarks'];
+        					$ctr++;
+        				}
+        				if(count($score_arr) == 1){
+        					for($ctr = 0; $ctr < count($score_arr); $ctr++){
+		                        for($ct = 0; $ct < $size_criteria; $ct++){                           
+		                            echo "<td>".$score_arr[$ctr][$ct]."</td>";
+		                            $score_avg = $score_arr[$ctr][$ct];
+		                            $total_score += $score_avg;
+		                            $number++;
+		                        }
+		                        echo "<td>".$total_score."</td>";
+		                        echo "<td>".$remarks_arr[$ctr]."</td>";
+	                    	}
+        				}else{
+        					switch(count($score_arr)){
+        						case 2:
+		        					for($ctr = 0; $ctr < count($score_arr)-1; $ctr++){
+		        						for($ct = 0; $ct < $size_criteria; $ct++){
+		        							$result[$ctr][$ct] = $score_arr[$ctr][$ct] + $score_arr[$ctr+1][$ct];
+		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
+		        							$total_score += $score_avg;
+		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1];
+		        							echo "<td>".$score_avg."</td>";
+        								}
+        								echo "<td>".$total_score."</td>";
+        								echo "<td>".$remarks."</td>";
+        							} break;
+        						case 3:
+		        					for($ctr = 0; $ctr < count($score_arr)-2; $ctr++){
+		        						for($ct = 0; $ct < $size_criteria; $ct++){
+		        							$result[$ctr][$ct] = $score_arr[$ctr][$ct] + $score_arr[$ctr+1][$ct] + $score_arr[$ctr+2][$ct];
+		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
+		        							$total_score += $score_avg;
+		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2];
+		        							echo "<td>".$score_avg."</td>";
+        								}
+        								echo "<td>".$total_score."</td>";
+        								echo "<td>".$remarks."</td>";
+        							} break;
+        						case 4:
+		        					for($ctr = 0; $ctr < count($score_arr)-3; $ctr++){
+		        						for($ct = 0; $ct < $size_criteria; $ct++){
+		        							$result[$ctr][$ct] = $score_arr[$ctr][$ct] + $score_arr[$ctr+1][$ct] + $score_arr[$ctr+2][$ct] + $score_arr[$ctr+3][$ct];
+		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
+		        							$total_score += $score_avg;
+		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3];
+		        							echo "<td>".$score_avg."</td>";
+        								}
+        								echo "<td>".$total_score."</td>";
+        								echo "<td>".$remarks."</td>";
+        							} break;
+        						case 5:
+		        					for($ctr = 0; $ctr < count($score_arr)-4; $ctr++){
+		        						for($ct = 0; $ct < $size_criteria; $ct++){
+		        							$result[$ctr][$ct] = $score_arr[$ctr][$ct] + $score_arr[$ctr+1][$ct] + $score_arr[$ctr+2][$ct] + $score_arr[$ctr+3][$ct] + $score_arr[$ctr+4][$ct];
+		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
+		        							$total_score += $score_avg;
+		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4];
+		        							echo "<td>".$score_avg."</td>";
+        								}
+        								echo "<td>".$total_score."</td>";
+        								echo "<td>".$remarks."</td>";
+        							} break;
+        						case 6:
+		        					for($ctr = 0; $ctr < count($score_arr)-5; $ctr++){
+		        						for($ct = 0; $ct < $size_criteria; $ct++){
+		        							$result[$ctr][$ct] = $score_arr[$ctr][$ct] + $score_arr[$ctr+1][$ct] + $score_arr[$ctr+2][$ct] + $score_arr[$ctr+3][$ct] + $score_arr[$ctr+4][$ct] + $score_arr[$ctr+5][$ct];
+		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
+		        							$total_score += $score_avg;
+		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5];
+		        							echo "<td>".$score_avg."</td>";
+        								}
+        								echo "<td>".$total_score."</td>";
+        								echo "<td>".$remarks."</td>";
+        							} break;
+        						case 7:
+		        					for($ctr = 0; $ctr < count($score_arr)-6; $ctr++){
+		        						for($ct = 0; $ct < $size_criteria; $ct++){
+		        							$result[$ctr][$ct] = $score_arr[$ctr][$ct] + $score_arr[$ctr+1][$ct] + $score_arr[$ctr+2][$ct] + $score_arr[$ctr+3][$ct] + $score_arr[$ctr+4][$ct] + $score_arr[$ctr+5][$ct] + $score_arr[$ctr+6][$ct];
+		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
+		        							$total_score += $score_avg;
+		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5]."<br>".$remarks_arr[$ctr+6];
+		        							echo "<td>".$score_avg."</td>";
+        								}
+        								echo "<td>".$total_score."</td>";
+        								echo "<td>".$remarks."</td>";
+        							} break;
+        						case 8:
+		        					for($ctr = 0; $ctr < count($score_arr)-7; $ctr++){
+		        						for($ct = 0; $ct < $size_criteria; $ct++){
+		        							$result[$ctr][$ct] = $score_arr[$ctr][$ct] + $score_arr[$ctr+1][$ct] + $score_arr[$ctr+2][$ct] + $score_arr[$ctr+3][$ct] + $score_arr[$ctr+4][$ct] + $score_arr[$ctr+5][$ct] + $score_arr[$ctr+6][$ct] + $score_arr[$ctr+7][$ct];
+		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
+		        							$total_score += $score_avg;
+		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5]."<br>".$remarks_arr[$ctr+6]."<br>".$remarks_arr[$ctr+7];
+		        							echo "<td>".$score_avg."</td>";
+        								}
+        								echo "<td>".$total_score."</td>";
+        								echo "<td>".$remarks."</td>";
+        							} break;
+        						case 9:
+		        					for($ctr = 0; $ctr < count($score_arr)-8; $ctr++){
+		        						for($ct = 0; $ct < $size_criteria; $ct++){
+		        							$result[$ctr][$ct] = $score_arr[$ctr][$ct] + $score_arr[$ctr+1][$ct] + $score_arr[$ctr+2][$ct] + $score_arr[$ctr+3][$ct] + $score_arr[$ctr+4][$ct] + $score_arr[$ctr+5][$ct] + $score_arr[$ctr+6][$ct] + $score_arr[$ctr+7][$ct] + $score_arr[$ctr+8][$ct];
+		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
+		        							$total_score += $score_avg;
+		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5]."<br>".$remarks_arr[$ctr+6]."<br>".$remarks_arr[$ctr+7]."<br>".$remarks_arr[$ctr+8];
+		        							echo "<td>".$score_avg."</td>";
+        								}
+        								echo "<td>".$total_score."</td>";
+        								echo "<td>".$remarks."</td>";
+        							} break;
+        						case 10:
+		        					for($ctr = 0; $ctr < count($score_arr)-9; $ctr++){
+		        						for($ct = 0; $ct < $size_criteria; $ct++){
+		        							$result[$ctr][$ct] = $score_arr[$ctr][$ct] + $score_arr[$ctr+1][$ct] + $score_arr[$ctr+2][$ct] + $score_arr[$ctr+3][$ct] + $score_arr[$ctr+4][$ct] + $score_arr[$ctr+5][$ct] + $score_arr[$ctr+6][$ct] + $score_arr[$ctr+7][$ct] + $score_arr[$ctr+8][$ct] + $score_arr[$ctr+9][$ct];
+		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
+		        							$total_score += $score_avg;
+		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5]."<br>".$remarks_arr[$ctr+6]."<br>".$remarks_arr[$ctr+7]."<br>".$remarks_arr[$ctr+8]."<br>".$remarks_arr[$ctr+9];
+		        							echo "<td>".$score_avg."</td>";
+        								}
+        								echo "<td>".$total_score."</td>";
+        								echo "<td>".$remarks."</td>";
+        							} break;
+        						case 11:
+		        					for($ctr = 0; $ctr < count($score_arr)-10; $ctr++){
+		        						for($ct = 0; $ct < $size_criteria; $ct++){
+		        							$result[$ctr][$ct] = $score_arr[$ctr][$ct] + $score_arr[$ctr+1][$ct] + $score_arr[$ctr+2][$ct] + $score_arr[$ctr+3][$ct] + $score_arr[$ctr+4][$ct] + $score_arr[$ctr+5][$ct] + $score_arr[$ctr+6][$ct] + $score_arr[$ctr+7][$ct] + $score_arr[$ctr+8][$ct] + $score_arr[$ctr+9][$ct] + $score_arr[$ctr+10][$ct];
+		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
+		        							$total_score += $score_avg;
+		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5]."<br>".$remarks_arr[$ctr+6]."<br>".$remarks_arr[$ctr+7]."<br>".$remarks_arr[$ctr+8]."<br>".$remarks_arr[$ctr+9]."<br>".$remarks_arr[$ctr+10];
+		        							echo "<td>".$score_avg."</td>";
+        								}
+        								echo "<td>".$total_score."</td>";
+        								echo "<td>".$remarks."</td>";
+        							} break;
+        						case 12:
+		        					for($ctr = 0; $ctr < count($score_arr)-11; $ctr++){
+		        						for($ct = 0; $ct < $size_criteria; $ct++){
+		        							$result[$ctr][$ct] = $score_arr[$ctr][$ct] + $score_arr[$ctr+1][$ct] + $score_arr[$ctr+2][$ct] + $score_arr[$ctr+3][$ct] + $score_arr[$ctr+4][$ct] + $score_arr[$ctr+5][$ct] + $score_arr[$ctr+6][$ct] + $score_arr[$ctr+7][$ct] + $score_arr[$ctr+8][$ct] + $score_arr[$ctr+9][$ct] + $score_arr[$ctr+10][$ct] + $score_arr[$ctr+11][$ct];
+		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
+		        							$total_score += $score_avg;
+		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5]."<br>".$remarks_arr[$ctr+6]."<br>".$remarks_arr[$ctr+7]."<br>".$remarks_arr[$ctr+8]."<br>".$remarks_arr[$ctr+9]."<br>".$remarks_arr[$ctr+10]."<br>".$remarks_arr[$ctr+11];
+		        							echo "<td>".$score_avg."</td>";
+        								}
+        								echo "<td>".$total_score."</td>";
+        								echo "<td>".$remarks."</td>";
+        							} break;
+        						case 13:
+		        					for($ctr = 0; $ctr < count($score_arr)-12; $ctr++){
+		        						for($ct = 0; $ct < $size_criteria; $ct++){
+		        							$result[$ctr][$ct] = $score_arr[$ctr][$ct] + $score_arr[$ctr+1][$ct] + $score_arr[$ctr+2][$ct] + $score_arr[$ctr+3][$ct] + $score_arr[$ctr+4][$ct] + $score_arr[$ctr+5][$ct] + $score_arr[$ctr+6][$ct] + $score_arr[$ctr+7][$ct] + $score_arr[$ctr+8][$ct] + $score_arr[$ctr+9][$ct] + $score_arr[$ctr+10][$ct] + $score_arr[$ctr+11][$ct] + $score_arr[$ctr+12][$ct];
+		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
+		        							$total_score += $score_avg;
+		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5]."<br>".$remarks_arr[$ctr+6]."<br>".$remarks_arr[$ctr+7]."<br>".$remarks_arr[$ctr+8]."<br>".$remarks_arr[$ctr+9]."<br>".$remarks_arr[$ctr+10]."<br>".$remarks_arr[$ctr+11]."<br>".$remarks_arr[$ctr+12];
+		        							echo "<td>".$score_avg."</td>";
+        								}
+        								echo "<td>".$total_score."</td>";
+        								echo "<td>".$remarks."</td>";
+        							} break;
+        						case 14:
+		        					for($ctr = 0; $ctr < count($score_arr)-13; $ctr++){
+		        						for($ct = 0; $ct < $size_criteria; $ct++){
+		        							$result[$ctr][$ct] = $score_arr[$ctr][$ct] + $score_arr[$ctr+1][$ct] + $score_arr[$ctr+2][$ct] + $score_arr[$ctr+3][$ct] + $score_arr[$ctr+4][$ct] + $score_arr[$ctr+5][$ct] + $score_arr[$ctr+6][$ct] + $score_arr[$ctr+7][$ct] + $score_arr[$ctr+8][$ct] + $score_arr[$ctr+9][$ct] + $score_arr[$ctr+10][$ct] + $score_arr[$ctr+11][$ct] + $score_arr[$ctr+12][$ct] + $score_arr[$ctr+13][$ct];
+		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
+		        							$total_score += $score_avg;
+		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5]."<br>".$remarks_arr[$ctr+6]."<br>".$remarks_arr[$ctr+7]."<br>".$remarks_arr[$ctr+8]."<br>".$remarks_arr[$ctr+9]."<br>".$remarks_arr[$ctr+10]."<br>".$remarks_arr[$ctr+11]."<br>".$remarks_arr[$ctr+12]."<br>".$remarks_arr[$ctr+13];
+		        							echo "<td>".$score_avg."</td>";
+        								}
+        								echo "<td>".$total_score."</td>";
+        								echo "<td>".$remarks."</td>";
+        							} break;
+        						case 15:
+		        					for($ctr = 0; $ctr < count($score_arr)-14; $ctr++){
+		        						for($ct = 0; $ct < $size_criteria; $ct++){
+		        							$result[$ctr][$ct] = $score_arr[$ctr][$ct] + $score_arr[$ctr+1][$ct] + $score_arr[$ctr+2][$ct] + $score_arr[$ctr+3][$ct] + $score_arr[$ctr+4][$ct] + $score_arr[$ctr+5][$ct] + $score_arr[$ctr+6][$ct] + $score_arr[$ctr+7][$ct] + $score_arr[$ctr+8][$ct] + $score_arr[$ctr+9][$ct] + $score_arr[$ctr+10][$ct] + $score_arr[$ctr+11][$ct] + $score_arr[$ctr+12][$ct] + $score_arr[$ctr+13][$ct] + $score_arr[$ctr+14][$ct];
+		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
+		        							$total_score += $score_avg;
+		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5]."<br>".$remarks_arr[$ctr+6]."<br>".$remarks_arr[$ctr+7]."<br>".$remarks_arr[$ctr+8]."<br>".$remarks_arr[$ctr+9]."<br>".$remarks_arr[$ctr+10]."<br>".$remarks_arr[$ctr+11]."<br>".$remarks_arr[$ctr+12]."<br>".$remarks_arr[$ctr+13]."<br>".$remarks_arr[$ctr+14];
+		        							echo "<td>".$score_avg."</td>";
+        								}
+        								echo "<td>".$total_score."</td>";
+        								echo "<td>".$remarks."</td>";
+        							} break;		
+        					}
+        				}				
+                        echo "</tr>";
                         $totalnumber++;
                     }                  
                     echo "</div>";                  
@@ -162,7 +344,7 @@ include('connection.php');
             <input type='hidden' value='".$course."' name='course'>
             <input type='hidden' value='$group_ID' name='groupID'>          
             <input type='hidden' value='form1' name='form'>
-            <input type='submit' value='Export as a PDF' id='submitBtn'>
+            <input type='submit' value='Export as a File' id='submitBtn'>
             </form></div>";
     }
 ?>

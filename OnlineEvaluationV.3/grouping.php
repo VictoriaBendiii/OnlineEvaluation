@@ -145,7 +145,7 @@
 			<div class='tableContainerGroup'>
                 <form action='grouping.php' method='post'>   
                     <label for='numGroup' id='rating' style='text-align:center; margin: 0 auto; margin-top:3%; font-size: 20px;'>Number of Groups: </label>
-                    <input type='number' name='numGroup' id='numGroup' />
+                    <input type='number' name='numGroup' id='numGroup' max = '15' />
                     <input type='submit' value='Limit Group' id='backBtn' style='margin:0 auto;' formaction='limit.php'>
                     <br>                       
                 <table class='tableFormGroup'>
@@ -189,25 +189,8 @@
 	        	echo "Error: " . $sql . "<br>" . mysqli_error($conn); 	        	
 	    	}
     	}
-    		echo "<script>	
-	    			$(document).ready(function(){
-					$('#myModal').modal('show');
-					});
-				  </script>
-				  <div id='myModal' class='modal fade'>
-    				<div class='modal-dialog' style='width:30%'>
-        				<div class='modal-content'>
-            				<div class='modal-header'>
-                			<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-            				</div>
-            			<div class='modal-body'>
-							<h4>Successfully Updated the Groups</h4>
-                			<form action='teacherpage'>
-                    			<input type='submit' value='Proceed' class='btn btn-primary' style='margin:0 auto;'>
-                			</form>
-            			</div>
-        				</div>
-    					</div>
-					</div>";		 		
+    		echo "<meta http-equiv='refresh' content='0'>";		 		
     }
 ?>
+</body>
+</html>

@@ -138,6 +138,16 @@
     if(isset($_SESSION["numGroup"])){
         $numGroup = $_SESSION["numGroup"];
     }
+
+    $query = mysqli_query($conn, "SELECT DISTINCT groupID FROM user_course JOIN users USING(id) WHERE courseCode = '$course' AND identification != 'teacher' ORDER BY groupID;");
+    $rowcount = mysqli_num_rows($query);
+    if($rowcount == 0){
+        exit("<div id='expForm'>There are currently no students enrolled.</div>
+        <form action='teacherpage.php'>
+        <input type='submit' value='Go Back' id='backBtnForm'>
+        <form>");
+    }
+
 	$query = "SELECT * FROM user_course JOIN users USING(id) WHERE courseCode = '$course' AND username != '$user' AND identification != 'teacher' ORDER BY lastname;";
 	$execute_query = mysqli_query($conn, $query);
 

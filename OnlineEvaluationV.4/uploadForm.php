@@ -130,6 +130,18 @@
             }
         }
         </script>
+    <?php 
+          $user = $_SESSION['username'];
+          $course = $_SESSION['course'];
+          $query = mysqli_query($conn, "SELECT DISTINCT groupID FROM user_course JOIN users USING(id) WHERE courseCode = '$course' AND identification != 'teacher' ORDER BY groupID;");
+          $rowcount = mysqli_num_rows($query);
+          if($rowcount == 0){
+                exit("<div id='expForm'>There are currently no students enrolled.</div>
+                <form action='teacherpage.php'>
+                <input type='submit' value='Go Back' id='backBtnForm'>
+                <form>");
+          }
+    ?>
     <div id='uploadContainer'>
       <p id="uploadTitle">Upload Evaluation</p>
         <form action="upload.php" method="POST" enctype="multipart/form-data" class="file-upload">  
@@ -144,10 +156,7 @@
             <div style="width: 80%;margin:0 auto;">
             <?php
               /*$classcode = $_POST["classcode"]; AND courseCode = '$classcode'*/
-              $user = $_SESSION['username'];
-              $course = $_SESSION['course'];
               $query = mysqli_query($conn, "SELECT DISTINCT groupID FROM user_course JOIN users USING(id) WHERE courseCode = '$course' AND identification != 'teacher' ORDER BY groupID;");
-
                 //echo "<input type='hidden' id='course' name='course' value='$classcode'>";
               while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
                 if($row['groupID'] == NULL){

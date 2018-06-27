@@ -29,7 +29,7 @@
                     <div class="logo">&emsp;SLU Peer Evaluation</div>
                     <div class="menu">
                         <ul>
-                            <li style="color: white; font-size: 20px; "><a class="active" href="#" onclick="websitenav();">
+                            <li style="color: white; font-size: 20px; "><a href="#" onclick="websitenav();">
                             <?php 
                             $username = $_SESSION['username'];
                             $query = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username';");

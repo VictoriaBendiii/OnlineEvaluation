@@ -163,8 +163,8 @@
             <input type="file" name="upload" accept="application/json" id="upload" style="display: none;" required />
             <p class="file-name" id="fileName" name="fileName" style="margin-left: 23%;">Please select a JSON file</p>
 			<br>
-            <input type="hidden" name="form" value="<?php echo $_POST["form"]; ?>" />
-            <input type="submit" value="Upload" class="uploadButton" /> 
+            <input type="hidden" name="form" value="form1"/>
+            <input type="submit" value="Upload" class="uploadButton"/> 
         </form>
 		  <br>
           <p id="note">Note: Your JSON file will be renamed with the following title:<br>

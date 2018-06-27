@@ -122,7 +122,7 @@
  </div>
  <div class="teachernavigation">
 	<ul>
-        <li><a href="uploadType.php"><img src='images/upload.png' class='tnavicon'> Upload New Form</a></li>
+        <li><a href="uploadForm.php"><img src='images/upload.png' class='tnavicon'> Upload New Form</a></li>
         <li><a href="grouping.php"><img src='images/group.png' class='tnavicon'> Group Students</a></li>
     </ul>
  </div>

@@ -4,7 +4,7 @@
     $due = strtotime($_POST["due"]);
     $due = date('Y-m-d', $due);
     $time = $_POST["expTime"];
-    $type = $_POST["form"];
+    $type = 'form1';
     $newtime = date("H:i:s", strtotime($time));
     $group = $_POST["group"];
     $title = $_POST["title"];

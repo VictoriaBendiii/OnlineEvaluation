@@ -205,7 +205,7 @@
                     echo "<br></div>
                             <div id='rating' style='margin-bottom: 2%;'>Criteria:</div>
                             <div class='tableContainer'>
-                            <form action='successfulEval.php' method='post'>                          
+                            <form action='export.php' method='post'>                          
                             <table class='tableForm'>
                                 <tr>
                                     <th>Students</th>
@@ -440,7 +440,7 @@
             <input type='hidden' value='".$course."' name='course'>
             <input type='hidden' value='$group_ID' name='groupID'>          
             <input type='hidden' value='form1' name='form'>
-            <input type='submit' value='Export as a File' id='submitBtn'>
+            <input type='submit' value='Download as a CSV file' id='submitBtn'>
             </form></div>";
     }
 ?>

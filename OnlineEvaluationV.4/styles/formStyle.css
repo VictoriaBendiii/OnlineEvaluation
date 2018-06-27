@@ -303,6 +303,67 @@ input[name*="total"] {
 	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
 }
 
+#backBtnForm1{
+	font-family: 'Quicksand', sans-serif;
+	position: absolute;
+	top: 55%;
+	left: calc(50% - 15px);
+	padding: 10px 15px 11px;
+	font-size: 18px;
+	background-color: rgb(43, 56, 86);
+	font-weight: bold;
+	text-shadow: 1px 1px rgb(43, 56, 86);
+	color: #ffffff;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid rgb(43, 56, 86);
+	cursor: pointer;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+	-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+}
+
+#backBtnForm1:hover{
+	cursor: pointer;
+	color: rgb(43, 56, 86);
+	background-color: #ffffff;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+}
+
+#backBtnForm2{
+	font-family: 'Quicksand', sans-serif;
+	display: inline-block;
+	position: absolute;
+	top: 55%;
+	left: calc(41% - 15px);
+	padding: 10px 15px 11px;
+	font-size: 18px;
+	background-color: rgb(43, 56, 86);
+	font-weight: bold;
+	text-shadow: 1px 1px rgb(43, 56, 86);
+	color: #ffffff;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid rgb(43, 56, 86);
+	cursor: pointer;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+	-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+}
+
+#backBtnForm2:hover{
+	cursor: pointer;
+	color: rgb(43, 56, 86);
+	background-color: #ffffff;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+}
+
 #submitGroup
 
 /*class*/

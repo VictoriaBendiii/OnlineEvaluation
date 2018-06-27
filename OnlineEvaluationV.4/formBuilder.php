@@ -160,9 +160,10 @@
         $query = mysqli_query($conn, $if_result);
         while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
             if($row['evaluator'] == $user){
-                exit("<div id='expForm'>You have already answered this form.</div>
+                exit("<div id='expForm'>You have already answered this form. Do you want to edit your evaluation?</div>
                     <form action='classes.php'>
-                    <input type='submit' value='Go Back' id='backBtnForm'>
+                    <input type='submit' value='Edit Evaluation' formaction='updateForm' id='backBtnForm1'>
+                    <input type='submit' value='Go Back' id='backBtnForm2'>
                     <form>");
             }           
         }

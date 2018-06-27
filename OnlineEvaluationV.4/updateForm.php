@@ -133,6 +133,7 @@
 		}
         </script>
     <?php
+        $score_arr = array();
         $user = $_SESSION['username'];
         $course = $_POST["course"];
         //$group_ID = $_POST["groupID"];
@@ -184,20 +185,6 @@
             echo "<h1 id='formTitle'>".$row['formName']."</h1>";
         }
 
-        $if_result = "SELECT evaluator FROM result WHERE courseCode = '$course' AND formID = $form_ID;";
-        $query = mysqli_query($conn, $if_result);
-        while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-            if($row['evaluator'] == $user){
-                exit("<div id='expForm'>You have already answered this form. Do you want to edit your evaluation?</div>
-                    <form action='classes.php' method='post'>
-                    <input type='hidden' name='course' value=$course>
-                    <input type='hidden' name='formID' value=$form_ID>
-                    <input type='submit' value='Edit Evaluation' formaction='updateForm' id='backBtnForm1'>
-                    <input type='submit' value='Go Back' id='backBtnForm2'>
-                    <form>");
-            }           
-        }
-
         $get_groupmates = "SELECT * FROM group_form JOIN user_course USING(groupID) JOIN users ON users.id = user_course.id WHERE identification = 'student' AND coursecodeForm = '$course' AND groupID = $group_ID AND username != '$user' AND courseCode = '$course' ORDER BY lastname;";
         $query_Two = mysqli_query($conn, $get_groupmates);
         while($row = mysqli_fetch_array($query_Two, MYSQLI_ASSOC)) {
@@ -235,7 +222,7 @@
                     echo "<br></div>
                             <div id='rating' style='margin-bottom: 2%;'>Criteria:</div>
                             <div class='tableContainer'>
-                            <form action='successfulEval.php' method='post'>                          
+                            <form action='updateResult.php' method='post'>                          
                             <table class='tableForm'>
                                 <tr>
                                     <th>Members</th>
@@ -256,19 +243,32 @@
                                 <td>$groupmates[$counter]
                                     <input type='hidden' name='id[]' value='".$id[$counter]."'>
                                 </td>";
-                        for($ct = 1; $ct <= $size_criteria; $ct++){
-                            echo "<td><input type='number' name='score[]' min='1' max='$length' value='0' required></td>";
-                            $number++;
+                        $query = "SELECT * from result WHERE evaluator = '$user' AND formID = $form_ID AND courseCode = '$course' AND userID = $id[$counter];";
+                        $query_Two = mysqli_query($conn, $query);
+                        $remarks = '';
+                        $ctr = 0;
+                        $remarks_arr = array();
+                        $result = array();
+                        $total_score = 0;
+                        while($row = mysqli_fetch_array($query_Two, MYSQLI_ASSOC)){
+                            $score_arr[$ctr] = explode("-", $row['score']);
+                            $remarks_arr[$ctr] = $row['remarks'];
+                            $ctr++;
                         }
-                        echo "<td><input type='text' name='remarks[]' required></td>
-                            </tr>";
+                        for($ctr = 0; $ctr < count($score_arr); $ctr++){
+                            for($ct = 0; $ct < $size_criteria; $ct++){                           
+                                echo "<td><input type='number' value='".$score_arr[$ctr][$ct]."' name='score[]'></td>";
+                                $number++;
+                            }
+                            echo "<td><input type='text' value='".$remarks_arr[$ctr]."' name='remarks[]'></td>";
+                        }
+                        echo "</tr>";
                         $totalnumber++;
-                    }                  
-                    echo "</div>";                  
+                    }                                   
                 }else{
                     echo "<div id='criteria'>[C$num] - " . $formCriterias['criteria'] . "<br></div>";      $num++;
                 }            
-            }   
+            } 
         echo "</table>
             <input type='hidden' value='".$form_ID."' name='formID'>
             <input type='hidden' value='".$course."' name='course'>
@@ -277,66 +277,8 @@
             <input type='hidden' value='form1' name='form'>
             <input type='submit' value='Submit' id='submitBtn'>
             </form></div>";
-        }elseif ($form_type == 'form2') {
-            $data = file_get_contents($url); 
-            $formCriteria = json_decode($data, true);
-
-            if(filesize("$url") == 0){
-                echo '<h3 class="quiz" style="text-align:center;">There is something wrong with your form</h3>
-                      <button class="submitButton" onclick="formBuilder.php">Go Back</button>';
-            }
-
-            echo "<div id='formContainer'>
-                    <div id='rating'>Rating:</div>
-                        <div id='ratingWrapper'>";
-            foreach ($formCriteria as $formCriterias) {
-                if($formCriterias['criteria'] == 'choices'){
-                    $length = count($formCriterias['choices']);
-                    $size_criteria = count($formCriteria) - 1;
-                    $size_groupmates = count($groupmates);
-                    $size_table = count($groupmates) - 1;
-                    $number = 1;
-                    $totalnumber = 1;
-
-                    for($ctr = 0; $ctr < $length; $ctr++){
-                        echo "<div id='formChoice'>" . $formCriterias['choices'][$ctr] . "</div>";
-                    }
-
-                    echo "<br></div>
-                            <div class='tableContainer'>
-                            <form action='successfulEval.php' method='post'>                          
-                            <table class='tableForm'>
-                                <tr>
-                                    <th>Criteria</th>
-                                    <th colspan='$size_groupmates'>Members</th>
-                                </tr>
-                                <tr>
-                                    <td></td>";
-                    for($ctr = 0; $ctr < $size_groupmates; $ctr++){
-                        echo "<td>$groupmates[$ctr]
-                                <input type='hidden' name='idFormTwo[]' value='".$id[$ctr]."'>
-                            </td>";
-                    }
-                    echo "</tr>";                                   
-                }else if($formCriterias['criteria'] != 'choices'){
-                        echo "<tr>
-                                <td>".$formCriterias['criteria']."</td>
-                                <input type='hidden' name='criteria[]' value='".$formCriterias['criteria']."'>";
-                        for($counter = 0; $counter < $size_groupmates; $counter++){
-                            echo "<td><input type='number' name='score[]' min='1' max='$length' value='0' required></td>";
-                        }     
-                }                         
-            } 
-        echo "</div>";    
-        echo "</table>
-            <input type='hidden' value='".$form_ID."' name='formID'>
-            <input type='hidden' value='form2' name='form'>
-            <input type='hidden' value='$group_ID' name='groupID'>
-            <input type='hidden' value='".$size_criteria."' name='sizeCriteria'>
-            <input type='hidden' value='".$course."' name='course'>
-            <input type='submit' value='Submit' id='submitBtn'>
-            </form></div>";
-        }              
+        } 
+      
 ?>
 </body>
 </html>

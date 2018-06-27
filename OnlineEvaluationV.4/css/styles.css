@@ -610,3 +610,29 @@ icon-bar {
 	font-family: 'Quicksand', sans-serif;
 	font-size: 19px;
 }
+.archivebox{
+	background-image: url("../images/archive.png");
+	background-size: contain;
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	background-color: transparent;
+	height: 60px;
+	width: 60px;
+	position: fixed;
+	right: 20px;
+	bottom: 10px;
+	z-index: 991;
+}
+.archivebox:hover{
+	background-image: url("../images/openarchive.png");
+	background-size: contain;
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	background-color: transparent;
+	height: 126px;
+	width: 66px;
+	position: fixed;
+	right: 11px;
+	bottom: -14px;
+	z-index: 991;
+}

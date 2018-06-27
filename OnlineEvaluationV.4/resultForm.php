@@ -17,6 +17,8 @@
         <link rel="stylesheet" href="assets/css/style.css">
         <link rel='stylesheet' id='camera-css'  href='assets/css/camera.css' type='text/css' media='all'>
             <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="tableExport.js"></script>
     </head>
 <body>
     <div class="wrapper">
@@ -54,7 +56,7 @@
         </ul>
         </div>
         <script type="text/javascript">
-        
+
         $(document).ready(function(){
             $(".menu-icon").on("click", function(){
                 $("nav ul").toggleClass("showing");
@@ -207,8 +209,8 @@
                     echo "<br></div>
                             <div id='rating' style='margin-bottom: 2%;'>Criteria:</div>
                             <div class='tableContainer'>
-                            <form action='export.php' method='post'>                          
-                            <table class='tableForm'>
+                            <form action='' method='post'>                          
+                            <table class='tableForm' id='tableForm'>
                                 <tr>
                                     <th>Students</th>
                                     <th>Group #</th>
@@ -492,5 +494,22 @@
             </form></div>";
     }
 ?>
+<script>
+    $(function(){
+        $("#submitBtn").click(function(){
+            doExport('#tableForm', {type: 'csv'});
+        });
+    });
+    function doExport(selector, params) {
+      var options = {
+        tableName: 'Form Results',
+        worksheetName: 'Form Results'
+      };
+
+      $.extend(true, options, params);
+
+      $(selector).tableExport(options);
+    }
+</script>
 </body>
 </html>

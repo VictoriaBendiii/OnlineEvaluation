@@ -136,6 +136,7 @@
 	$course = $_POST['course'];
 	$form_ID = $_POST['formID'];	
 	$user = $_SESSION["username"];
+    $form_Name = '';
 	$result = '';
 	$num = 1;     
     $group_ID = 0;
@@ -152,6 +153,7 @@
             $form_ID = $row['formID'];
             $group_ID = $row['groupID'];
             $due = $row['due'];
+            $form_Name = $row['formName'];
             $date_now = date("Y-m-d", time());
             $time = $row['expTime'];
             $form_type = $row['type'];
@@ -205,7 +207,7 @@
                     echo "<br></div>
                             <div id='rating' style='margin-bottom: 2%;'>Criteria:</div>
                             <div class='tableContainer'>
-                            <form action='export.php' method='post'>                          
+                            <form action='try.php' method='post'>                          
                             <table class='tableForm'>
                                 <tr>
                                     <th>Students</th>
@@ -247,13 +249,16 @@
         				if(count($score_arr) == 1){
         					for($ctr = 0; $ctr < count($score_arr); $ctr++){
 		                        for($ct = 0; $ct < $size_criteria; $ct++){                           
-		                            echo "<td>".$score_arr[$ctr][$ct]."</td>";
+		                            echo "<td>".$score_arr[$ctr][$ct]."</td>
+                                          <input type='hidden' name='avgscore[]' value='".$score_arr[$ctr][$ct]."'>";
 		                            $score_avg = $score_arr[$ctr][$ct];
 		                            $total_score += $score_avg;
 		                            $number++;
 		                        }
-		                        echo "<td>".$total_score."</td>";
-		                        echo "<td>".$remarks_arr[$ctr]."</td>";
+		                        echo "<td>".$total_score."</td>
+                                      <input type='hidden' name='totalscore[]' value='".$total_score."'>";
+		                        echo "<td>".$remarks_arr[$ctr]."</td>
+                                      <input type='hidden' name='remarks[]' value='".$remarks_arr[$ctr]."'>";
 	                    	}
         				}else{
         					switch(count($score_arr)){
@@ -264,10 +269,13 @@
 		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
 		        							$total_score += $score_avg;
 		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1];
-		        							echo "<td>".$score_avg."</td>";
+		        							echo "<td>".$score_avg."</td>
+                                                  <input type='hidden' name='avgscore[]' value='".$score_avg."'>";
         								}
-        								echo "<td>".$total_score."</td>";
-        								echo "<td>".$remarks."</td>";
+        								echo "<td>".$total_score."</td>
+                                      <input type='hidden' name='totalscore[]' value='".$total_score."'>";
+		                              echo "<td>".$remarks."</td>
+                                      <input type='hidden' name='remarks[]' value='".$remarks."'>";
         							} break;
         						case 3:
 		        					for($ctr = 0; $ctr < count($score_arr)-2; $ctr++){
@@ -276,10 +284,13 @@
 		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
 		        							$total_score += $score_avg;
 		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2];
-		        							echo "<td>".$score_avg."</td>";
+		        							echo "<td>".$score_avg."</td>
+                                                  <input type='hidden' name='avgscore[]' value='".$score_avg."'>";
         								}
-        								echo "<td>".$total_score."</td>";
-        								echo "<td>".$remarks."</td>";
+        								echo "<td>".$total_score."</td>
+                                      <input type='hidden' name='totalscore[]' value='".$total_score."'>";
+		                              echo "<td>".$remarks."</td>
+                                      <input type='hidden' name='remarks[]' value='".$remarks."'>";
         							} break;
         						case 4:
 		        					for($ctr = 0; $ctr < count($score_arr)-3; $ctr++){
@@ -288,10 +299,13 @@
 		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
 		        							$total_score += $score_avg;
 		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3];
-		        							echo "<td>".$score_avg."</td>";
+		        							echo "<td>".$score_avg."</td>
+                                                  <input type='hidden' name='avgscore[]' value='".$score_avg."'>";
         								}
-        								echo "<td>".$total_score."</td>";
-        								echo "<td>".$remarks."</td>";
+        								echo "<td>".$total_score."</td>
+                                      <input type='hidden' name='totalscore[]' value='".$total_score."'>";
+		                              echo "<td>".$remarks."</td>
+                                      <input type='hidden' name='remarks[]' value='".$remarks."'>";
         							} break;
         						case 5:
 		        					for($ctr = 0; $ctr < count($score_arr)-4; $ctr++){
@@ -300,10 +314,13 @@
 		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
 		        							$total_score += $score_avg;
 		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4];
-		        							echo "<td>".$score_avg."</td>";
+		        							echo "<td>".$score_avg."</td>
+                                                  <input type='hidden' name='avgscore[]' value='".$score_avg."'>";
         								}
-        								echo "<td>".$total_score."</td>";
-        								echo "<td>".$remarks."</td>";
+        								echo "<td>".$total_score."</td>
+                                      <input type='hidden' name='totalscore[]' value='".$total_score."'>";
+		                              echo "<td>".$remarks."</td>
+                                      <input type='hidden' name='remarks[]' value='".$remarks."'>";
         							} break;
         						case 6:
 		        					for($ctr = 0; $ctr < count($score_arr)-5; $ctr++){
@@ -312,10 +329,13 @@
 		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
 		        							$total_score += $score_avg;
 		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5];
-		        							echo "<td>".$score_avg."</td>";
+		        							echo "<td>".$score_avg."</td>
+                                                  <input type='hidden' name='avgscore[]' value='".$score_avg."'>";
         								}
-        								echo "<td>".$total_score."</td>";
-        								echo "<td>".$remarks."</td>";
+        								echo "<td>".$total_score."</td>
+                                      <input type='hidden' name='totalscore[]' value='".$total_score."'>";
+		                              echo "<td>".$remarks."</td>
+                                      <input type='hidden' name='remarks[]' value='".$remarks."'>";
         							} break;
         						case 7:
 		        					for($ctr = 0; $ctr < count($score_arr)-6; $ctr++){
@@ -324,10 +344,13 @@
 		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
 		        							$total_score += $score_avg;
 		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5]."<br>".$remarks_arr[$ctr+6];
-		        							echo "<td>".$score_avg."</td>";
+		        							echo "<td>".$score_avg."</td>
+                                                  <input type='hidden' name='avgscore[]' value='".$score_avg."'>";
         								}
-        								echo "<td>".$total_score."</td>";
-        								echo "<td>".$remarks."</td>";
+        								echo "<td>".$total_score."</td>
+                                      <input type='hidden' name='totalscore[]' value='".$total_score."'>";
+		                              echo "<td>".$remarks."</td>
+                                      <input type='hidden' name='remarks[]' value='".$remarks."'>";
         							} break;
         						case 8:
 		        					for($ctr = 0; $ctr < count($score_arr)-7; $ctr++){
@@ -336,10 +359,13 @@
 		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
 		        							$total_score += $score_avg;
 		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5]."<br>".$remarks_arr[$ctr+6]."<br>".$remarks_arr[$ctr+7];
-		        							echo "<td>".$score_avg."</td>";
+		        							echo "<td>".$score_avg."</td>
+                                                  <input type='hidden' name='avgscore[]' value='".$score_avg."'>";
         								}
-        								echo "<td>".$total_score."</td>";
-        								echo "<td>".$remarks."</td>";
+        								echo "<td>".$total_score."</td>
+                                      <input type='hidden' name='totalscore[]' value='".$total_score."'>";
+		                              echo "<td>".$remarks."</td>
+                                      <input type='hidden' name='remarks[]' value='".$remarks."'>";
         							} break;
         						case 9:
 		        					for($ctr = 0; $ctr < count($score_arr)-8; $ctr++){
@@ -348,10 +374,13 @@
 		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
 		        							$total_score += $score_avg;
 		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5]."<br>".$remarks_arr[$ctr+6]."<br>".$remarks_arr[$ctr+7]."<br>".$remarks_arr[$ctr+8];
-		        							echo "<td>".$score_avg."</td>";
+		        							echo "<td>".$score_avg."</td>
+                                                  <input type='hidden' name='avgscore[]' value='".$score_avg."'>";
         								}
-        								echo "<td>".$total_score."</td>";
-        								echo "<td>".$remarks."</td>";
+        								echo "<td>".$total_score."</td>
+                                      <input type='hidden' name='totalscore[]' value='".$total_score."'>";
+		                              echo "<td>".$remarks."</td>
+                                      <input type='hidden' name='remarks[]' value='".$remarks."'>";
         							} break;
         						case 10:
 		        					for($ctr = 0; $ctr < count($score_arr)-9; $ctr++){
@@ -360,10 +389,13 @@
 		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
 		        							$total_score += $score_avg;
 		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5]."<br>".$remarks_arr[$ctr+6]."<br>".$remarks_arr[$ctr+7]."<br>".$remarks_arr[$ctr+8]."<br>".$remarks_arr[$ctr+9];
-		        							echo "<td>".$score_avg."</td>";
+		        							echo "<td>".$score_avg."</td>
+                                                  <input type='hidden' name='avgscore[]' value='".$score_avg."'>";
         								}
-        								echo "<td>".$total_score."</td>";
-        								echo "<td>".$remarks."</td>";
+        								echo "<td>".$total_score."</td>
+                                      <input type='hidden' name='totalscore[]' value='".$total_score."'>";
+		                              echo "<td>".$remarks."</td>
+                                      <input type='hidden' name='remarks[]' value='".$remarks."'>";
         							} break;
         						case 11:
 		        					for($ctr = 0; $ctr < count($score_arr)-10; $ctr++){
@@ -372,10 +404,13 @@
 		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
 		        							$total_score += $score_avg;
 		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5]."<br>".$remarks_arr[$ctr+6]."<br>".$remarks_arr[$ctr+7]."<br>".$remarks_arr[$ctr+8]."<br>".$remarks_arr[$ctr+9]."<br>".$remarks_arr[$ctr+10];
-		        							echo "<td>".$score_avg."</td>";
+		        							echo "<td>".$score_avg."</td>
+                                                  <input type='hidden' name='avgscore[]' value='".$score_avg."'>";
         								}
-        								echo "<td>".$total_score."</td>";
-        								echo "<td>".$remarks."</td>";
+        								echo "<td>".$total_score."</td>
+                                      <input type='hidden' name='totalscore[]' value='".$total_score."'>";
+		                              echo "<td>".$remarks."</td>
+                                      <input type='hidden' name='remarks[]' value='".$remarks."'>";
         							} break;
         						case 12:
 		        					for($ctr = 0; $ctr < count($score_arr)-11; $ctr++){
@@ -384,10 +419,13 @@
 		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
 		        							$total_score += $score_avg;
 		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5]."<br>".$remarks_arr[$ctr+6]."<br>".$remarks_arr[$ctr+7]."<br>".$remarks_arr[$ctr+8]."<br>".$remarks_arr[$ctr+9]."<br>".$remarks_arr[$ctr+10]."<br>".$remarks_arr[$ctr+11];
-		        							echo "<td>".$score_avg."</td>";
+		        							echo "<td>".$score_avg."</td>
+                                                  <input type='hidden' name='avgscore[]' value='".$score_avg."'>";
         								}
-        								echo "<td>".$total_score."</td>";
-        								echo "<td>".$remarks."</td>";
+        								echo "<td>".$total_score."</td>
+                                      <input type='hidden' name='totalscore[]' value='".$total_score."'>";
+		                              echo "<td>".$remarks."</td>
+                                      <input type='hidden' name='remarks[]' value='".$remarks."'>";
         							} break;
         						case 13:
 		        					for($ctr = 0; $ctr < count($score_arr)-12; $ctr++){
@@ -396,10 +434,13 @@
 		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
 		        							$total_score += $score_avg;
 		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5]."<br>".$remarks_arr[$ctr+6]."<br>".$remarks_arr[$ctr+7]."<br>".$remarks_arr[$ctr+8]."<br>".$remarks_arr[$ctr+9]."<br>".$remarks_arr[$ctr+10]."<br>".$remarks_arr[$ctr+11]."<br>".$remarks_arr[$ctr+12];
-		        							echo "<td>".$score_avg."</td>";
+		        							echo "<td>".$score_avg."</td>
+                                                  <input type='hidden' name='avgscore[]' value='".$score_avg."'>";
         								}
-        								echo "<td>".$total_score."</td>";
-        								echo "<td>".$remarks."</td>";
+        								echo "<td>".$total_score."</td>
+                                      <input type='hidden' name='totalscore[]' value='".$total_score."'>";
+		                              echo "<td>".$remarks."</td>
+                                      <input type='hidden' name='remarks[]' value='".$remarks."'>";
         							} break;
         						case 14:
 		        					for($ctr = 0; $ctr < count($score_arr)-13; $ctr++){
@@ -408,10 +449,13 @@
 		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
 		        							$total_score += $score_avg;
 		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5]."<br>".$remarks_arr[$ctr+6]."<br>".$remarks_arr[$ctr+7]."<br>".$remarks_arr[$ctr+8]."<br>".$remarks_arr[$ctr+9]."<br>".$remarks_arr[$ctr+10]."<br>".$remarks_arr[$ctr+11]."<br>".$remarks_arr[$ctr+12]."<br>".$remarks_arr[$ctr+13];
-		        							echo "<td>".$score_avg."</td>";
+		        							echo "<td>".$score_avg."</td>
+                                                  <input type='hidden' name='avgscore[]' value='".$score_avg."'>";
         								}
-        								echo "<td>".$total_score."</td>";
-        								echo "<td>".$remarks."</td>";
+        								echo "<td>".$total_score."</td>
+                                      <input type='hidden' name='totalscore[]' value='".$total_score."'>";
+		                              echo "<td>".$remarks."</td>
+                                      <input type='hidden' name='remarks[]' value='".$remarks."'>";
         							} break;
         						case 15:
 		        					for($ctr = 0; $ctr < count($score_arr)-14; $ctr++){
@@ -420,10 +464,13 @@
 		        							$score_avg = round(($result[$ctr][$ct])/(count($score_arr)), 2);
 		        							$total_score += $score_avg;
 		        							$remarks = $remarks_arr[$ctr]."<br>".$remarks_arr[$ctr+1]."<br>".$remarks_arr[$ctr+2]."<br>".$remarks_arr[$ctr+3]."<br>".$remarks_arr[$ctr+4]."<br>".$remarks_arr[$ctr+5]."<br>".$remarks_arr[$ctr+6]."<br>".$remarks_arr[$ctr+7]."<br>".$remarks_arr[$ctr+8]."<br>".$remarks_arr[$ctr+9]."<br>".$remarks_arr[$ctr+10]."<br>".$remarks_arr[$ctr+11]."<br>".$remarks_arr[$ctr+12]."<br>".$remarks_arr[$ctr+13]."<br>".$remarks_arr[$ctr+14];
-		        							echo "<td>".$score_avg."</td>";
+		        							echo "<td>".$score_avg."</td>
+                                                  <input type='hidden' name='avgscore[]' value='".$score_avg."'>";
         								}
-        								echo "<td>".$total_score."</td>";
-        								echo "<td>".$remarks."</td>";
+        								echo "<td>".$total_score."</td>
+                                      <input type='hidden' name='totalscore[]' value='".$total_score."'>";
+		                              echo "<td>".$remarks."</td>
+                                      <input type='hidden' name='remarks[]' value='".$remarks."'>";
         							} break;		
         					}
         				}				
@@ -437,6 +484,7 @@
             }   
         echo "</table>
             <input type='hidden' value='".$form_ID."' name='formID'>
+            <input type='hidden' value='".$form_Name."' name='formName'>
             <input type='hidden' value='".$course."' name='course'>
             <input type='hidden' value='$group_ID' name='groupID'>          
             <input type='hidden' value='form1' name='form'>

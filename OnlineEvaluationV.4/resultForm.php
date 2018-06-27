@@ -207,7 +207,7 @@
                     echo "<br></div>
                             <div id='rating' style='margin-bottom: 2%;'>Criteria:</div>
                             <div class='tableContainer'>
-                            <form action='try.php' method='post'>                          
+                            <form action='export.php' method='post'>                          
                             <table class='tableForm'>
                                 <tr>
                                     <th>Students</th>

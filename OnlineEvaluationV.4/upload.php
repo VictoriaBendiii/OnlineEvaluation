@@ -108,11 +108,11 @@
             <?php
               /*$classcode = $_POST["classcode"]; AND courseCode = '$classcode'*/
               $user = $_SESSION['username'];
-              $query = mysqli_query($conn, "SELECT * from users JOIN user_course USING(id) JOIN group_form ON courseCode = courseCodeForm JOIN form USING(formID) WHERE username = $user AND identification = 'teacher'");
+              $query = mysqli_query($conn, "SELECT DISTINCT groupID FROM user_course JOIN users USING(id) WHERE courseCode = '$course' AND identification != 'teacher' ORDER BY groupID;");
 
                 //echo "<input type='hidden' id='course' name='course' value='$classcode'>";
               while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-                echo "<div class='inpCont'><label class='container'>Group ". $row["groupID"] ."<input type='checkbox' name='group[]' id='group[]' value=". $row["groupID"] ." /><span class='checkmark'></span></label></div>";
+                echo "<div class='inpCont'><label class='container'>&emsp;Group ". $row["groupID"] ."<input type='checkbox' name='group[]' id='group[]' value=". $row["groupID"] ." /><span class='checkmark'></span></label></div>";
               }
             ?>
             </div>

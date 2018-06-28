@@ -60,7 +60,7 @@ CREATE TABLE `form` (
   `type` enum('form1','form2') DEFAULT NULL,
   PRIMARY KEY (`formID`),
   UNIQUE KEY `formID_UNIQUE` (`formID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +69,7 @@ CREATE TABLE `form` (
 
 LOCK TABLES `form` WRITE;
 /*!40000 ALTER TABLE `form` DISABLE KEYS */;
-INSERT INTO `form` VALUES (1,'Web Technology Peer Eval Prelims','This is the peer evaluation form for Web Technology Prelims','2018-06-25','9358A-Jam','21:30:00','form1'),(2,'Midterms Evaluation Form','Please make sure to fill the form properly and honestly.','2018-06-25','9358B-Midterms Evaluation Form','17:00:00','form1');
+INSERT INTO `form` VALUES (1,'Web Technology Peer Eval Prelims','This is the peer evaluation form for Web Technology Prelims','2018-06-28','9358A-Jam','21:30:00','form1'),(2,'Midterms Evaluation Form','Please make sure to fill the form properly and honestly.','2018-06-25','9358B-Midterms Evaluation Form','17:00:00','form1'),(3,'This is a form','This is a form','2018-06-07','9360-This is a form','21:00:00','form1');
 /*!40000 ALTER TABLE `form` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,11 +106,9 @@ DROP TABLE IF EXISTS `group_form`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `group_form` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
   `groupID` int(11) NOT NULL,
   `courseCodeForm` varchar(45) NOT NULL,
   `formID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
   KEY `groupID_idx` (`groupID`),
   KEY `groupIDForm_idx` (`groupID`),
   KEY `courseCodeForm_idx` (`courseCodeForm`),
@@ -118,7 +116,7 @@ CREATE TABLE `group_form` (
   CONSTRAINT `courseCodeForm` FOREIGN KEY (`courseCodeForm`) REFERENCES `course` (`courseCode`) ON UPDATE CASCADE,
   CONSTRAINT `formID` FOREIGN KEY (`formID`) REFERENCES `form` (`formID`) ON UPDATE CASCADE,
   CONSTRAINT `groupID` FOREIGN KEY (`groupID`) REFERENCES `group` (`groupID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +125,7 @@ CREATE TABLE `group_form` (
 
 LOCK TABLES `group_form` WRITE;
 /*!40000 ALTER TABLE `group_form` DISABLE KEYS */;
-INSERT INTO `group_form` VALUES (1,1,'9358A',1),(2,2,'9358A',1),(7,1,'9358B',2);
+INSERT INTO `group_form` VALUES (1,'9358A',1),(2,'9358A',1),(1,'9358B',2);
 /*!40000 ALTER TABLE `group_form` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -164,7 +162,7 @@ CREATE TABLE `result` (
 
 LOCK TABLES `result` WRITE;
 /*!40000 ALTER TABLE `result` DISABLE KEYS */;
-INSERT INTO `result` VALUES (1,'4-4-4-4',2,1,'9358B','2160051','Hard worker','6'),(2,'3-3-3-3',2,1,'9358B','2160051','Good at communicating.','7'),(3,'2-3-3-4',2,1,'9358B','2156789','Fair worker, independent','5'),(4,'3-3-2-3',2,1,'9358B','2156789','Creative and critical thinker','7');
+INSERT INTO `result` VALUES (1,'4-3-3-4',2,1,'9358B','2160051','Hardworking always','6'),(2,'3-4-4-3',2,1,'9358B','2160051','Good at communicating.','7'),(3,'2-3-3-4',2,1,'9358B','2156789','Fair worker, independent','5'),(4,'3-3-2-3',2,1,'9358B','2156789','Creative and critical thinker','7');
 /*!40000 ALTER TABLE `result` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -176,12 +174,9 @@ DROP TABLE IF EXISTS `user_course`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_course` (
-  `userCourseID` int(11) NOT NULL AUTO_INCREMENT,
   `id` int(11) NOT NULL,
   `courseCode` varchar(45) NOT NULL,
   `groupID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`userCourseID`),
-  UNIQUE KEY `userCourseID_UNIQUE` (`userCourseID`),
   KEY `id_idx` (`id`),
   KEY `courseCode_idx` (`courseCode`),
   KEY `groupID_idx` (`groupID`),
@@ -189,7 +184,7 @@ CREATE TABLE `user_course` (
   CONSTRAINT `courseCode` FOREIGN KEY (`courseCode`) REFERENCES `course` (`courseCode`) ON UPDATE CASCADE,
   CONSTRAINT `groupIDUser` FOREIGN KEY (`groupID`) REFERENCES `group` (`groupID`) ON UPDATE CASCADE,
   CONSTRAINT `id` FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -198,7 +193,7 @@ CREATE TABLE `user_course` (
 
 LOCK TABLES `user_course` WRITE;
 /*!40000 ALTER TABLE `user_course` DISABLE KEYS */;
-INSERT INTO `user_course` VALUES (1,1,'9358A',NULL),(2,3,'9358A',2),(3,4,'9358A',3),(4,5,'9358A',1),(5,6,'9358A',1),(6,1,'9360',NULL),(7,1,'9358B',NULL),(8,7,'9358A',1),(10,5,'9358B',1),(11,6,'9358B',1),(12,7,'9358B',1),(16,4,'9358B',3);
+INSERT INTO `user_course` VALUES (1,'9358A',NULL),(3,'9358A',2),(4,'9358A',2),(5,'9358A',1),(6,'9358A',1),(1,'9360',NULL),(1,'9358B',NULL),(7,'9358A',1),(5,'9358B',1),(6,'9358B',1),(7,'9358B',1),(4,'9358B',2);
 /*!40000 ALTER TABLE `user_course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -240,4 +235,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-27  9:15:45
+-- Dump completed on 2018-06-28 10:41:06

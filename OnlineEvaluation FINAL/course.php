@@ -68,9 +68,9 @@
  <?php 
     $user = $_SESSION['username'];
     if(!isset($_SESSION['course'])){
-        $_SESSION['course'] = $_GET["courseCode"];
+        $_SESSION['courseCode'] = $_GET["courseCode"];
     }
-    $course = $_SESSION['course'];
+    $course = $_SESSION['courseCode'];
 
     $get_course = "SELECT * FROM peerpal.course JOIN user_course USING(courseCode) JOIN users USING(id) WHERE courseCode = '$course' AND identification != 'student';";
     $query = mysqli_query($conn, $get_course);

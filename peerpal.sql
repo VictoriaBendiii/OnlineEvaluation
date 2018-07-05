@@ -28,6 +28,8 @@ CREATE TABLE `course` (
   `courseNo` varchar(240) DEFAULT NULL,
   `schedule` varchar(45) NOT NULL,
   `status` enum('Active','Archived') NOT NULL,
+  `courseStatus` enum('First Semester','Second Semester','Short Term') NOT NULL,
+  `sy` varchar(45) NOT NULL,
   PRIMARY KEY (`courseCode`),
   UNIQUE KEY `courseCode_UNIQUE` (`courseCode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -39,7 +41,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` VALUES ('9358A','Web Technologies Lecture','IT 324','3:00 - 4:00 WS','Active'),('9358B','Web Technologies Laboratory','IT 322L','4:00 - 5:30 TF','Active'),('9360','Information Assurance and Security','IT 324','8:00 - 9:00 TTHS','Active');
+INSERT INTO `course` VALUES ('9358A','Web Technologies Lecture','IT 324','3:00 - 4:00 WS','Active','First Semester','2017-2018'),('9358B','Web Technologies Laboratory','IT 322L','4:00 - 5:30 TF','Active','First Semester','2017-2018'),('9360','Information Assurance and Security','IT 324','8:00 - 9:00 TTHS','Active','First Semester','2017-2018'),('9361','Theology','TH301','9:00 - 11:00 TTHS','Active','First Semester','2017-2018');
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,7 +62,7 @@ CREATE TABLE `form` (
   `type` enum('form1','form2') DEFAULT NULL,
   PRIMARY KEY (`formID`),
   UNIQUE KEY `formID_UNIQUE` (`formID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +71,7 @@ CREATE TABLE `form` (
 
 LOCK TABLES `form` WRITE;
 /*!40000 ALTER TABLE `form` DISABLE KEYS */;
-INSERT INTO `form` VALUES (1,'Web Technology Peer Eval Prelims','This is the peer evaluation form for Web Technology Prelims','2018-07-04','9358A-Jam','21:30:00','form1'),(2,'Midterms Evaluation Form','Please make sure to fill the form properly and honestly.','2018-07-05','9358B-Midterms Evaluation Form','17:00:00','form1'),(3,'This is a form','This is a form','2018-06-07','9360-This is a form','21:00:00','form1'),(4,'Project Evaluation form','Please make sure to follow the guidelines','2018-07-05','9358A-Project Evaluation form','17:00:00','form1');
+INSERT INTO `form` VALUES (1,'Web Technology Peer Eval Prelims','This is the peer evaluation form for Web Technology Prelims','2018-07-04','9358A-Jam','21:30:00','form1'),(2,'Midterms Evaluation Form','Please make sure to fill the form properly and honestly.','2018-07-05','9358B-Midterms Evaluation Form','17:00:00','form1'),(3,'This is a form','This is a form','2018-06-07','9360-This is a form','21:00:00','form1'),(4,'Project Evaluation form','Please make sure to follow the guidelines','2018-07-05','9358A-Project Evaluation form','17:00:00','form1'),(5,'Prelims Evaluation','Please fill up accordingly','2018-08-01','9361-Prelims Evaluation','17:00:00','form1');
 /*!40000 ALTER TABLE `form` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -125,7 +127,7 @@ CREATE TABLE `group_form` (
 
 LOCK TABLES `group_form` WRITE;
 /*!40000 ALTER TABLE `group_form` DISABLE KEYS */;
-INSERT INTO `group_form` VALUES (1,'9358A',1),(2,'9358A',1),(1,'9358B',2),(1,'9358A',4);
+INSERT INTO `group_form` VALUES (1,'9358A',1),(2,'9358A',1),(1,'9358B',2),(1,'9358A',4),(1,'9361',5);
 /*!40000 ALTER TABLE `group_form` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +155,7 @@ CREATE TABLE `result` (
   CONSTRAINT `courseCodeResult` FOREIGN KEY (`courseCode`) REFERENCES `course` (`courseCode`) ON UPDATE CASCADE,
   CONSTRAINT `formIDResult` FOREIGN KEY (`formID`) REFERENCES `form` (`formID`) ON UPDATE CASCADE,
   CONSTRAINT `groupIDResult` FOREIGN KEY (`groupID`) REFERENCES `group_form` (`groupID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,7 +164,7 @@ CREATE TABLE `result` (
 
 LOCK TABLES `result` WRITE;
 /*!40000 ALTER TABLE `result` DISABLE KEYS */;
-INSERT INTO `result` VALUES (1,'4-3-3-4',2,1,'9358B','2160051','Hardworking always','6'),(2,'3-4-4-3',2,1,'9358B','2160051','Good at communicating.','7'),(3,'2-3-3-4',2,1,'9358B','2156789','Fair worker, independent','5'),(4,'3-3-2-3',2,1,'9358B','2156789','Creative and critical thinker','7'),(5,'3-2',4,1,'9358A','2160051','Slobby','6'),(6,'5-5',4,1,'9358A','2160051','Amazing in documenting','7');
+INSERT INTO `result` VALUES (1,'4-3-3-4',2,1,'9358B','2160051','Hardworking always','6'),(2,'3-4-4-3',2,1,'9358B','2160051','Good at communicating.','7'),(3,'2-3-3-4',2,1,'9358B','2156789','Fair worker, independent','5'),(4,'3-3-2-3',2,1,'9358B','2156789','Creative and critical thinker','7');
 /*!40000 ALTER TABLE `result` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -193,7 +195,7 @@ CREATE TABLE `user_course` (
 
 LOCK TABLES `user_course` WRITE;
 /*!40000 ALTER TABLE `user_course` DISABLE KEYS */;
-INSERT INTO `user_course` VALUES (1,'9358A',NULL),(3,'9358A',2),(4,'9358A',2),(5,'9358A',1),(6,'9358A',1),(1,'9360',NULL),(1,'9358B',NULL),(7,'9358A',1),(5,'9358B',1),(6,'9358B',1),(7,'9358B',1),(4,'9358B',2);
+INSERT INTO `user_course` VALUES (1,'9358A',NULL),(3,'9358A',2),(4,'9358A',2),(5,'9358A',1),(6,'9358A',1),(1,'9360',NULL),(1,'9358B',NULL),(7,'9358A',1),(5,'9358B',1),(6,'9358B',1),(7,'9358B',1),(4,'9358B',2),(9,'9361',NULL),(5,'9361',1),(5,'9361',1);
 /*!40000 ALTER TABLE `user_course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -213,7 +215,7 @@ CREATE TABLE `users` (
   `identification` enum('student','teacher') NOT NULL,
   `profilepicture` varchar(45) NOT NULL DEFAULT 'default.jpg',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -222,7 +224,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'2165500','admin','Mary','Gelidon','teacher','default.jpg'),(2,'0000','admin','test','test','teacher','default.jpg'),(3,'2163054','2163054','Juan','Cruz','student','default.jpg'),(4,'2160316','password','Victoria','Buse','student','default.jpg'),(5,'2160051','2160051','Nix','Andres','student','2160051.jpg'),(6,'2156789','2156789','Bennie','Santos','student','default.jpg'),(7,'2160052','2160052','Erin','Villanueva','student','default.jpg'),(8,'2160053','2160053','Alfonso','Valdez','student','default.jpg');
+INSERT INTO `users` VALUES (1,'2165500','admin','Mary','Gelidon','teacher','default.jpg'),(2,'0000','admin','test','test','teacher','default.jpg'),(3,'2163054','2163054','Juan','Cruz','student','default.jpg'),(4,'2160316','password','Victoria','Buse','student','2160316.jpg'),(5,'2160051','2160051','Nix','Andres','student','2160051.jpg'),(6,'2156789','2156789','Bennie','Santos','student','default.jpg'),(7,'2160052','2160052','Erin','Villanueva','student','default.jpg'),(8,'2160053','2160053','Alfonso','Valdez','student','default.jpg'),(9,'teacher','teacher','Michael','Pinto','teacher','default.jpg');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -235,4 +237,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-05  2:53:28
+-- Dump completed on 2018-07-05 16:00:36

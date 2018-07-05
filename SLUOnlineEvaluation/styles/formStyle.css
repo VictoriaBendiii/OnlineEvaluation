@@ -1,0 +1,698 @@
+/*At-Rules*/
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url('https://fonts.googleapis.com/css?family=Anonymous+Pro');
+
+/*selectors*/
+:root{
+	--color-font: #b6e5ff;
+	--bg-color: #efefefef;
+	--button-color: #7289da;
+}
+
+a{
+	text-decoration:none; 
+	color:white;
+}
+
+input[type="file"] {
+  display: none !important;
+}
+
+input[type="number"] {
+  	width: 50px;
+  	text-align: center;
+}
+
+input[name*="total"] {
+  	width: 30%;
+}
+
+/*id*/
+
+#uploadContainer {	
+	width: 50%;
+	height: auto;
+	padding: 13px;
+	margin: auto;
+	margin-top: 100px;
+}
+
+#uploadTypeContainer {	
+	background-color: var(--color-font);
+	width: 60%;
+	height: auto;
+	padding: 13px;
+	margin: 0 auto;
+	margin-top: 5%;
+}
+
+#uploadBlock{
+	display: inline-block;
+	padding: 1em;
+}
+
+#form1Btn{
+	width: 250px;
+  	height: 200px;
+  	background-image: url('pictures/form1.png');
+  	background-size: cover;
+  	background-color: #eee;
+  	border-radius: 15px;
+}
+
+#form1Btn:hover{
+	cursor: pointer;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+#form2Btn{
+	width: 250px;
+  	height: 200px;
+  	background-image: url('pictures/form2.png');
+  	background-size: cover;
+  	background-color: #eee;
+  	border-radius: 15px;
+}
+
+#form2Btn:hover{
+	cursor: pointer;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+#upContainer{
+	margin: 0 auto;
+	text-align: center;
+	font-family: 'Quicksand', sans-serif;
+	font-size: 20px;
+}
+
+#score{
+	font-family: 'Quicksand', sans-serif;
+	font-size: 20px;
+}
+
+#radioAlign{
+	display: inline-block;
+}
+
+#dueDate{
+	font-family: 'Quicksand', sans-serif;
+	font-size: 20px;
+	margin-bottom: 3%;
+	margin-left: 39px;
+}
+
+#dueCal{
+	font-family: 'Quicksand', sans-serif;
+	font-size: 20px;
+	margin-bottom: 3%;
+	margin-left: 3%;
+}
+
+#group{
+	font-family: 'Quicksand', sans-serif;
+	font-size: 20px;
+	margin-left: 39px;
+}
+
+#groupBox{
+	font-family: 'Quicksand', sans-serif;
+ 	font-size: 20px;
+ 	display: inline-block;
+ 	left: 58px;
+ 	position: relative;
+ 	margin-bottom: 40px;
+}
+
+#title{
+	font-family: 'Quicksand', sans-serif;
+	font-size: 18px;
+	margin-bottom: 3%;
+	margin-left: 10%;
+	width: 50%;
+	height: auto;
+}
+
+#desc{
+	font-family: 'Quicksand', sans-serif;
+	font-size: 18px;
+	margin-bottom: 3%;
+	margin-left: 23%;
+	width: 50%;
+}
+
+#note{
+	font-family: 'Quicksand', sans-serif;
+	font-size: 18px;
+	margin-bottom: 3%;
+	margin-left: 39px;
+}
+
+#uploadTitle{
+	font-family: 'Quicksand', sans-serif;
+	font-size: 28px;
+	text-align: center;
+}
+
+#expTime{
+	font-family: 'Quicksand', sans-serif;
+	font-size: 20px;
+	margin-bottom: 3%;
+	margin-left: 9%;
+}
+
+#formTitle{
+	position: absolute;
+	width: 100%;
+	top: 100px;
+	text-align: center;
+	font-family: 'Quicksand', sans-serif;
+	font-size: 28px;
+}
+
+#rating{
+	text-align: left;
+	font-family: 'Quicksand', sans-serif;
+	font-size: 20px;
+	margin-left: 9%;
+}
+
+#expForm{
+	position: absolute;
+	top: calc(47% + 20px);
+	text-align: center;
+	font-family: 'Quicksand', sans-serif;
+	font-size: 20px;
+	width: 100%;
+}
+
+#formChoice{
+	display: inline-block;
+	padding: .7em;
+	font-family: 'Quicksand', sans-serif;
+	font-size: 20px;
+}
+
+#ratingWrapper{
+	text-align: center;
+	margin: 0 auto;
+}
+
+#criteria{
+	text-align: left;
+	margin-left: 5%;
+	line-height: 1.5;
+	font-family: 'Quicksand', sans-serif;
+	font-size: 20px;
+}
+
+#formContainer{
+	width: 90%;
+	margin: 0 auto;
+	position: absolute;
+	left: 5%;
+	top: 200px;
+	padding-bottom: 5%;
+}
+
+#submitBtn{
+	font-family: 'Quicksand', sans-serif;
+	float: right;
+	margin-top: 3%;
+	padding: 10px 15px 11px;
+	font-size: 18px;
+	background-color: rgb(43, 56, 86);
+	font-weight: bold;
+	text-shadow: 1px 1px rgb(43, 56, 86);
+	color: #ffffff;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid rgb(43, 56, 86);
+	cursor: pointer;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+	-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+}
+
+#submitBtn:hover{
+	cursor: pointer;
+	color: rgb(43, 56, 86);
+	background-color: #ffffff;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+}
+
+#backBtn{
+	font-family: 'Quicksand', sans-serif;
+	margin-top: 1%;
+	margin-left: calc(47% - 15px);
+	padding: 10px 15px 11px;
+	font-size: 18px;
+	background-color: rgb(43, 56, 86);
+	font-weight: bold;
+	text-shadow: 1px 1px rgb(43, 56, 86);
+	color: #ffffff;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid rgb(43, 56, 86);
+	cursor: pointer;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+	-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+}
+
+#backBtn:hover{
+	cursor: pointer;
+	color: rgb(43, 56, 86);
+	background-color: #ffffff;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+}
+
+#backBtnForm{
+	font-family: 'Quicksand', sans-serif;
+	position: absolute;
+	top: 55%;
+	left: calc(47% - 15px);
+	padding: 10px 15px 11px;
+	font-size: 18px;
+	background-color: rgb(43, 56, 86);
+	font-weight: bold;
+	text-shadow: 1px 1px rgb(43, 56, 86);
+	color: #ffffff;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid rgb(43, 56, 86);
+	cursor: pointer;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+	-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+}
+
+#backBtnForm:hover{
+	cursor: pointer;
+	color: rgb(43, 56, 86);
+	background-color: #ffffff;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+}
+
+#backBtnForm1{
+	font-family: 'Quicksand', sans-serif;
+	position: absolute;
+	top: 55%;
+	left: calc(50% - 15px);
+	padding: 10px 15px 11px;
+	font-size: 18px;
+	background-color: rgb(43, 56, 86);
+	font-weight: bold;
+	text-shadow: 1px 1px rgb(43, 56, 86);
+	color: #ffffff;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid rgb(43, 56, 86);
+	cursor: pointer;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+	-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+}
+
+#backBtnForm1:hover{
+	cursor: pointer;
+	color: rgb(43, 56, 86);
+	background-color: #ffffff;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+}
+
+#backBtnForm2{
+	font-family: 'Quicksand', sans-serif;
+	display: inline-block;
+	position: absolute;
+	top: 55%;
+	left: calc(41% - 15px);
+	padding: 10px 15px 11px;
+	font-size: 18px;
+	background-color: rgb(43, 56, 86);
+	font-weight: bold;
+	text-shadow: 1px 1px rgb(43, 56, 86);
+	color: #ffffff;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid rgb(43, 56, 86);
+	cursor: pointer;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+	-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+}
+
+#backBtnForm2:hover{
+	cursor: pointer;
+	color: rgb(43, 56, 86);
+	background-color: #ffffff;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+}
+
+#submitGroup
+
+/*class*/
+.quiz{
+	margin: auto;
+	font-family: 'Quicksand', sans-serif;
+	font-size: 20px;
+}
+
+.submitButton{
+	position: relative;
+	display: inline-block;
+	left: 65%;
+	border-radius: 5px;
+	background-color: var(--button-color);
+	color: white;
+	width: 120px;
+	height: 70px;
+	font-family: 'Quicksand', sans-serif;
+	font-size: 20px;
+}
+
+.submitButton:hover{
+	background-color: #5bd961;
+	cursor: pointer;
+}
+
+.uploadButton{
+	border-radius: 5px;
+	background-color: var(--button-color);
+	color: white;
+	width: 120px;
+	height: 70px;
+	font-family: 'Quicksand', sans-serif;
+	font-size: 20px;
+	position: relative;
+	left: 50%;
+    transform: translateX(-50%);
+}
+
+.uploadButton:hover{
+	background-color: #5bd961;
+	cursor: pointer;
+}
+
+.continueButton{
+	position: relative;
+	left: 70%;
+	border-radius: 5px;
+	background-color: var(--button-color);
+	color: white;
+	width: 200px;
+	height: 70px;
+	font-family: 'Quicksand', sans-serif;
+	font-size: 20px;
+	padding: 10px;
+}
+
+.continueButton:hover{
+	background-color: #5bd961;
+	cursor: pointer;
+}
+
+.btn {
+ 	font-family: 'Quicksand', sans-serif;
+  	color: #ffffff !important;
+  	border-radius: 5px;
+  	font-size: 20px;
+  	background-color: var(--button-color);
+  	padding: 10px 20px 10px 20px;
+  	text-decoration: none;
+  	margin-left: 23%;
+}
+
+.btn:hover{
+	background-color: #5bd961;
+	cursor: pointer;
+}
+
+.file-name {
+ 	font-family: 'Quicksand', sans-serif;
+ 	font-size: 20px;
+}
+
+.inpCont{
+	display: inline-block;
+    position: relative;
+    margin-left: 10%;
+    margin-top: 3%;
+    width: 30%;
+}
+
+.containerInp {
+	font-family: 'Quicksand', sans-serif;
+	cursor: pointer;
+    font-size: 20px;  
+    margin-left: 2em; 
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.containerInp input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #B6B6B4;
+}
+
+.containerInp:hover input ~ .checkmark {
+    background-color: #989896;
+}
+
+.containerInp input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.containerInp input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.containerInp .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.tableForm {
+	margin-top: 5%;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 20px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.tableForm td, .tableForm th {
+    text-align: center;
+    padding: 8px;
+}
+
+.tableForm tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.tableForm tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.tableContainer{
+	width: 90%;
+	margin: 0 auto;
+}
+
+.tableFormGroup {
+	margin-top: 5%;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 20px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.tableFormGroup td, .tableFormGroup th {
+    text-align: center;
+    padding: 8px;
+}
+
+.tableFormGroup tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.tableFormGroup tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.tableContainerGroup{
+	width: 50%;
+	margin: 0 auto;
+}
+
+.cover{
+	padding-top: 20px;
+	padding-bottom: 20px; 
+	position: absolute;
+	background-color: rgb(52, 75, 99);
+	top: 76px;
+	background: ;
+	font-family: 'Quicksand', sans-serif;
+    font-size: 24px;
+    color: white;
+    width: 100%;
+    text-align: center;
+}
+
+.editForm{
+	position: absolute;
+	top: 286px;
+	left: 30%;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+	width: 50%;
+	padding: 18px;
+	font-size:20px;
+	text-align: center
+}
+
+.formActivities{
+	position: absolute;
+	top: 386px;
+	width: 20%;
+	left: 2%;
+	font-family: 'Quicksand', sans-serif;
+    font-size: 20px;
+    border-right: 1px solid #777;
+}
+
+.grouplabel{
+	display: block;
+	padding-top: 9px;
+}
+.grouplabel:hover{
+	font-weight: bold;
+	text-decoration: none;
+	color: #000000;
+}
+
+.teacherNavigation{
+	position: absolute;
+	top: 286px;
+	width: 20%;
+	left: 2%;
+	font-family: 'Quicksand', sans-serif;
+    font-size: 20px;
+}
+.teacherNavigation a:hover{
+	font-weight: bold;
+	text-decoration: none;
+	color: #000000;
+}
+.tnavicon{
+	height: 24px;
+	width: 24px;
+}
+
+
+.file-name {
+ 	font-family: 'Quicksand', sans-serif;
+ 	font-size: 20px;
+}
+
+.inpCont{
+	display: inline-block;
+    position: relative;
+    margin-left: 10%;
+    margin-top: 3%;
+    width: 30%;
+}
+
+.container {
+	font-family: 'Quicksand', sans-serif;
+	cursor: pointer;
+    font-size: 20px;  
+    margin-left: 2em; 
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #D4D4D2;
+}
+
+.container:hover input ~ .checkmark {
+    background-color: #989896;
+}
+
+.container input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}

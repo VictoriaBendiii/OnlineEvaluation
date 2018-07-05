@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>SLU Peer Evaluation | Home</title>
+        <link rel="stylesheet" href="css/astyle.css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="icon" href="css/images/slogo.png">
+        <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    </head>
+    
+    <body>
+        
+        <div class="wrapper">
+            <header>
+                <nav style="z-index: 1000; background-color: RGBA(92,115,139, 0.6);">
+                    <div class="menu-icon">
+                        <i class="fa fa-bars fa-2x"></i>
+                    </div>
+					<img src="css/images/slogo.png" style="height: 45px; width: 36px; position: fixed; top: 10px; left: 10px;">
+                    <div class="logo">&emsp;SLU Peer Evaluation</div>
+                    <div class="menu">
+                        <ul>
+                            <li><a href="homepageStudent.php">Home</a></li>
+							<li><a class="active" href="about.html">About</a></li>
+                            <li><a href="calendar.php">Calendar</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+		
+		<div id="text">
+		<div class="pics">
+		<img id="users" src="css/images/users.png">
+		<img id="evaluate" src="css/images/evaluate.png">
+		<img id="a" src="css/images/a.png">
+		<img id="b" src="css/images/b.png">
+		</div>
+		
+		<center><p class="words" style="font-size: 38px;">SLU Peer Evaluation</p></center>
+		<div class="contents">
+		<p class="subwords">SLU Peer Evaluation is a website that allows teachers to upload peer evaluation form formats which will be filled in by students. 
+		The file to be uploaded is in JSON which will then be translated into an online evaluation form. The teacher must also specify which class code will 
+		answer the evaluation form.</p>
+		<p class="textTitle" style="color: #FFFFFF; background-color: #2B3856; padding: 20px;">Who can use this</p> 
+		<br> 
+		<p style="color: #2B3856;">&emsp; As of now the website is under testing but it is planned to be used by teachers and students who currently 
+		belong to Saint Louis University Philippines. Also, those with slu.edu.ph gmail accounts can already use the website.</p>
+		<br>
+		<p class="textTitle" style="color: #FFFFFF; background-color: #2B3856; padding: 20px;">How to use this</p> 
+		<br> 
+		<p style="color: #2B3856; font-size: 24px; font-weight: bold;">For Teachers</p><br>
+		<p style="color: #2B3856;">
+			&emsp;1. Create a peer evaluation form format in JSON.<br>
+			&emsp;2. Specify which class code will be using the evaluation form format.<br>
+			&emsp;3. Check the generated online evaluation form.<br>
+			&emsp;4. Notify students to answer the peer evaluation form.<br>
+		</p>
+		<br>
+		<p style="color: #2B3856; font-size: 24px; font-weight: bold;">For Students</p><br>
+		<p style="color: #2B3856;">
+			&emsp;1. After receiving the notification that the student can now fill in a peer evaluation form, the student may go to the website and login 
+			using the same account they use in google classroom. If the student has a direct email with the link of the page with the peer evaluation form, 
+			the student may immediately answer.<br>
+			&emsp;2. Click the “Peer Evaluations” tab then choose from the portion displaying unanswered peer evaluation forms.<br>
+			&emsp;3. Answer the peer evaluation form.<br>
+			&emsp;4. Submit the answered peer evaluation form.<br>
+		</p>
+		<br>
+		<br>
+		</div>
+				
+        <script type="text/javascript">
+        
+        $(function() {
+           var welcomeSection = $('.welcome-section'),
+               enterButton = welcomeSection.find('.enter-button');
+            
+            setTimeout(function() {
+                welcomeSection.removeClass('content-hidden');
+            },800);
+            
+            enterButton.on('click', function(e){
+               e.preventDefault();
+                welcomeSection.addClass('content-hidden').fadeOut();
+            });
+        });
+            
+        </script>
+        
+        <script type="text/javascript">
+        
+        $(document).ready(function(){
+            $(".menu-icon").on("click", function(){
+                $("nav ul").toggleClass("showing");
+            });
+        });
+            
+        $(window).on("scroll", function(){
+            if($(window).scrollTop()) {
+                $('nav').addClass('black');
+            } else {
+                $('nav').removeClass('black');
+            }
+        })    
+            
+        </script>
+    </body>
+</html>

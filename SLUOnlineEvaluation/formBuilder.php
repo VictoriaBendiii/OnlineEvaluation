@@ -22,6 +22,14 @@
         <link rel="stylesheet" href="assets/css/style.css">
         <link rel='stylesheet' id='camera-css'  href='assets/css/camera.css' type='text/css' media='all'>
             <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+		<style>
+		body{
+			overflow-x: hidden;
+		}
+		#tableForms tr:nth-child(2n) {
+			background-color: transparent!important;
+		}
+		</style>
     </head>
 
     <body>
@@ -325,47 +333,23 @@
                     }
 
                     echo "<br></div>
-                            <div class='tableContainer'>
+                            <div class='tableContainer' id='tableForms'>
                             <form action='successfulEval.php' method='post'>                          
-                            <table class='tableForm'>
-                                <tr>
-                                    <th>Criteria</th>
-                                    <th>Members</th>
-                                    <th colspan='$length'>Score</th>
-                                    <th>Remarks</th>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>";
-                    for($ctr = 0; $ctr < $length; $ctr++){
-                        $c = $formCriterias['choices'][$ctr];
-                        $val = $length - $ctr;
-                        echo "<td>".$c."<br>"."$val</td>";
-                    }
-                    echo "<td></td>
-                          <td></td>
-                          </tr>";
+                            <table class='tableForm'>";
 
                     for($ctr = 1; $ctr < $size_ctria; $ctr++){
                         $criteria = $formCriteria[$ctr]['criteria'];
                         echo "<tr>
-                                <td>$criteria</td>
-                                <td></td>";
-                        for($ct = 0; $ct < $size_criteria; $ct++){
-                            echo "<td></td>";
-                        }
-                        echo "<td></td></tr>";
-
+                                <td style='text-align: left;'>$ctr. $criteria</td>
+                              </tr>";
                         for($i = 0; $i < $size_groupmates; $i++){
                             echo "<tr>
-                                    <td></td>
-                                    <td>$groupmates[$i]</td>";
+                                    <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;$groupmates[$i]</td>";
                             for($j = 0; $j < $length; $j++){
                                 $c = $formCriterias['choices'][$j];
-                                echo "<td><input type='radio' name='".$groupmates[$i].$ctr."[]' value='".$c."' required></td>";
+                                echo "<td><input type='radio' name='".$groupmates[$i].$ctr."[]' value='".$c."' required> $c</td>";
                             }
-                            echo "<td><input type='text' name='remarks[]' required></td>
-                            </tr>";
+                            echo "<td style='opacity: 0;'>$c$c$c$c</td></tr>";
                         }
                     }
                     echo "</div>";                  
@@ -407,31 +391,21 @@
                     $number = 1;
                     $totalnumber = 1;
 
-                    echo "<br></div>
-                            <div class='tableContainer'>
+                    echo "</div>
+                            <div class='tableContainer' id='tableForms' style='position: relative; top: -50px;'>
                             <form action='successfulEval.php' method='post'>                          
-                            <table class='tableForm'>
-                                <col width='350'>
-                                <col width='250'>
-                                <tr>
-                                    <th>Criteria</th>
-                                    <th>Members</th>
-                                    <th>Remarks</th>
-                                </tr>";
+                            <table class='tableForm'>";
 
                     for($ctr = 1; $ctr < $size_ctria; $ctr++){
                         $criteria = $formCriteria[$ctr]['criteria'];
                         echo "<tr>
-                                <td>$criteria</td>
-                                <td></td>
-                                <td></td>
+                                <td style='text-align:left;'>$criteria</td>
                               </tr>";
 
                         for($i = 0; $i < $size_groupmates; $i++){
                             echo "<tr>
-                                    <td></td>
-                                    <td>$groupmates[$i]</td>
-                                    <td><input type='text' maxlength='500' name='remarks[]' required>
+                                    <td>$groupmates[$i]:</td></tr>
+                                    <tr><td><textarea style='width: 60%; padding: 9px 12px; margin-bottom: 40px; resize:none;' maxlength='500' name='remarks[]' required></textarea></td>
                                     </tr>";
                         }
                     }

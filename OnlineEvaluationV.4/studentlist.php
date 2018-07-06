@@ -9,7 +9,7 @@
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>SLU Peer Evaluation | Done Groups</title>
+        <title>SLU Peer Evaluation | Course Students</title>
         <link rel="stylesheet" href="css/styles.css"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="icon" href="css/images/slogo.png">
@@ -21,6 +21,63 @@
 	<link rel="stylesheet" href="assets/css/style.css">
     <link rel='stylesheet' id='camera-css'  href='assets/css/camera.css' type='text/css' media='all'>
         <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+		<script src="typeahead.min.js"></script>
+	<style type="text/css">
+	#studentbutton:hover{
+		filter: grayscale(100%);
+	}
+	.bs-example{
+	font-family: sans-serif;
+	position: relative;
+	margin: 50px;
+}
+.typeahead, .tt-query, .tt-hint {
+	border: 2px solid #CCCCCC;
+	border-radius: 8px;
+	font-size: 24px;
+	height: 30px;
+	line-height: 30px;
+	outline: medium none;
+	padding: 8px 12px;
+	width: 396px;
+}
+.tt-hint{
+			opacity: 0;
+		}
+.typeahead {
+	background-color: #FFFFFF;
+}
+.typeahead:focus {
+	border: 2px solid #0097CF;
+}
+.tt-query {
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+.tt-hint {
+	color: #999999;
+}
+.tt-dropdown-menu {
+	background-color: #FFFFFF;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 8px;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	margin-top: 12px;
+	padding: 8px 0;
+	width: 422px;
+}
+.tt-suggestion {
+	font-size: 24px;
+	line-height: 24px;
+	padding: 3px 20px;
+}
+.tt-suggestion.tt-is-under-cursor {
+	background-color: #0097CF;
+	color: #FFFFFF;
+}
+.tt-suggestion p {
+	margin: 0;
+}
+	</style>
     </head>
     
     <body>
@@ -50,44 +107,7 @@
                         </ul>
                     </div>
                 </nav>
-		
-		<div id="groupaccordions">
-		<?php 
-		//$course = $_POST['courseCode'];
-		$course = $_SESSION['course'];
-		$form_ID = $_POST['formID'];
-        $query = mysqli_query($conn, "SELECT COUNT(DISTINCT(group_form.groupID)) AS groupNumbers FROM user_course JOIN group_form ON courseCodeForm = courseCode WHERE courseCode='$course' AND formID = $form_ID;");
-
-        while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-			$groupnums = $row['groupNumbers'];
-        }
-		
-		//echo "<center><p id='classCode'>$course</p></center>";
-		echo "<center><p id='classCode'>$course</p></center>";
-		
-		for($i = 1; $i <= $groupnums; $i++){
-		$querys = mysqli_query($conn, "SELECT users.username AS username, CONCAT(users.firstname,' ',users.lastname) AS fullname, users.profilepicture AS profpic FROM user_course JOIN users USING(id) WHERE courseCode='$course' AND user_course.groupID=$i ORDER BY users.lastname;");
-		echo "<button class='accordion' id='doneText'>Group $i</button> <div class='panel'>";
-					while($row = mysqli_fetch_array($querys, MYSQLI_ASSOC)) {
-					$profpic = $row["profpic"];
-					$fullname = $row["fullname"];
-					$username = $row["username"];
-					$queryt = mysqli_query($conn, "SELECT DISTINCT CASE WHEN EXISTS(SELECT * FROM result JOIN users ON users.username = result.evaluator WHERE formID = $form_ID AND users.username = '$username') THEN 'images/check.png' ELSE 'images/x.png' END AS isdone FROM result JOIN users ON users.username = result.evaluator;");
-					while($rows = mysqli_fetch_array($queryt, MYSQLI_ASSOC)) {
-					$isdone = $rows["isdone"];
-					echo "<img src='images/profilepictures/$profpic' style='height: 50px; width: 50px; padding: 2px;' alt='profile picture'>";
-					echo "&emsp;";
-					echo "$fullname&nbsp;<img src='$isdone' style='height: 30px; width: 30px; padding: 2px;' alt='mark'>";
-					echo "<br>";
-						}
-					}
-		echo "</div>";
-		}
-
-        ?>
-		</div>
-
-	  <div id="pictureNavigation" style="display: none;">
+	<div id="pictureNavigation" style="display: none;">
 		<ul>
 		<li><a href="teacherpage.php"><img src='images/class.png' class='picnavicon'> Classes</a></li>
 		<li><a href="profteacher.php"><img src='images/profile.png' class='picnavicon'> Profile</a></li>
@@ -171,8 +191,51 @@
 				x.style.display = "none";
 			}
 		}
-            
         </script>
-        </div>
-    </body>
+		<script>
+		$(document).ready(function(){ 	 	
+		$('input.typeahead').typeahead({
+        name: 'typeahead',
+        remote:'search.php?key=%QUERY',
+        limit : 10
+			});
+		});
+		</script>
+		<div id="groupaccordions">
+		<?php 
+		$course = $_SESSION['course'];
+        $query = mysqli_query($conn, "SELECT users.id as id, CONCAT(users.firstname,' ',users.lastname) as name, users.username as username, users.profilepicture as profilepicture FROM users JOIN user_course USING (id) WHERE user_course.courseCode = '$course' AND users.identification='student';");
+		
+		echo "<center><p id='classCode'>Students Enrolled in $course</p><br>";
+		echo "<form action='addstudenttocourse.php' id='addstuds' method='get' style='display: inline;'>
+					<input type='text' style='font-size: 19px; padding: 5px;' autocomplete='off' spellcheck='false' name='idnumber' class='typeahead tt-query' id='typeahead' placeholder='ID number'>
+					<input type='hidden' name='course' value='$course'>
+					<button type='submit' id='studentbutton' style='margin:0%; padding: 0; border: none; background: none;'><img src='images/add.png' style='height: 28px; width: 28px; padding: 2px;' alt='mark' id='adds'></button>
+              </form>";
+	    echo "<h1> </h1>";
+		echo "<table>";
+        while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+			$ids = $row['id'];
+			$fullname = $row['name'];
+			$usersnames = $row['username'];
+			$profpic = $row['profilepicture'];
+			echo "<td><img src='images/profilepictures/$profpic' style='height: 50px; width: 50px; padding: 2px;' alt='profile picture'></td>";
+			echo "<td><p style='font-size: 21px;'>&nbsp;$fullname&emsp;</p></td>
+				<td><form action='removestudent.php' id='studentbutton$ids' method='post' style='display: inline;'>
+				<input type='hidden' name='id' value='$ids'>
+					<input type='hidden' name='course' value='$course'>
+					<input type='hidden' name='fullname' value='$fullname'>
+					<button type='button' id='studentbutton' style='margin:0%; padding: 0; border: none; background: none;' onclick=\"(function(){
+						if(confirm('Are you sure you want to remove $fullname?')){
+							$('#studentbutton$ids').submit();
+						}
+					})();return false;\"><img src='images/x.png' style='height: 20px; width: 20px; padding: 2px;' alt='mark' id='removes'></button>
+              </form></td>";
+			  echo "</tr>";
+        }
+			  echo "</table></center>";
+        ?>
+		</div>
+	</body>
+
 </html>

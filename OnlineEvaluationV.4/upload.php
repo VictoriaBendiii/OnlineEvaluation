@@ -1,4 +1,8 @@
-<?php include('connection.php');?>
+<?php include('connection.php');
+    if(!isset($_SESSION['username'])){
+        header('Location: login.php');
+    }
+?>
 <?php
     $user = $_SESSION['username'];
     $due = strtotime($_POST["due"]);
@@ -216,8 +220,8 @@
       <p id="uploadTitle">Upload Evaluation</p>
         <form action="upload.php" method="POST" enctype="multipart/form-data" class="file-upload">  
             <label for="title" id="group">Title: </label>
-            <input type="text" name="title" id="title" placeholder="Prelims Evaluation Form" required><br>
-            <textarea name="desc" rows="4" cols="30" id="desc">Description...</textarea><br>
+            <input type="text" name="title" id="title" placeholder="Prelims Evaluation Form" maxlength="50" required><br>
+            <textarea name="desc" rows="4" cols="30" id="desc" maxlength="500">Description...</textarea><br>
             <label for="dueDate" id="dueDate">Due Date: </label>
             <input type="date" name="due" id="dueCal" required /><br>
             <label for="expTime" id="dueDate">Time: </label>

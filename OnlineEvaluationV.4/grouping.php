@@ -1,4 +1,8 @@
-<?php include('connection.php');?>
+<?php include('connection.php');
+    if(!isset($_SESSION['username'])){
+        header('Location: login.php');
+    }
+?>
 <html>
     <head>
         <meta name=viewport content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -143,7 +147,9 @@
     $rowcount = mysqli_num_rows($query);
     if($rowcount == 0){
         exit("<div id='expForm'>There are currently no students enrolled.</div>
-        <form action='teacherpage.php'>
+        <form action='teacherForm.php'>
+        <input type='hidden' value='".$_SESSION['courseCode']."' name='courseCode'>
+        <input type='hidden' value='".$_SESSION['courseName']."' name='courseName'>
         <input type='submit' value='Go Back' id='backBtnForm'>
         <form>");
     }

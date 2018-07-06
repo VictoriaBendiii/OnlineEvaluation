@@ -1,4 +1,8 @@
 <?php include('connection.php');
+    if(!isset($_SESSION['username'])){
+        header('Location: login.php');
+    }
+
 	$user = $_SESSION['username'];
 	$form = $_POST["form"];
 	$course = $_POST["course"];
@@ -180,7 +184,9 @@
     	<div id='expForm'>
     		Your evaluation is successfully submitted.
     	</div>
-        <form action='classes.php'>
+        <form action='course.php'>
+        <input type='hidden' value='<?php echo $_SESSION['courseCode']; ?>' name='courseCode'>
+        <input type='hidden' value='<?php echo $_SESSION['courseName']; ?>'' name='courseName'>
         <input type='submit' value='Go Back' id='backBtnForm'>
         <form>
 	</body>

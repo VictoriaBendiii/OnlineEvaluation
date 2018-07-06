@@ -1,12 +1,17 @@
-<?php include('connection.php'); ?>
+<?php include('connection.php'); 
+    if(!isset($_SESSION['username'])){
+        header('Location: login.php');
+    }
+?>
 <html>
     <head>
         <link href="styles/formStyle.css" rel="stylesheet" type="text/css"/>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>SLU Peer Evaluation | Form</title>
+        <title>SLU Peer Evaluation | Results</title>
         <link rel="stylesheet" href="css/styles.css"/>
+        <link href="styles/formStyle.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="icon" href="css/images/slogo.png">
         <link rel="favicon" href="assets/images/favicon.png">
@@ -185,9 +190,29 @@
             $data = file_get_contents($url); 
             $formCriteria = json_decode($data, true);
 
+            if($formCriteria[0]['criteria'] != 'choices'){
+                exit("<div id='expForm'>There is something wrong with the evaluation form. Please check your JSON  file and follow the format as seen below.<br>
+                    <div style='text-align: left; margin-left: 190px;'><b>Example</b> <br>
+                    [
+                    {'criteria': 'choices', 'choices': ['1 - Poor', '2 - Fair', '3 - Satisfactory', '4 - Very Satisfactory', '5 - Excellent']}, <br>
+                    {'criteria': 'He/She attends activities regularly and on time.'}
+                    ]
+                    </div> <br>
+                    </div>
+                    <form action='teacherForm.php'>
+                    <input type='hidden' value='".$_SESSION['courseCode']."' name='courseCode'>
+                    <input type='hidden' value='".$_SESSION['courseName']."' name='courseName'>
+                    <input type='submit' value='Go Back' id='backBtnForm' style='margin-top:150px;'>
+                    <form>");
+            }
+
             if(filesize("$url") == 0){
-                echo '<h3 class="quiz" style="text-align:center;">There is something wrong with your form</h3>
-                      <button class="submitButton" onclick="formBuilder.php">Go Back</button>';
+                exit("<div id='expForm'>There is something wrong with the evaluation form. Please contact your instructor if this was a mistake.</div>
+                    <form action='teacherForm.php'>
+                    <input type='hidden' value='".$_SESSION['courseCode']."' name='courseCode'>
+                    <input type='hidden' value='".$_SESSION['courseName']."' name='courseName'>
+                    <input type='submit' value='Go Back' id='backBtnForm'>
+                    <form>");
             }
 
             echo "<div id='formContainer'>
@@ -502,6 +527,7 @@
     });
     function doExport(selector, params) {
       var options = {
+        fileName: '<?php echo $_SESSION['courseCode'].'-'.$form_Name;?>',
         tableName: 'Form Results',
         worksheetName: 'Form Results'
       };

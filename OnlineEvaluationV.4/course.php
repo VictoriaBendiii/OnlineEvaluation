@@ -1,10 +1,22 @@
-<?php include('connection.php'); ?>
+<?php include('connection.php');
+    if(!isset($_SESSION['username'])){
+        header('Location: login.php');
+    }
+
+    if(!isset($_SESSION['courseCode']) && !isset($_SESSION['courseName'])){
+        $_SESSION['courseCode'] = $_GET['courseCode'];
+        $_SESSION['courseName'] = $_GET['courseName'];
+    }else if($_SESSION['courseCode'] != $_GET['courseCode']) {
+        $_SESSION['courseCode'] = $_GET['courseCode'];
+        $_SESSION['courseName'] = $_GET['courseName'];
+    }      
+?>
 <html>
     <head>
         <meta name=viewport content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta charset="UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>SLU Peer Evaluation | Class</title>
+        <title>SLU Peer Evaluation | <?php echo $_SESSION['courseName']; ?></title>
         <link href="styles/formStyle.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -55,7 +67,10 @@
         </div>
  <?php 
     $user = $_SESSION['username'];
-    $course = $_POST["course"];
+    if(!isset($_SESSION['course'])){
+        $_SESSION['courseCode'] = $_GET["courseCode"];
+    }
+    $course = $_SESSION['courseCode'];
 
     $get_course = "SELECT * FROM peerpal.course JOIN user_course USING(courseCode) JOIN users USING(id) WHERE courseCode = '$course' AND identification != 'student';";
     $query = mysqli_query($conn, $get_course);
@@ -86,11 +101,10 @@
     }
  ?>
  <div class="cover">
-     <?php echo $_POST['courseCode'] ?> <br>
-     <?php echo $_POST['courseName'] ?> <br>
+     <?php echo $_SESSION['courseCode'] ?> <br>
+     <?php echo $_SESSION['courseName'] ?> <br>
      <?php echo $schedule ?> <br>
      <?php echo $instructor_name ?>
-     <?php $_SESSION["course"] = $_POST['courseCode'] ?>
  </div>
  <div class='formActivities' style="top: 286px;">
     Activities

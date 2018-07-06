@@ -1,4 +1,8 @@
-<?php include 'connection.php'?>
+<?php include('connection.php');
+	if(!isset($_SESSION['username'])){
+        header('Location: login.php');
+    }
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -55,7 +59,7 @@
 			$username = $_SESSION['username'];
 			if(isset($_POST['submit'])){
 			if( $_FILES["file"]['name'] != "" ) {
-			$uploadfolder = $_SERVER['DOCUMENT_ROOT']."/spew/images/profilepictures";
+			$uploadfolder = $_SERVER['DOCUMENT_ROOT']."/images/profilepictures";
 			$filename = $_FILES["file"]['name'];
 
 			move_uploaded_file( $_FILES["file"]['tmp_name'], "$uploadfolder/$username.jpg" ) or 

@@ -1,4 +1,8 @@
-<?php include('connection.php');?>
+<?php include('connection.php');
+    if(!isset($_SESSION['username'])){
+        header('Location: login.php');
+    }
+?>
 <html>
     <head>
         <meta name=viewport content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -137,7 +141,9 @@
           $rowcount = mysqli_num_rows($query);
           if($rowcount == 0){
                 exit("<div id='expForm'>There are currently no students enrolled.</div>
-                <form action='teacherpage.php'>
+                <form action='teacherForm.php'>
+                <input type='hidden' value='".$_SESSION['courseCode']."' name='courseCode'>
+                <input type='hidden' value='".$_SESSION['courseName']."' name='courseName'>
                 <input type='submit' value='Go Back' id='backBtnForm'>
                 <form>");
           }
@@ -146,8 +152,8 @@
       <p id="uploadTitle">Upload Evaluation</p>
         <form action="upload.php" method="POST" enctype="multipart/form-data" class="file-upload">  
             <label for="title" id="group">Title: </label>
-            <input type="text" name="title" id="title" placeholder="Prelims Evaluation Form" required><br>
-            <textarea name="desc" rows="4" cols="30" id="desc">Description...</textarea><br>
+            <input type="text" name="title" id="title" placeholder="Prelims Evaluation Form" maxlength="50" required><br>
+            <textarea name="desc" rows="4" cols="30" id="desc" maxlength="500">Description...</textarea><br>
             <label for="dueDate" id="dueDate">Due Date: </label>
             <input type="date" name="due" id="dueCal" required /><br>
             <label for="expTime" id="dueDate">Time: </label>

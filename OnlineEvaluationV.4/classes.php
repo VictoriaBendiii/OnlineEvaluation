@@ -1,4 +1,8 @@
-<?php include 'connection.php'?>
+<?php include('connection.php');
+    if(!isset($_SESSION['username'])){
+        header('Location: login.php');
+    }
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -57,7 +61,7 @@
                     if (mysqli_num_rows($result) > 0) {
                         
                         while($row = mysqli_fetch_assoc($result)) {
-                            echo "<form action='course.php' method='post'><div class='col-md-3'> <div class='grey-box-icon' style='height: 240px;'> <div class='icon-box-top grey-box-icon-pos'>
+                            echo "<form action='course.php' method='get'><div class='col-md-3'> <div class='grey-box-icon' style='height: 240px;'> <div class='icon-box-top grey-box-icon-pos'>
                                     <img src='assets/images/1.PNG' alt='' style='width: 100px; height: auto;' />
                                     </div><button type='submit' class='btn-link'><div style='position: relative; top: -40px;'><h4>&nbsp; <div> ".$row["courseCode"].  "<br>" . $row["courseName"]." <br></h4> </button>
                                     <input type='hidden' name='course' value='".$row['courseCode']."'>

@@ -1,4 +1,16 @@
-<?php include('connection.php'); ?>
+<?php include('connection.php'); 
+    if(!isset($_SESSION['username'])){
+        header('Location: login.php');
+    }
+
+    if(!isset($_SESSION['courseCode']) && !isset($_SESSION['courseName'])){
+        $_SESSION['courseCode'] = $_GET['courseCode'];
+        $_SESSION['courseName'] = $_GET['courseName'];
+    }else if($_SESSION['courseCode'] != $_GET['courseCode']) {
+        $_SESSION['courseCode'] = $_GET['courseCode'];
+        $_SESSION['courseName'] = $_GET['courseName'];
+    }
+?>
 <html>
     <head>
         <meta name=viewport content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -17,6 +29,11 @@
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="icon" href="css/images/slogo.png">
         <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+		<style>
+		#studentbutton:hover{
+			font-weight: bold;
+		}
+		</style>
     </head>
     <body>
         <div class="wrapper">
@@ -55,7 +72,7 @@
         </div>
  <?php 
  	$user = $_SESSION['username'];
-    $course = $_POST["course"];
+    $course = $_SESSION["courseCode"];
 
     $get_course = "SELECT * FROM peerpal.course JOIN user_course USING(courseCode) JOIN users USING(id) WHERE courseCode = '$course' AND identification != 'student';";
     $query = mysqli_query($conn, $get_course);
@@ -71,10 +88,10 @@
     while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
         $exp_time = date('h:i a', strtotime($row['expTime']));
         $due = $row['due'];
-        $date_now = date("Y-m-d", time());
+        $date_now = time();
         $time = $row['expTime'];
         $due = strtotime($due);
-        $now = strtotime($date_now);
+        $now = $date_now;
         date_default_timezone_set('Asia/Manila');
         $time_now = date("H:i:s");
         $time = strtotime($time);
@@ -114,14 +131,22 @@
     }
  ?>
  <div class="cover">
-     <?php echo $_POST['courseCode'] ?> <br>
-     <?php echo $_POST['courseName'] ?> <br>
+     <?php echo $_SESSION['courseCode'] ?> <br>
+     <?php echo $_SESSION['courseName'] ?> <br>
      <?php echo $schedule ?> <br>
      <?php echo $instructor_name ?>
-     <?php $_SESSION["course"] = $_POST['courseCode'] ?>
+     <?php $_SESSION["course"] = $_SESSION['courseCode'] ?>
  </div>
  <div class="teachernavigation">
 	<ul>
+		<?php 
+		echo "<form action='teacherForm.php' method='post'>
+                <div id='studbutton'>
+					<button type='submit' id='studentbutton' style='margin-left:0%; padding: 0; border: none; background: none;' formaction='studentlist.php'><img src='images/studs.png' class='tnavicon'> List of Students</button>
+					<input type='hidden' name='course' value='$course'>
+                </div>
+              </form>";
+		?>
         <li><a href="uploadForm.php"><img src='images/upload.png' class='tnavicon'> Upload New Form</a></li>
         <li><a href="grouping.php"><img src='images/group.png' class='tnavicon'> Group Students</a></li>
     </ul>

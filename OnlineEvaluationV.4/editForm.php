@@ -1,4 +1,7 @@
 <?php include('connection.php');
+    if(!isset($_SESSION['username'])){
+            header('Location: login.php');
+        }
   $course = $_POST["course"];
   $form_ID = $_POST["formID"];
   $get_form = "SELECT * FROM form WHERE formID = '$form_ID';"; 
@@ -71,7 +74,7 @@
       <p id="uploadTitle">Edit Evaluation</p>
         <form action="upload.php" method="POST" enctype="multipart/form-data" class="file-upload">  
             <label for="title" id="group">Title: </label>
-            <input type="text" name="title" id="title" value='<?php echo $name; ?>' required><br>
+            <input type="text" style="font-size: 18px;top: 0px;" name="title" id="title" value='<?php echo $name; ?>' required><br>
             <textarea name="desc" rows="4" cols="30" id="desc"></textarea><br>
             <label for="dueDate" id="dueDate">Due Date: </label>
             <input type="date" name="due" id="dueCal" value='<?php echo $due; ?>' required /><br>

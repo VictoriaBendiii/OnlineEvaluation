@@ -1,4 +1,8 @@
-<?php include 'connection.php'?>
+<?php include('connection.php');
+      if(!isset($_SESSION['username'])){
+        header('Location: login.php');
+    }
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -66,7 +70,7 @@
                                     <input type='hidden' name='courseCode' value='".$row['courseCode']."'>
 								  </form>
 										<br>
-									<form action='teacherForm.php' method='post'>
+									<form action='teacherForm.php' method='get'>
 										<img src='assets/images/1.PNG' alt='' style='width: 100px; height: auto;' />
                                     </div><button type='submit' class='btn-link'><div style='position: relative; top: -40px;'><h4>&nbsp; <div> ".$_SESSION["courseCode"].  "<br>" . $_SESSION["courseName"]." <br></h4> </button>
                                     <input type='hidden' name='course' value='".$row['courseCode']."'>

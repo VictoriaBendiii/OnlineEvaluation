@@ -1,4 +1,8 @@
-<?php include('connection.php');?>
+<?php include('connection.php');
+    if(!isset($_SESSION['username'])){
+        header('Location: login.php');
+    }
+?>
 <html>
     <head>
         <link href="styles/formStyle.css" rel="stylesheet" type="text/css"/>
@@ -135,12 +139,12 @@
     <?php
         $score_arr = array();
         $user = $_SESSION['username'];
-        $course = $_POST["course"];
-        //$group_ID = $_POST["groupID"];
+        $course = $_GET["course"];
+        //$group_ID = $_GET["groupID"];
         //$course = '9358A';
         $counter = 1; 
         $num = 1;     
-        $form_ID = $_POST["formID"];;
+        $form_ID = $_GET["formID"];;
         $group_ID = 0;
         $groupmates = array();
         $id = array();
@@ -151,7 +155,7 @@
         while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
             if($row['formID'] == NULL){
                 exit("<div id='expForm'>Your group is not allowed to fill up the form. Please contact your instructor if this is a mistake.</div>
-                    <form action='classes.php'>
+                    <form action='course.php'>
                     <input type='submit' value='Go Back' id='backBtnForm'>
                     <form>");
             }
@@ -170,7 +174,7 @@
             $url = 'uploads/'.$row['path'].'.json';
 
             $due = strtotime($due);
-            $now = strtotime($date_now);
+            $now = $date_now;
             date_default_timezone_set('Asia/Manila');
             $time_now = date("H:i:s");
             $time = strtotime($time);
@@ -178,14 +182,16 @@
 
             if(($due <= $now AND $time_now >= $time) OR ($due < $now AND $time_now < $time)){
                 exit("<div id='expForm'>You have already surpassed the due date and time. Please contact your instructor for further details.</div>
-                    <form action='classes.php'>
+                    <form action='course.php'>
+                    <input type='hidden' value='".$_SESSION['courseCode']."' name='courseCode'>
+                    <input type='hidden' value='".$_SESSION['courseName']."' name='courseName'>
                     <input type='submit' value='Go Back' id='backBtnForm'>
                     <form>");
             }
             echo "<h1 id='formTitle'>".$row['formName']."</h1>";
         }
 
-        $get_groupmates = "SELECT * FROM group_form JOIN user_course USING(groupID) JOIN users ON users.id = user_course.id WHERE identification = 'student' AND coursecodeForm = '$course' AND groupID = $group_ID AND username != '$user' AND courseCode = '$course' ORDER BY lastname;";
+        $get_groupmates = "SELECT * FROM group_form JOIN user_course USING(groupID) JOIN users ON users.id = user_course.id WHERE identification = 'student' AND coursecodeForm = '$course' AND groupID = $group_ID AND username != '$user' AND formID = $form_ID AND courseCode = '$course' ORDER BY lastname;";
         $query_Two = mysqli_query($conn, $get_groupmates);
         while($row = mysqli_fetch_array($query_Two, MYSQLI_ASSOC)) {
             $form_ID = $row['formID'];          
@@ -198,9 +204,22 @@
             $data = file_get_contents($url); 
             $formCriteria = json_decode($data, true);
 
+            if($formCriteria[0]['criteria'] != 'choices'){
+                exit("<div id='expForm'>There is something wrong with the evaluation form. Please contact your instructor if this was a mistake.</div>
+                    <form action='course.php'>
+                    <input type='hidden' value='".$_SESSION['courseCode']."' name='courseCode'>
+                    <input type='hidden' value='".$_SESSION['courseName']."' name='courseName'>
+                    <input type='submit' value='Go Back' id='backBtnForm'>
+                    <form>");
+            }
+
             if(filesize("$url") == 0){
-                echo '<h3 class="quiz" style="text-align:center;">There is something wrong with your form</h3>
-                      <button class="submitButton" onclick="formBuilder.php">Go Back</button>';
+                exit("<div id='expForm'>There is something wrong with the evaluation form. Please contact your instructor if this was a mistake.</div>
+                    <form action='course.php'>
+                    <input type='hidden' value='".$_SESSION['courseCode']."' name='courseCode'>
+                    <input type='hidden' value='".$_SESSION['courseName']."' name='courseName'>
+                    <input type='submit' value='Go Back' id='backBtnForm'>
+                    <form>");
             }
 
             echo "<div id='formContainer'>

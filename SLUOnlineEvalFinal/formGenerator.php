@@ -121,7 +121,7 @@
             <input type="text" name="title" id="title" placeholder="Prelims Evaluation Form" maxlength="50" required><br>
             <label for="typeEval" id="typeFormLabl" style="font-weight:normal;">Type of Evaluation: </label>
             <select name="typeEval" id="typeEval" style="margin-left: 1%;">
-            	<option value="Likert">Likert</option>
+            	<option value="Number-based">Number-based</option>
             	<option value="Multiple Choice">Multiple Choice</option>
             	<option value="Descriptive">Descriptive</option>
             </select><br>

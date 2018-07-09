@@ -48,7 +48,7 @@
 			$toJSON = $criteria_arr.$choices_arr.$crit_arr."]";
 			break;
 
-		case 'Likert':
+		case 'Number-based':
 			$criteria_arr = '[{"criteria":'.' '.'"'.'criteria'.'",';
 			$choices_arr = '"choices": [';
 			

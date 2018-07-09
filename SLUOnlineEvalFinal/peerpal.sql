@@ -71,7 +71,7 @@ CREATE TABLE `form` (
 
 LOCK TABLES `form` WRITE;
 /*!40000 ALTER TABLE `form` DISABLE KEYS */;
-INSERT INTO `form` VALUES (1,'Web Technology Peer Eval Prelims','This is the peer evaluation form for Web Technology Prelims','2018-07-04','9358A-Jam','21:30:00','form1'),(2,'Midterms Evaluation Form','Please make sure to fill the form properly and honestly.','2018-07-08','9358B-Midterms Evaluation Form','24:00:00','form1'),(3,'This is a form','This is a form','2018-07-08','9360-This is a form','24:00:00','form1'),(4,'Project Evaluation form','Please make sure to follow the guidelines','2018-07-08','9358A-Project Evaluation form','24:00:00','form1'),(5,'Prelims Evaluation','Please fill up accordingly','2018-08-01','9361-Prelims Evaluation','24:00:00','form1'),(6,'dfdsf','','1970-01-01','-dfdsf','00:00:00','form1'),(7,'fdf','','1970-01-01','-fdf','00:00:00','form1');
+INSERT INTO `form` VALUES (1,'Web Technology Peer Eval Prelims','This is the peer evaluation form for Web Technology Prelims','2018-07-04','9358A-Jam','21:30:00','form1'),(2,'Midterms Evaluation Form','Please make sure to fill the form properly and honestly.','2018-07-08','9358B-Midterms Evaluation Form','24:00:00','form1'),(3,'This is a form','This is a form','2018-07-08','9360-This is a form','24:00:00','form1'),(4,'Project Evaluation form','Please make sure to follow the guidelines','2018-07-10','9358A-Project Evaluation form','24:00:00','form1'),(5,'Prelims Evaluation','Please fill up accordingly','2018-08-01','9361-Prelims Evaluation','24:00:00','form1'),(6,'dfdsf','','1970-01-01','-dfdsf','00:00:00','form1'),(7,'fdf','','1970-01-01','-fdf','00:00:00','form1');
 /*!40000 ALTER TABLE `form` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,7 +155,7 @@ CREATE TABLE `result` (
   CONSTRAINT `courseCodeResult` FOREIGN KEY (`courseCode`) REFERENCES `course` (`courseCode`) ON UPDATE CASCADE,
   CONSTRAINT `formIDResult` FOREIGN KEY (`formID`) REFERENCES `form` (`formID`) ON UPDATE CASCADE,
   CONSTRAINT `groupIDResult` FOREIGN KEY (`groupID`) REFERENCES `group_form` (`groupID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,7 +164,7 @@ CREATE TABLE `result` (
 
 LOCK TABLES `result` WRITE;
 /*!40000 ALTER TABLE `result` DISABLE KEYS */;
-INSERT INTO `result` VALUES (5,NULL,4,1,'9358A','2160051','Bennie is a critical thinker.','6'),(6,NULL,4,1,'9358A','2160051','Erin is a good scheduler','7'),(7,NULL,4,1,'9358A','2160051','Bennie is always on schedule','6'),(8,NULL,4,1,'9358A','2160051','Erin might be late for 5 minutes or so but is nevertheless early','7'),(9,'Excellent',2,1,'9358B','2160052',NULL,'5'),(10,'Fair',2,1,'9358B','2160052',NULL,'6'),(11,'Excellent',2,1,'9358B','2160052',NULL,'5'),(12,'Fair',2,1,'9358B','2160052',NULL,'6'),(13,'Excellent',2,1,'9358B','2160052',NULL,'5'),(14,'Fair',2,1,'9358B','2160052',NULL,'6'),(15,'Excellent',2,1,'9358B','2160052',NULL,'5'),(16,'Fair',2,1,'9358B','2160052',NULL,'6'),(17,'Good',2,1,'9358B','2160051',NULL,'6'),(18,'Excellent',2,1,'9358B','2160051',NULL,'7'),(19,'Good',2,1,'9358B','2160051',NULL,'6'),(20,'Excellent',2,1,'9358B','2160051',NULL,'7'),(21,'Good',2,1,'9358B','2160051',NULL,'6'),(22,'Excellent',2,1,'9358B','2160051',NULL,'7'),(23,'Good',2,1,'9358B','2160051',NULL,'6'),(24,'Excellent',2,1,'9358B','2160051',NULL,'7'),(25,'3-3',5,1,'9361','2160051','Hard worker','4'),(27,'2-2',5,1,'9361','2160316','Good at communicating.','5');
+INSERT INTO `result` VALUES (1,'Excellent',2,1,'9358B','2160052',NULL,'5'),(2,'Fair',2,1,'9358B','2160052',NULL,'6'),(3,'Excellent',2,1,'9358B','2160052',NULL,'5'),(4,'Fair',2,1,'9358B','2160052',NULL,'6'),(5,'Excellent',2,1,'9358B','2160052',NULL,'5'),(6,'Fair',2,1,'9358B','2160052',NULL,'6'),(7,'Excellent',2,1,'9358B','2160052',NULL,'5'),(8,'Fair',2,1,'9358B','2160052',NULL,'6'),(9,'Good',2,1,'9358B','2160051',NULL,'6'),(10,'Excellent',2,1,'9358B','2160051',NULL,'7'),(11,'Good',2,1,'9358B','2160051',NULL,'6'),(12,'Excellent',2,1,'9358B','2160051',NULL,'7'),(13,'Good',2,1,'9358B','2160051',NULL,'6'),(14,'Excellent',2,1,'9358B','2160051',NULL,'7'),(15,'Good',2,1,'9358B','2160051',NULL,'6'),(16,'Excellent',2,1,'9358B','2160051',NULL,'7'),(17,'3-3',5,1,'9361','2160051','Hard worker','4'),(18,'2-2',5,1,'9361','2160316','Good at communicating.','5'),(19,NULL,4,1,'9358A','2160051','She gets the work done very early.','4'),(20,NULL,4,1,'9358A','2160051','He is very lazy.','6'),(21,NULL,4,1,'9358A','2160051','She is independent and needs no further instructions.','7'),(22,NULL,4,1,'9358A','2160051','Yes','4'),(23,NULL,4,1,'9358A','2160051','No, he says he always experience traffic.','6'),(24,NULL,4,1,'9358A','2160051','Yes','7'),(25,NULL,4,1,'9358A','2160051','She is a productive member of the group. She may sometimes need instruction. But overall, she is very productive.','4'),(26,NULL,4,1,'9358A','2160051','He is lazy. He does not do his assigned task. He is not productive.','6'),(27,NULL,4,1,'9358A','2160051','She is a good leader. She is very reliable. She is always able to answer queries.','7'),(35,NULL,4,1,'9358A','2160316','She is reliable.','5'),(36,NULL,4,1,'9358A','2160316','He is unproductive.','6'),(37,NULL,4,1,'9358A','2160316','She schedules work efficiently.','7'),(38,NULL,4,1,'9358A','2160316','Yes','5'),(39,NULL,4,1,'9358A','2160316','No. He is always stuck in traffic or so he says.','6'),(40,NULL,4,1,'9358A','2160316','Yes','7'),(41,NULL,4,1,'9358A','2160316','She is reliable. She is productive. She uses her time well.','5'),(42,NULL,4,1,'9358A','2160316','He is unreliable. He is dependent. He does not do his own work.','6'),(43,NULL,4,1,'9358A','2160316','She leads well. She organizes task well. She is a good leader.','7');
 /*!40000 ALTER TABLE `result` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -237,4 +237,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-09  3:28:54
+-- Dump completed on 2018-07-10  1:53:46

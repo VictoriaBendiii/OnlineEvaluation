@@ -523,7 +523,7 @@
                     echo "<br></div>
                             <div class='tableContainer'>
                             <form action='' method='post'>                          
-                            <table class='tableForm' id='tableForm'>
+                            <table class='tableForm' id='tableForm' style='margin-left:-5%;'>
                                 <tr>
                                     <th>Members</th>
                                     <th colspan='".$size_ctria*$length."'>Criteria</th>
@@ -1169,6 +1169,9 @@
             </form></div>";
         }else if($formCriteria[0]['criteria'] == 'descriptive'){
             $data = file_get_contents($url); 
+            $rem_arr = array();
+            $rem_ar = array();
+            $rem_a = array();
             $formCriteria = json_decode($data, true);
             $rem = '';
          
@@ -1184,43 +1187,42 @@
                     $totalnumber = 1;
 
                     echo "<br></div>
+                            <div id='rating' style='margin-bottom: 2%;'>Criteria:</div>
                             <div class='tableContainer'>
                             <form action='' method='post'>                          
                             <table class='tableForm' id='tableForm'>
                                 <col width='350'>
                                 <col width='250'>
                                 <tr>
-                                    <th>Criteria</th>
                                     <th>Members</th>
+                                    <th>Group #</th>
                                     <th>Remarks</th>
                                 </tr>";
 
-                    for($ctr = 1; $ctr < $size_ctria; $ctr++){
-                        $criteria = $formCriteria[$ctr]['criteria'];
-                        echo "<tr>
-                                <td>$criteria</td>
-                                <td></td>
-                                <td></td>
-                              </tr>";
-
-                        for($i = 0; $i < $size_groupmates; $i++){
-                            echo "<tr>
-                                    <td></td>
-                                    <td>$groupmates[$i]</td>";
-                            $name_gr = $groupmates[$i];
-                            $query_remarks = "SELECT remarks from result JOIN users ON userID = id WHERE formID = $form_ID AND CONCAT(firstname, ' ', lastname) LIKE '%$name_gr%' ORDER BY lastname;";
-                            $query_rem = mysqli_query($conn, $query_remarks);
-                            $counting = mysqli_num_rows($query_rem);
-                            if($counting == 0){
-                                $rem = 'No Available Remarks';
-                            }else{
-                                while($row = mysqli_fetch_array($query_rem, MYSQLI_ASSOC)){
-                                    $rem .= $row['remarks']."<br>";
-                                } 
-                            } 
-                            echo "<td>$rem</td></tr>"; 
-                            $rem = ''; 
+                    
+                    for($i = 0; $i < $size_groupmates; $i++){
+                        echo "<tr><td>$groupmates[$i]</td>
+                                <td>".$group_num[$i]."</td>";
+                        $name_gr = $groupmates[$i];
+                        $query_remarks = "SELECT remarks from result JOIN users ON userID = id WHERE formID = $form_ID AND CONCAT(firstname, ' ', lastname) LIKE '%$name_gr%';";
+                        $query_rem = mysqli_query($conn, $query_remarks);
+                        $counting = mysqli_num_rows($query_rem);
+                        if($counting == 0){
+                            echo "<td>No Available Remarks</td></tr>";
+                        }else{
+                            while($row = mysqli_fetch_array($query_rem, MYSQLI_ASSOC)){
+                                $rem .= $row['remarks']." ";
+                            }
+                            echo "<td>$rem</td>";
+                            unset($rem);
+                            $rem = '';
                         }
+                        echo "</tr>";
+                    }
+
+                    for($ctr = 1; $ctr <= $size_ctria; $ctr++){
+                        $criteria = $formCriteria[$ctr]['criteria'];
+                        echo "<div id='criteria'>".$criteria. "<br></div>"; 
                     }
                     echo "</div>";                  
                 }            

@@ -394,7 +394,6 @@
                         <div id='ratingWrapper'>";
             foreach ($formCriteria as $formCriterias) {
                 if($formCriterias['criteria'] == 'descriptive'){
-                    $length = count($formCriterias['choices']);
                     $size_criteria = count($formCriteria);
                     $size_ctria = count($formCriteria)-1;
                     $size_groupmates = count($groupmates);

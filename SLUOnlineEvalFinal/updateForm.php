@@ -288,9 +288,9 @@
             <input type='submit' value='Submit' id='submitBtn'>
             </form></div>";
         }else if($formCriteria[0]['criteria'] == 'multiple choice'){
-
+            
         }else if($formCriteria[0]['criteria'] == 'descriptive'){
-
+            
         }else{
             exit("<div id='expForm'>There is something wrong with the evaluation form. Please contact your instructor if this was a mistake.</div>
                     <form action='course.php'>

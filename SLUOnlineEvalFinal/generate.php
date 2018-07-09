@@ -10,7 +10,7 @@
 
 	switch ($type_eval) {
 		case 'Descriptive':
-			$criteria_arr = '[{"criteria":'.' '.'"'.$type_eval.'",';
+			$criteria_arr = '[{"criteria":'.' '.'"'.'descriptive'.'",';
 			
 			for($ctr = 1; $ctr < count($criteria); $ctr++){
 				$crit_arr .= '{"criteria": "'.$criteria[$ctr].'"},';
@@ -20,7 +20,7 @@
 			break;
 		
 		case 'Multiple Choice':
-			$criteria_arr = '[{"criteria":'.' '.'"'.$type_eval.'",';
+			$criteria_arr = '[{"criteria":'.' '.'"'.'multiple choice'.'",';
 			$choices_arr = '"choices": [';
 			
 			if($scale[0] == $scale[count($scale)-1]){
@@ -49,7 +49,7 @@
 			break;
 
 		case 'Likert':
-			$criteria_arr = '[{"criteria":'.' '.'"'.$type_eval.'",';
+			$criteria_arr = '[{"criteria":'.' '.'"'.'criteria'.'",';
 			$choices_arr = '"choices": [';
 			
 			if($scale[0] == $scale[count($scale)-1]){

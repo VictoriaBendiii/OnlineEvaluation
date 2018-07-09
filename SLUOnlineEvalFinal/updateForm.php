@@ -218,7 +218,7 @@
                     <div id='rating'>Rating:</div>
                         <div id='ratingWrapper'>";
             foreach ($formCriteria as $formCriterias) {
-                if($formCriterias['criteria'] == 'choices'){
+                if($formCriterias['criteria'] == 'criteria'){
                     $length = count($formCriterias['choices']);
                     $size_criteria = count($formCriteria) - 1;
                     $size_groupmates = count($groupmates);

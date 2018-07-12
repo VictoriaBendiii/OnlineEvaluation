@@ -3,6 +3,9 @@
 <html>
     <head>
         <meta name=viewport content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery-1.12.4.js"></script>
+        <script src="js/jquery-ui.js"></script>
         <link href="styles/formStyle.css" rel="stylesheet" type="text/css"/>
         <script src="assets/js/jquery.min.js"></script>
         <meta charset="UTF-8">
@@ -15,7 +18,17 @@
         <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
         <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Montserrat:400,700'>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-		<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+		<script src="js/jquery-3.2.1.js"></script>
+        <script src="js/jquery-1.12.4.js"></script>
+        <script src="js/jquery-ui.js"></script>
+          <script>
+          $( function() {
+            $( ".addScaleWrap" ).sortable();
+            $( ".addScaleWrap" ).disableSelection();
+            $( ".addCriteriaWrap" ).sortable();
+            $( ".addCriteriaWrap" ).disableSelection();
+          } );
+          </script>
     </head>
 
     <body>
@@ -133,6 +146,8 @@
 		            	<input type="text" name="scale[]" id="scale" placeholder="Good" maxlength="240" style="margin-left: 110px;width:50%;font-size:18px;" required>
 		            	<button type='button' id='addScale' style='margin:0%; padding: 0; border: none; background: none;'><img src='images/add.png' style='height: 28px; width: 28px; padding: 2px;' alt='add' id='add'></button>
 		            </div>
+                    <ul class="addScaleWrap" style="list-style-type: none;">
+                    </ul>
 		        </div>
 	    	</div>
 	    	</div>
@@ -143,6 +158,8 @@
 		            <input type="text" name="criteria[]" id="criteria" placeholder="Describe the work ethic of the student." maxlength="240" style="margin-left: 110px;width:50%;font-size:18px;" required>
 		            <button type='button' id='addCriteria' style='margin:0%; padding: 0; border: none; background: none;'><img src='images/add.png' style='height: 28px; width: 28px; padding: 2px;' alt='add' id='addC'></button>
 		        </div>
+                <ul class="addCriteriaWrap" style="list-style-type: none;">
+                </ul>
 		    </div>
             <br>
             <div style="width: 80%;margin:0 auto;">
@@ -178,9 +195,9 @@
 
     $("#addScale").click(function(e){
     	x = 1;
-	    var scaleWrap = $(".scaleWrap");
+	    var scaleWrap = $(".addScaleWrap");
     	var textVal = $('#scale').val();
-    	toAppend = '<div style="margin-top: 1%;"><input type="text" name="scale[]" value="'+textVal+'" maxlength="240" style="margin-left: 110px;width:50%;font-size:18px;" required /><a href="#" class="removeScale" style="margin-left:2%;">X</a></div>';
+    	toAppend = '<li><div style="margin-top: 1%;"><span class="ui-icon ui-icon-arrowthick-2-n-s" style="margin-left: 84px;"></span><input type="text" name="scale[]" value="'+textVal+'" maxlength="240" style="margin-left:10px;width:50%;font-size:18px;" required /><a href="#" class="removeScale" style="margin-left:2%;">X</a></div></li>';
         e.preventDefault();
         if(x < max){ 
             x++; 
@@ -194,9 +211,9 @@
   
     $("#addCriteria").click(function(e){
     	var x = 1;
-    	var criteriaWrap = $(".criteriaWrap");
+    	var criteriaWrap = $(".addCriteriaWrap");
     	var textVal = $('#criteria').val();
-    	var toAppend = '<div style="margin-top: 1%;"><input type="text" name="criteria[]" value="'+textVal+'" maxlength="240" style="margin-left: 110px;width:50%;font-size:18px;" required /><a href="#" class="removeCriteria" style="margin-left:2%;">X</a></div>';
+    	var toAppend = '<li><div style="margin-top: 1%;"><span class="ui-icon ui-icon-arrowthick-2-n-s" style="margin-left: 84px;"></span><input type="text" name="criteria[]" value="'+textVal+'" maxlength="240" style="margin-left:10px;width:50%;font-size:18px;" required /><a href="#" class="removeCriteria" style="margin-left:2%;">X</a></div></li>';
         e.preventDefault();
         if(x < max){ 
             x++; 
@@ -206,7 +223,7 @@
    
     $(".criteriaWrap").on("click",".removeCriteria", function(e){
         e.preventDefault(); $(this).parent('div').remove(); x--;
-    })
+    });
 </script>
 </body>
 </html>

@@ -12,6 +12,7 @@ if(!isset($_SESSION['username'])){
         <meta name="author" content="Group 2">
         <title>SLU Peer Evaluation | Group Students</title>
         <link rel="icon" href="css/images/slogo.png">
+        <link href="assets/css/dragula.css">
         <link rel="stylesheet" href="css/pstyle.css"/>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
@@ -78,6 +79,21 @@ if(!isset($_SESSION['username'])){
             #submitGrouping:hover{
                 filter: grayscale(100%);
             }
+			#mover{
+				text-decoration: none;
+				font-size: 18px;
+			}
+			#mover:hover{
+				text-decoration: none;
+				font-size: 21px;
+			}
+			#movers{
+				text-decoration: none;
+				font-size: 24px;
+			}
+			#movers:hover{
+				text-decoration: none;
+			}
         </style>
     </head>
 
@@ -193,92 +209,36 @@ if(!isset($_SESSION['username'])){
                     x.style.display = "none";
                 }
             }
-
-            $(document).ready(function(){
-                $("#searchStudent").keyup(function(){
-                    var content = $("#searchStudent").val();
-                    $.post("groupingsearch.php", {
-                        content: content
-                    }, function(data, status){
-                        $("#stds").html(data);
-                    });
-                });
-            });
         </script>
 
-        <?php
-        $user = $_SESSION['username'];
-        $course = $_SESSION["course"];
-
-        $query = "SELECT * FROM user_course JOIN users USING(id) WHERE courseCode = '$course' AND username != '$user' AND identification != 'teacher' ORDER BY lastname;";
-        $execute_query = mysqli_query($conn, $query);	 		
-        ?>
-
-        <div class="row">
-            <div id="rating" style="text-align:center; margin: 0 auto; margin-top: 98px;"><h1>Assign Students to a Group</h1></div>
-            <?php 
-            $course = $_SESSION['course'];
-            $query = mysqli_query($conn, "SELECT users.id as id, CONCAT(users.firstname,' ',users.lastname) as name, users.username as username, users.profilepicture as profilepicture FROM users JOIN user_course USING (id) WHERE user_course.courseCode = '$course' AND users.identification='student';");
-            echo "<center><h2 id='classCode'>Classcode $course</h2></center>";
-            ?>
-            <div class="col-lg-1"></div>
-            <div class="col-lg-4">
-                <center><h2 id='classCode'>Students</h2>
-                    <input type='text' style='width: 80%; font-size: 19px;' name='searchStudent' class='typeahead tt-query' id='searchStudent' placeholder='Search by id number or name'>
-                    <br><br>
-                    <div id='stds' class='col-lg-12' style='overflow-y: auto; height: calc(100vh - 320px);'>
-                        <?php include("groupingsearch.php");?>
-                    </div>
-                </center>
-            </div>
-            <div class="col-lg-6" style="border-left: solid #D0D2CF 2px; height: calc(100vh - 210px);">
+		<div class="col-lg-12" style="padding-top: 80px;">
                 <center><h2 id='classCode'>Groups</h2>
-                    <form id='groupform' action='assignGroup.php' method="post" style='display: inline;'>
-                        <div id='groupinput'><label for='numbgroups'><h3>Enter Number of Groups:</h3></label>
-                            <input type='number' style='padding: 5px;' id="numbgroups" name='numbgroups' min="1" max="15">
-                            <button type='button' id='enternums' onclick="createGroupConts()" style='margin:0%; padding: 0; border: none; background: none;'><img src='images/enter.png' style='height: 28px; width: 28px; padding: 2px;' alt='mark' id='adds'></button>
-                        </div>
-                        <div id='groupCont' style="overflow-y: auto; height: calc(100vh - 340px);" class='row'>
-                        </div>
-                    </form>
+				<a id="mover" href="grouping.php"><p style="text-decoration: none; font-size: 20px; padding-bottom: 10px;">Group or Regroup Students</p></a>
+                <?php
+				$user = $_SESSION['username'];
+				$course = $_SESSION["course"];
+				$q = mysqli_query($conn, "SELECT DISTINCT COUNT(groupID) as number FROM (SELECT DISTINCT courseCode, groupID FROM user_course) AS studcourse WHERE courseCode='$course';");
+				while($row = mysqli_fetch_array($q, MYSQLI_ASSOC)) {
+				$num = $row['number'];
+				
+				for($i = 1; $i <= $num; $i++){
+				echo "<div class='col-lg-4'><div class='panel panel-default' style='width: 100%;'><p style='font-size: 24px; display: inline-block;'>Group $i</p><div style='min-height: 200px; max-height: 200px; overflow-y: auto;'>";
+				$query = mysqli_query($conn, "SELECT CONCAT(users.firstname,' ',users.lastname) as name, users.username as username, users.profilepicture as profilepicture, users.id FROM users WHERE id IN (SELECT id FROM user_course WHERE courseCode='$course' AND groupID=$i);");
+
+				while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+					$fullname = $row['name'];
+					$profpic = $row['profilepicture'];
+					echo "<div id='$row[username]' class='panel panel-default' style='width: 80%; background-color: #EFEEEC; padding: 10px;'><img src='images/profilepictures/$row[profilepicture]' style='border-radius: 50px; height: 30px; width: 30px; padding: 2px;' alt='profile picture'>
+						  <p style='font-size: 18px; display: inline-block;'>&nbsp;$fullname&emsp;</p></div>";
+					}
+				echo "</div></div></div>";
+				 }
+				 
+				if($num == 0){
+					echo "<p style='font-size: 24px; padding-top: 40px;'>No groups are formed yet. Click <a id='movers' href='grouping.php'>here</a> to group students.</p>";
+					}
+				}
+				?>   
                 </center>
-            </div>
         </div>
-        <script src="https://rawgit.com/bevacqua/dragula/master/dist/dragula.js"></script>
-        <script src="assets/js/drag.js"></script>
-    </body>
-    <script>
-        function createGroupConts() {
-            numb = $("#numbgroups").val();
-            for (var i = 1; i <= numb; i++) {
-                $( "#groupCont" ).append( "<div id='"+i+"' class='panel panel-default' style='width: 80%; min-height: 100px; max-height: 200px; overflow-y: auto; border-color: #000000; font-size: 24px;'>Group "+i+"</div>");
-            }
-            $("#groupinput").remove();
-            $("#groupform").append("<button type='button' id='submitGrouping' onclick='submitGroup()' style='border: none; background: none;'><img src='images/submit.png' style='height: 38px;' alt='submit' id='adds'></button>");
-            dragula([document.getElementById('stds'),document.getElementById('1'),document.getElementById('2'),document.getElementById('3'),document.getElementById('4'),document.getElementById('5'),document.getElementById('6'),document.getElementById('7'),document.getElementById('8'),document.getElementById('9'),document.getElementById('10'),document.getElementById('11'),document.getElementById('12'),document.getElementById('13'),document.getElementById('14'),document.getElementById('15')], {
-                revertOnSpill: true
-            });
-        }
-        function submitGroup(){
-                $('<input>').attr({
-                    type: 'hidden',
-                    name: 'totalgroups',
-                    value: ''+numb
-                }).appendTo('form#groupform');
-
-            for(var num = 1; num <= numb; num++ ){
-                $('#'+num).children().find("input[name='id']").each(function(){
-                    $('<input>').attr({
-                        type: 'hidden',
-                        name: 'group'+num+'[]',
-                        value: ''+$(this).val()
-                    }).appendTo('form#groupform');
-
-                })
-            }
-            if (confirm("Click OK to Submit")){
-                $('form#groupform').submit();
-            }
-        }
-    </script>
 </html>

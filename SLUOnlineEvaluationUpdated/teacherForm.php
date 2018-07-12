@@ -82,7 +82,7 @@
         $instructor_name = $row['firstname'].' '.$row['lastname'];
     }
 
-    $get_forms = "SELECT DISTINCT formName, formDesc, formID, due, expTime from peerpal.group JOIN group_form USING(groupID) JOIN form USING(formID) WHERE courseCodeForm = '$course'";
+    $get_forms = "SELECT DISTINCT formName, formDesc, formID, due, expTime from peerpal.group JOIN group_form USING(groupID) JOIN form USING(formID) WHERE courseCodeForm = '$course' ORDER BY 3 DESC";
     $query = mysqli_query($conn, $get_forms);
         
     while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
@@ -148,7 +148,7 @@
               </form>";
 		?>
         <li><a href="uploadForm.php"><img src='images/upload.png' class='tnavicon'> Upload New Form</a></li>
-        <li><a href="grouping.php"><img src='images/group.png' class='tnavicon'> Group Students</a></li>
+        <li><a href="studentgroups.php"><img src='images/group.png' class='tnavicon'> Groups</a></li>
     </ul>
  </div>
  <div class='formActivities'>

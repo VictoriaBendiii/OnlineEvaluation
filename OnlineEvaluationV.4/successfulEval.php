@@ -5,13 +5,14 @@
 
 	$user = $_SESSION['username'];
 	$form = $_POST["form"];
+    $criteria = $_POST["criteria"];
 	$course = $_POST["course"];
 	$form_ID = $_POST["formID"];
 	$group_ID = $_POST["groupID"];
     $count = 0;
     $list_array = array();
 
-	if($form == 'form1'){
+	if($criteria == 'criteria'){
 	    $score = $_POST["score"];
 	    $remarks = $_POST["remarks"];
 	    $id = $_POST["id"];
@@ -29,26 +30,59 @@
                 }
             }
         }	    
-	}else if($form == 'form2'){
-		$score = $_POST["score"];
-		$id = $_POST["idFormTwo"];
-        
-        $count = count($id);
-        $size_criteria = $_POST["sizeCriteria"];
-        array_push($list_array, array_chunk($score, $size_criteria));
+	}else if($criteria == 'multiple choice'){
+        $id = $_POST["id"];
+        $id = explode('-', $id[0]);
+        $score = $_POST["score"];
+        $length = $_POST["length"];
+        $score_selected = array();
+        array_push($score, array_chunk($score, $length));
+        $groupmates = $_POST["groupmates"];
+
+        for($ctr = count($score)-1; $ctr < count($score); $ctr++){
+            for($ct = 0; $ct < count($score[$ctr]); $ct++){
+                for($c = count($score[$ctr][$ct])-1; $c < count($score[$ctr][$ct]); $c++){
+                    array_push($score_selected, $_POST[$score[$ctr][$ct][$c]]);
+                }
+            }
+        }
+
+
+        array_push($list_array, array_chunk($score_selected, count($id)));
 
         for($ctr = 0; $ctr < count($list_array); $ctr++){
             for($ct = 0; $ct < count($list_array[$ctr]); $ct++){
-                $score = implode("-", $list_array[$ctr][$ct]);
-                $query = "INSERT INTO result (score, formID, groupID, courseCode, evaluator, userID) VALUES ('".$score."', '$form_ID', '$group_ID', '$course', '$user', '".$id[$ct]."')";
+                for($c = 0; $c < count($list_array[$ctr][$ct]); $c++){
+                    $query = "INSERT INTO result (score, formID, groupID, courseCode, evaluator, userID) VALUES ('".$list_array[$ctr][$ct][$c]."','$form_ID', '$group_ID', '$course', '$user', '".$id[$c]."')";
 
-                if (mysqli_query($conn, $query)) {
-                } else {
-                    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                    if (mysqli_query($conn, $query)) {
+                    } else {
+                        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                    }
                 }
             }
-        } 
-	}
+        }
+
+    }else if($criteria == 'descriptive'){
+        $remarks = $_POST["remarks"];
+        $id = $_POST["id"];
+        $id = explode('-', $id[0]);
+        $score = count($id);
+        array_push($list_array, array_chunk($remarks, $score));
+
+        for($ctr = 0; $ctr < count($list_array); $ctr++){
+            for($ct = 0; $ct < count($list_array[$ctr]); $ct++){
+                for($c = 0; $c < count($list_array[$ctr][$ct]); $c++){
+                    $query = "INSERT INTO result (formID, groupID, courseCode, evaluator, remarks, userID) VALUES ('$form_ID', '$group_ID', '$course', '$user', '".$list_array[$ctr][$ct][$c]."', '".$id[$c]."')";
+
+                    if (mysqli_query($conn, $query)) {
+                    } else {
+                        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                    }
+                }
+            }
+        }
+    }
 ?>
 <html>
     <head>

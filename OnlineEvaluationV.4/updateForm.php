@@ -175,12 +175,13 @@
 
             $due = strtotime($due);
             $now = $date_now;
+            $now = strtotime($now);
             date_default_timezone_set('Asia/Manila');
             $time_now = date("H:i:s");
             $time = strtotime($time);
             $time_now = strtotime($time_now);
 
-            if(($due <= $now AND $time_now >= $time) OR ($due < $now AND $time_now < $time)){
+            if(($due <= $now AND $time_now >= $time) OR ($due <= $now AND $time_now < $time)){
                 exit("<div id='expForm'>You have already surpassed the due date and time. Please contact your instructor for further details.</div>
                     <form action='course.php'>
                     <input type='hidden' value='".$_SESSION['courseCode']."' name='courseCode'>
@@ -200,11 +201,10 @@
             array_push($id, $row['id']);
         }
         
-        if($form_type == 'form1'){
-            $data = file_get_contents($url); 
-            $formCriteria = json_decode($data, true);
 
-            if($formCriteria[0]['criteria'] != 'choices'){
+        $data = file_get_contents($url); 
+        $formCriteria = json_decode($data, true);    
+        if(filesize("$url") == 0){
                 exit("<div id='expForm'>There is something wrong with the evaluation form. Please contact your instructor if this was a mistake.</div>
                     <form action='course.php'>
                     <input type='hidden' value='".$_SESSION['courseCode']."' name='courseCode'>
@@ -213,20 +213,12 @@
                     <form>");
             }
 
-            if(filesize("$url") == 0){
-                exit("<div id='expForm'>There is something wrong with the evaluation form. Please contact your instructor if this was a mistake.</div>
-                    <form action='course.php'>
-                    <input type='hidden' value='".$_SESSION['courseCode']."' name='courseCode'>
-                    <input type='hidden' value='".$_SESSION['courseName']."' name='courseName'>
-                    <input type='submit' value='Go Back' id='backBtnForm'>
-                    <form>");
-            }
-
+        if($formCriteria[0]['criteria'] == 'criteria'){
             echo "<div id='formContainer'>
                     <div id='rating'>Rating:</div>
                         <div id='ratingWrapper'>";
             foreach ($formCriteria as $formCriterias) {
-                if($formCriterias['criteria'] == 'choices'){
+                if($formCriterias['criteria'] == 'criteria'){
                     $length = count($formCriterias['choices']);
                     $size_criteria = count($formCriteria) - 1;
                     $size_groupmates = count($groupmates);
@@ -291,12 +283,22 @@
         echo "</table>
             <input type='hidden' value='".$form_ID."' name='formID'>
             <input type='hidden' value='".$course."' name='course'>
-            <input type='hidden' value='".$size_criteria."' name='sizeCriteria'>
             <input type='hidden' value='$group_ID' name='groupID'>
             <input type='hidden' value='form1' name='form'>
             <input type='submit' value='Submit' id='submitBtn'>
             </form></div>";
-        } 
+        }else if($formCriteria[0]['criteria'] == 'multiple choice'){
+            
+        }else if($formCriteria[0]['criteria'] == 'descriptive'){
+            
+        }else{
+            exit("<div id='expForm'>There is something wrong with the evaluation form. Please contact your instructor if this was a mistake.</div>
+                    <form action='course.php'>
+                    <input type='hidden' value='".$_SESSION['courseCode']."' name='courseCode'>
+                    <input type='hidden' value='".$_SESSION['courseName']."' name='courseName'>
+                    <input type='submit' value='Go Back' id='backBtnForm'>
+                    <form>");
+        }
       
 ?>
 </body>

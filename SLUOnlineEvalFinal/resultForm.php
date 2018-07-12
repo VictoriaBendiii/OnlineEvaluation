@@ -28,7 +28,7 @@
 <body>
     <div class="wrapper">
             <header>
-                <nav style="z-index: 1000; background-color: RGBA(92,115,139, 0.6); position: fixed; top: 0px;"">
+                <nav style="z-index: 1000; background-color: RGBA(92,115,139, 0.6); position: fixed; top: 0px;">
                     <div class="menu-icon">
                         <i class="fa fa-bars fa-2x"></i>
                     </div>

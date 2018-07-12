@@ -12,7 +12,6 @@ if(!isset($_SESSION['username'])){
         <meta name="author" content="Group 2">
         <title>SLU Peer Evaluation | Group Students</title>
         <link rel="icon" href="css/images/slogo.png">
-        <link href="assets/css/dragula.css">
         <link rel="stylesheet" href="css/pstyle.css"/>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
@@ -76,10 +75,13 @@ if(!isset($_SESSION['username'])){
             .tt-suggestion p {
                 margin: 0;
             }
+            #submitGrouping:hover{
+                filter: grayscale(100%);
+            }
         </style>
     </head>
 
-    <body style="overflow: hidden;">
+    <body style="overflow-x: hidden;">
         <div class="wrapper">
             <header>
                 <nav style="z-index: 1000; background-color: RGBA(92,115,139, 0.6); position: fixed; top: 0px;">
@@ -115,7 +117,7 @@ if(!isset($_SESSION['username'])){
             </ul>
         </div>
         <script type="text/javascript">
-
+            var numb = 0;
             $(document).ready(function(){
                 $(".menu-icon").on("click", function(){
                     $("nav ul").toggleClass("showing");
@@ -224,34 +226,59 @@ if(!isset($_SESSION['username'])){
                 <center><h2 id='classCode'>Students</h2>
                     <input type='text' style='width: 80%; font-size: 19px;' name='searchStudent' class='typeahead tt-query' id='searchStudent' placeholder='Search by id number or name'>
                     <br><br>
-                    <div id='stds' class='col-lg-12' style='overflow-y: scroll; height: calc(100vh - 320px);'>
+                    <div id='stds' class='col-lg-12' style='overflow-y: auto; height: calc(100vh - 320px);'>
                         <?php include("groupingsearch.php");?>
                     </div>
                 </center>
             </div>
-            <div class="col-lg-6" style="border-left: solid #D0D2CF 2px; overflow-y: scroll; height: calc(100vh - 210px);">
-                <center><h2 id='classCode' >Groups</h2>
-                    <form action='' method='get' style='display: inline;'>
-                        <label for='numbgroups'><h3>Enter Number of Groups:</h3></label>
-                        <input type='number' style='padding: 5px;' id="numbgroups" name='numbgroups' min="1" max="15">
-                        <button type='button' id='enternums' onclick="createGroupConts()" style='margin:0%; padding: 0; border: none; background: none;'><img src='images/enter.png' style='height: 28px; width: 28px; padding: 2px;' alt='mark' id='adds'></button>
+            <div class="col-lg-6" style="border-left: solid #D0D2CF 2px; height: calc(100vh - 210px);">
+                <center><h2 id='classCode'>Groups</h2>
+                    <form id='groupform' action='assignGroup.php' method="post" style='display: inline;'>
+                        <div id='groupinput'><label for='numbgroups'><h3>Enter Number of Groups:</h3></label>
+                            <input type='number' style='padding: 5px;' id="numbgroups" name='numbgroups' min="1" max="15">
+                            <button type='button' id='enternums' onclick="createGroupConts()" style='margin:0%; padding: 0; border: none; background: none;'><img src='images/enter.png' style='height: 28px; width: 28px; padding: 2px;' alt='mark' id='adds'></button>
+                        </div>
+                        <div id='groupCont' style="overflow-y: auto; height: calc(100vh - 340px);" class='row'>
+                        </div>
                     </form>
                 </center>
-                <center><div id='groupCont' class='row'>
-				</div></center>
+            </div>
         </div>
         <script src="https://rawgit.com/bevacqua/dragula/master/dist/dragula.js"></script>
         <script src="assets/js/drag.js"></script>
     </body>
     <script>
         function createGroupConts() {
-            var numb = $("#numbgroups").val();
+            numb = $("#numbgroups").val();
             for (var i = 1; i <= numb; i++) {
-                $( "#groupCont" ).append( "<div id='group"+i+"' class='panel panel-default' style='width: 80%; min-height: 200px; font-size: 24px;'>Group "+i+"</div>");
+                $( "#groupCont" ).append( "<div id='"+i+"' class='panel panel-default' style='width: 80%; min-height: 100px; max-height: 200px; overflow-y: auto; border-color: #000000; font-size: 24px;'>Group "+i+"</div>");
             }
-            dragula([document.getElementById('stds'),document.getElementById('group1'),document.getElementById('group2'),document.getElementById('group3'),document.getElementById('group4'),document.getElementById('group5'),document.getElementById('group6'),document.getElementById('group7'),document.getElementById('group8'),document.getElementById('group9'),document.getElementById('group10'),document.getElementById('group11'),document.getElementById('group12'),document.getElementById('group13'),document.getElementById('group14'),document.getElementById('group15')], {
+            $("#groupinput").remove();
+            $("#groupform").append("<button type='button' id='submitGrouping' onclick='submitGroup()' style='border: none; background: none;'><img src='images/submit.png' style='height: 38px;' alt='submit' id='adds'></button>");
+            dragula([document.getElementById('stds'),document.getElementById('1'),document.getElementById('2'),document.getElementById('3'),document.getElementById('4'),document.getElementById('5'),document.getElementById('6'),document.getElementById('7'),document.getElementById('8'),document.getElementById('9'),document.getElementById('10'),document.getElementById('11'),document.getElementById('12'),document.getElementById('13'),document.getElementById('14'),document.getElementById('15')], {
                 revertOnSpill: true
             });
+        }
+        function submitGroup(){
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'totalgroups',
+                    value: ''+numb
+                }).appendTo('form#groupform');
+
+            for(var num = 1; num <= numb; num++ ){
+                $('#'+num).children().find("input[name='id']").each(function(){
+                    $('<input>').attr({
+                        type: 'hidden',
+                        name: 'group'+num+'[]',
+                        value: ''+$(this).val()
+                    }).appendTo('form#groupform');
+
+                })
+            }
+            if (confirm("Click OK to Submit")){
+                $('form#groupform').submit();
+            }
         }
     </script>
 </html>

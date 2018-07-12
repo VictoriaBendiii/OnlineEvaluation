@@ -28,7 +28,7 @@
 <body>
     <div class="wrapper">
             <header>
-                <nav style="z-index: 1000; background-color: RGBA(92,115,139, 0.6); position: fixed; top: 0px;"">
+                <nav style="z-index: 1000; background-color: RGBA(92,115,139, 0.6); position: fixed; top: 0px;">
                     <div class="menu-icon">
                         <i class="fa fa-bars fa-2x"></i>
                     </div>
@@ -186,42 +186,27 @@
             array_push($group_num, $row['groupID']);
         }
         
-        if($form_type == 'form1'){
-            $data = file_get_contents($url); 
-            $formCriteria = json_decode($data, true);
+        $data = file_get_contents($url); 
+        $formCriteria = json_decode($data, true);
 
-            if($formCriteria[0]['criteria'] != 'choices'){
-                exit("<div id='expForm'>There is something wrong with the evaluation form. Please check your JSON  file and follow the format as seen below.<br>
-                    <div style='text-align: left; margin-left: 190px;'><b>Example</b> <br>
-                    [
-                    {'criteria': 'choices', 'choices': ['1 - Poor', '2 - Fair', '3 - Satisfactory', '4 - Very Satisfactory', '5 - Excellent']}, <br>
-                    {'criteria': 'He/She attends activities regularly and on time.'}
-                    ]
-                    </div> <br>
-                    </div>
-                    <form action='teacherForm.php'>
-                    <input type='hidden' value='".$_SESSION['courseCode']."' name='courseCode'>
-                    <input type='hidden' value='".$_SESSION['courseName']."' name='courseName'>
-                    <input type='submit' value='Go Back' id='backBtnForm' style='margin-top:150px;'>
-                    <form>");
-            }
-
-            if(filesize("$url") == 0){
+        if(filesize("$url") == 0){
                 exit("<div id='expForm'>There is something wrong with the evaluation form. Please contact your instructor if this was a mistake.</div>
-                    <form action='teacherForm.php'>
+                    <form action='course.php'>
                     <input type='hidden' value='".$_SESSION['courseCode']."' name='courseCode'>
                     <input type='hidden' value='".$_SESSION['courseName']."' name='courseName'>
                     <input type='submit' value='Go Back' id='backBtnForm'>
                     <form>");
             }
 
+        if($formCriteria[0]['criteria'] == 'criteria'){            
             echo "<div id='formContainer'>
                     <div id='rating'>Rating:</div>
                         <div id='ratingWrapper'>";
             foreach ($formCriteria as $formCriterias) {
-                if($formCriterias['criteria'] == 'choices'){
+                if($formCriterias['criteria'] == 'criteria'){
                     $length = count($formCriterias['choices']);
                     $size_criteria = count($formCriteria) - 1;
+                    $size_ctria = count($formCriteria)-1;
                     $size_groupmates = count($groupmates);
                     $size_table = count($groupmates) - 1;
                     $number = 1;
@@ -506,7 +491,8 @@
                     }                  
                     echo "</div>";                  
                 }else{
-                    echo "<div id='criteria'>[C$num] - " . $formCriterias['criteria'] . "<br></div>";      $num++;
+                    echo "<div id='criteria'>[C$num] - " . $formCriterias['criteria'] . "<br></div>";      
+                    $num++;
                 }            
             }   
         echo "</table>
@@ -517,7 +503,746 @@
             <input type='hidden' value='form1' name='form'>
             <input type='submit' value='Download as a CSV file' id='submitBtn'>
             </form></div>";
-    }
+        }else if($formCriteria[0]['criteria'] == 'multiple choice'){
+            $score_ar = array();
+            $choice_arr = array();
+            $choices_a = array();
+            $score_a = array();
+            echo "<div id='formContainer'>
+                        <div id='ratingWrapper'>";
+            foreach ($formCriteria as $formCriterias) {
+                if($formCriterias['criteria'] == 'multiple choice'){
+                    $length = count($formCriterias['choices']);
+                    $size_criteria = count($formCriteria);
+                    $size_ctria = count($formCriteria)-1;
+                    $size_groupmates = count($groupmates);
+                    $size_table = count($groupmates) - 1;
+                    $number = 1;
+                    $totalnumber = 1;
+
+                    echo "<br></div>
+                            <div class='tableContainer'>
+                            <form action='' method='post'>                          
+                            <table class='tableForm' id='tableForm' style='margin-left:-5%;'>
+                                <tr>
+                                    <th>Members</th>
+                                    <th colspan='".$size_ctria*$length."'>Criteria</th>
+                                </tr><tr><td style='border: 1px solid #bcbcbc;'></td>";
+
+                    for($ctr = 1; $ctr <= $size_ctria; $ctr++){
+                        $criteria = $formCriteria[$ctr]['criteria'];
+                        echo "<td colspan='$length' style='border: 1px solid #bcbcbc;'>".$criteria."</td>";  
+                    }
+                    echo "</tr><tr><td style='border: 1px solid #bcbcbc;'></td>";
+
+                    for($ctr = 1; $ctr <= $size_ctria; $ctr++){
+                        for($c = 0; $c < $length; $c++){
+                            echo "<td style='border: 1px solid #bcbcbc;'>".$formCriterias['choices'][$c]."</td>
+                            <input type='hidden' name='criterias[]' value='".$formCriterias['choices'][$c]."'>";
+                        }
+                    }
+                    echo "</tr>";
+
+                    for($i = 0; $i < $size_groupmates; $i++){
+                        echo "<tr><td>$groupmates[$i]</td>
+                                <input type='hidden' name='groupmates[]' value='".$groupmates[$i]."'>";
+                        $name_gr = $groupmates[$i];
+                        $query_remarks = "SELECT score from result JOIN users ON userID = id WHERE formID = $form_ID AND CONCAT(firstname, ' ', lastname) LIKE '%$name_gr%' ORDER BY lastname;";
+                        $query_rem = mysqli_query($conn, $query_remarks);
+                        $counting = mysqli_num_rows($query_rem);
+                        if($counting == 0){
+                            for($ctr = 1; $ctr <= $size_ctria; $ctr++){
+                                for($c = 0; $c < $length; $c++){
+                                    echo "<td style='border: 1px solid #bcbcbc;'>0</td>";
+                                }
+                            }
+                            echo "</tr>";
+                        }else{
+                            $ctr = 0;
+                            while($row = mysqli_fetch_array($query_rem, MYSQLI_ASSOC)){
+                                array_push($score_ar, $row['score']);
+                            }
+
+                            array_push($score_a, array_chunk($score_ar, $length));
+                            for($c = 0; $c < $length; $c++){
+                                array_push($choices_a, $formCriterias['choices'][$c]);
+                                $choice_arr[$c] = 0;
+                            }
+
+                            switch(count($score_a[0])){
+                                case 1:
+                                    for($ct = 0; $ct < count($score_a[0]); $ct++){
+                                        for($fc = 0; $fc < $length; $fc++){
+                                            if($score_a[0][0][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                        }
+                                    }
+                                    for($k = 1; $k <= $size_ctria; $k++){
+                                        for($cf = 0; $cf < $length; $cf++){
+                                            echo "<td style='border: 1px solid #bcbcbc;'>$choice_arr[$cf]</td>
+                                                <input type='hidden' name='criterias[]' value='".$choice_arr[$cf]."'>";
+                                        }
+                                    }
+                                    for($c = 0; $c < $length; $c++){
+                                        $choice_arr[$c] = 0;
+                                    }
+                                    break;
+                                case 2:
+                                    for($ct = 0; $ct < count($score_a[0]); $ct++){
+                                        for($fc = 0; $fc < $length; $fc++){
+                                            if($score_a[0][0][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][1][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                        }  
+                                    }
+                                    for($k = 1; $k <= $size_ctria; $k++){
+                                        for($cf = 0; $cf < $length; $cf++){
+                                            echo "<td style='border: 1px solid #bcbcbc;'>$choice_arr[$cf]</td>
+                                                <input type='hidden' name='criterias[]' value='".$choice_arr[$cf]."'>";
+                                        }
+                                    }
+                                    for($c = 0; $c < $length; $c++){
+                                        $choice_arr[$c] = 0;
+                                    }
+                                    break;
+                                case 3:
+                                    for($ct = 0; $ct < count($score_a[0]); $ct++){
+                                        for($fc = 0; $fc < $length; $fc++){
+                                            if($score_a[0][0][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][1][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][2][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                        }
+                                    } 
+                                    for($k = 1; $k <= $size_ctria; $k++){
+                                        for($cf = 0; $cf < $length; $cf++){
+                                            echo "<td style='border: 1px solid #bcbcbc;'>$choice_arr[$cf]</td>
+                                                <input type='hidden' name='criterias[]' value='".$choice_arr[$cf]."'>";
+                                        }
+                                    }
+                                    for($c = 0; $c < $length; $c++){
+                                        $choice_arr[$c] = 0;
+                                    }
+                                    break;
+                                case 4:
+                                    for($ct = 0; $ct < count($score_a[0]); $ct++){
+                                        for($fc = 0; $fc < $length; $fc++){
+                                            if($score_a[0][0][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][1][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][2][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][3][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                        }
+                                    }
+                                    for($k = 1; $k <= $size_ctria; $k++){
+                                        for($cf = 0; $cf < $length; $cf++){
+                                            echo "<td style='border: 1px solid #bcbcbc;'>$choice_arr[$cf]</td>
+                                                <input type='hidden' name='criterias[]' value='".$choice_arr[$cf]."'>";
+                                        }
+                                    }
+                                    for($c = 0; $c < $length; $c++){
+                                        $choice_arr[$c] = 0;
+                                    }
+                                    break;
+                                case 5:
+                                    for($ct = 0; $ct < count($score_a[0]); $ct++){
+                                        for($fc = 0; $fc < $length; $fc++){
+                                            if($score_a[0][0][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][1][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][2][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][3][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][4][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                        }
+                                    }
+                                    for($k = 1; $k <= $size_ctria; $k++){
+                                        for($cf = 0; $cf < $length; $cf++){
+                                            echo "<td style='border: 1px solid #bcbcbc;'>$choice_arr[$cf]</td>
+                                                <input type='hidden' name='criterias[]' value='".$choice_arr[$cf]."'>";
+                                        }
+                                    }
+                                    for($c = 0; $c < $length; $c++){
+                                        $choice_arr[$c] = 0;
+                                    }
+                                    break;
+                                case 6:
+                                    for($ct = 0; $ct < count($score_a[0]); $ct++){
+                                        for($fc = 0; $fc < $length; $fc++){
+                                            if($score_a[0][0][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][1][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][2][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][3][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][4][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][5][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                        }
+                                    } 
+                                    for($k = 1; $k <= $size_ctria; $k++){
+                                        for($cf = 0; $cf < $length; $cf++){
+                                            echo "<td style='border: 1px solid #bcbcbc;'>$choice_arr[$cf]</td>
+                                                <input type='hidden' name='criterias[]' value='".$choice_arr[$cf]."'>";
+                                        }
+                                    }
+                                    for($c = 0; $c < $length; $c++){
+                                        $choice_arr[$c] = 0;
+                                    }
+                                    break;
+                                case 7:
+                                    for($ct = 0; $ct < count($score_a[0]); $ct++){
+                                        for($fc = 0; $fc < $length; $fc++){
+                                            if($score_a[0][0][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][1][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][2][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][3][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][4][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][5][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][6][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                        }
+                                    } 
+                                    for($k = 1; $k <= $size_ctria; $k++){
+                                        for($cf = 0; $cf < $length; $cf++){
+                                            echo "<td style='border: 1px solid #bcbcbc;'>$choice_arr[$cf]</td>
+                                                <input type='hidden' name='criterias[]' value='".$choice_arr[$cf]."'>";
+                                        }
+                                    }
+                                    for($c = 0; $c < $length; $c++){
+                                        $choice_arr[$c] = 0;
+                                    }
+                                    break;
+                                case 8:
+                                    for($ct = 0; $ct < count($score_a[0]); $ct++){
+                                        for($fc = 0; $fc < $length; $fc++){
+                                            if($score_a[0][0][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][1][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][2][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][3][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][4][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][5][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][6][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][7][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                        }
+                                    }  
+                                    for($k = 1; $k <= $size_ctria; $k++){
+                                        for($cf = 0; $cf < $length; $cf++){
+                                            echo "<td style='border: 1px solid #bcbcbc;'>$choice_arr[$cf]</td>
+                                                <input type='hidden' name='criterias[]' value='".$choice_arr[$cf]."'>";
+                                        }
+                                    }
+                                    for($c = 0; $c < $length; $c++){
+                                        $choice_arr[$c] = 0;
+                                    }break;
+                                case 9:
+                                    for($ct = 0; $ct < count($score_a[0]); $ct++){
+                                        for($fc = 0; $fc < $length; $fc++){
+                                            if($score_a[0][0][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][1][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][2][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][3][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][4][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][5][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][6][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][7][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][8][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                        }
+                                    }  
+                                    for($k = 1; $k <= $size_ctria; $k++){
+                                        for($cf = 0; $cf < $length; $cf++){
+                                            echo "<td style='border: 1px solid #bcbcbc;'>$choice_arr[$cf]</td>
+                                                <input type='hidden' name='criterias[]' value='".$choice_arr[$cf]."'>";
+                                        }
+                                    }
+                                    for($c = 0; $c < $length; $c++){
+                                        $choice_arr[$c] = 0;
+                                    }break;
+                                case 10:
+                                    for($ct = 0; $ct < count($score_a[0]); $ct++){
+                                        for($fc = 0; $fc < $length; $fc++){
+                                            if($score_a[0][0][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][1][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][2][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][3][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][4][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][5][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][6][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][7][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][8][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][9][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                        }
+                                    }  
+                                    for($k = 1; $k <= $size_ctria; $k++){
+                                        for($cf = 0; $cf < $length; $cf++){
+                                            echo "<td style='border: 1px solid #bcbcbc;'>$choice_arr[$cf]</td>
+                                                <input type='hidden' name='criterias[]' value='".$choice_arr[$cf]."'>";
+                                        }
+                                    }
+                                    for($c = 0; $c < $length; $c++){
+                                        $choice_arr[$c] = 0;
+                                    }break;
+                                case 11:
+                                    for($ct = 0; $ct < count($score_a[0]); $ct++){
+                                        for($fc = 0; $fc < $length; $fc++){
+                                            if($score_a[0][0][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][1][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][2][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][3][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][4][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][5][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][6][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][7][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][8][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][9][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][10][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                        }
+                                    }  
+                                    for($k = 1; $k <= $size_ctria; $k++){
+                                        for($cf = 0; $cf < $length; $cf++){
+                                            echo "<td style='border: 1px solid #bcbcbc;'>$choice_arr[$cf]</td>
+                                                <input type='hidden' name='criterias[]' value='".$choice_arr[$cf]."'>";
+                                        }
+                                    }
+                                    for($c = 0; $c < $length; $c++){
+                                        $choice_arr[$c] = 0;
+                                    }break;
+                                case 12:
+                                    for($ct = 0; $ct < count($score_a[0]); $ct++){
+                                        for($fc = 0; $fc < $length; $fc++){
+                                            if($score_a[0][0][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][1][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][2][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][3][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][4][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][5][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][6][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][7][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][8][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][9][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][10][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][11][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                        }
+                                    }  
+                                    for($k = 1; $k <= $size_ctria; $k++){
+                                        for($cf = 0; $cf < $length; $cf++){
+                                            echo "<td style='border: 1px solid #bcbcbc;'>$choice_arr[$cf]</td>
+                                                <input type='hidden' name='criterias[]' value='".$choice_arr[$cf]."'>";
+                                        }
+                                    }
+                                    for($c = 0; $c < $length; $c++){
+                                        $choice_arr[$c] = 0;
+                                    }break;
+                                case 13:
+                                    for($ct = 0; $ct < count($score_a[0]); $ct++){
+                                        for($fc = 0; $fc < $length; $fc++){
+                                            if($score_a[0][0][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][1][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][2][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][3][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][4][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][5][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][6][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][7][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][8][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][9][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][10][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][11][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][12][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                        }
+                                    }  
+                                    for($k = 1; $k <= $size_ctria; $k++){
+                                        for($cf = 0; $cf < $length; $cf++){
+                                            echo "<td style='border: 1px solid #bcbcbc;'>$choice_arr[$cf]</td>
+                                                <input type='hidden' name='criterias[]' value='".$choice_arr[$cf]."'>";
+                                        }
+                                    }
+                                    for($c = 0; $c < $length; $c++){
+                                        $choice_arr[$c] = 0;
+                                    }break;
+                                case 14:
+                                    for($ct = 0; $ct < count($score_a[0]); $ct++){
+                                        for($fc = 0; $fc < $length; $fc++){
+                                            if($score_a[0][0][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][1][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][2][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][3][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][4][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][5][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][6][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][7][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][8][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][9][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][10][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][11][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][12][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][13][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                        }
+                                    }  
+                                    for($k = 1; $k <= $size_ctria; $k++){
+                                        for($cf = 0; $cf < $length; $cf++){
+                                            echo "<td style='border: 1px solid #bcbcbc;'>$choice_arr[$cf]</td>
+                                                <input type='hidden' name='criterias[]' value='".$choice_arr[$cf]."'>";
+                                        }
+                                    }
+                                    for($c = 0; $c < $length; $c++){
+                                        $choice_arr[$c] = 0;
+                                    }break;
+                                case 15:
+                                    for($ct = 0; $ct < count($score_a[0]); $ct++){
+                                        for($fc = 0; $fc < $length; $fc++){
+                                            if($score_a[0][0][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][1][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][2][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][3][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][4][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][5][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][6][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][7][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][8][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][9][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][10][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][11][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][12][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][13][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                            if($score_a[0][14][$fc] == $choices_a[$fc]){
+                                                $choice_arr[$fc] = $choice_arr[$fc]+1;
+                                            }
+                                        }
+                                }  
+                                    for($k = 1; $k <= $size_ctria; $k++){
+                                        for($cf = 0; $cf < $length; $cf++){
+                                            echo "<td style='border: 1px solid #bcbcbc;'>$choice_arr[$cf]</td>
+                                                <input type='hidden' name='criterias[]' value='".$choice_arr[$cf]."'>";
+                                        }
+                                    }
+                                    for($c = 0; $c < $length; $c++){
+                                        $choice_arr[$c] = 0;
+                                    }break;      
+                            }
+
+                            echo "</tr>";
+                            unset($score_ar);
+                            unset($score_a);
+                            $score_ar = array();
+                            $score_a = array();                          
+                        } 
+                    }
+                    echo "</div>";                  
+                }            
+            }
+        echo "</table>
+            <input type='hidden' value='".$form_ID."' name='formID'>
+            <input type='hidden' value='".$course."' name='course'>
+            <input type='hidden' value='descriptive' name='criteria'>
+            <input type='hidden' value='$group_ID' name='groupID'>
+            <input type='hidden' value='form1' name='form'>
+            <input type='submit' value='Download as a CSV file' id='submitBtn'>
+            </form></div>";
+        }else if($formCriteria[0]['criteria'] == 'descriptive'){
+            $data = file_get_contents($url); 
+            $rem_arr = array();
+            $rem_ar = array();
+            $rem_a = array();
+            $formCriteria = json_decode($data, true);
+            $rem = '';
+         
+            echo "<div id='formContainer'>
+                        <div id='ratingWrapper'>";
+            foreach ($formCriteria as $formCriterias) {
+                if($formCriterias['criteria'] == 'descriptive'){
+                    $size_criteria = count($formCriteria);
+                    $size_ctria = count($formCriteria)-1;
+                    $size_groupmates = count($groupmates);
+                    $size_table = count($groupmates) - 1;
+                    $number = 1;
+                    $totalnumber = 1;
+
+                    echo "<br></div>
+                            <div id='rating' style='margin-bottom: 2%;'>Criteria:</div>
+                            <div class='tableContainer'>
+                            <form action='' method='post'>                          
+                            <table class='tableForm' id='tableForm'>
+                                <col width='350'>
+                                <col width='250'>
+                                <tr>
+                                    <th>Members</th>
+                                    <th>Group #</th>
+                                    <th>Remarks</th>
+                                </tr>";
+
+                    
+                    for($i = 0; $i < $size_groupmates; $i++){
+                        echo "<tr><td>$groupmates[$i]</td>
+                                <td>".$group_num[$i]."</td>";
+                        $name_gr = $groupmates[$i];
+                        $query_remarks = "SELECT remarks from result JOIN users ON userID = id WHERE formID = $form_ID AND CONCAT(firstname, ' ', lastname) LIKE '%$name_gr%';";
+                        $query_rem = mysqli_query($conn, $query_remarks);
+                        $counting = mysqli_num_rows($query_rem);
+                        if($counting == 0){
+                            echo "<td>No Available Remarks</td></tr>";
+                        }else{
+                            while($row = mysqli_fetch_array($query_rem, MYSQLI_ASSOC)){
+                                $rem .= $row['remarks']." ";
+                            }
+                            echo "<td>$rem</td>";
+                            unset($rem);
+                            $rem = '';
+                        }
+                        echo "</tr>";
+                    }
+
+                    for($ctr = 1; $ctr <= $size_ctria; $ctr++){
+                        $criteria = $formCriteria[$ctr]['criteria'];
+                        echo "<div id='criteria'>".$criteria. "<br></div>"; 
+                    }
+                    echo "</div>";                  
+                }            
+            }
+        echo "</table>
+            <input type='hidden' value='".$form_ID."' name='formID'>
+            <input type='hidden' value='".$course."' name='course'>
+            <input type='hidden' value='descriptive' name='criteria'>
+            <input type='hidden' value='$group_ID' name='groupID'>
+            <input type='hidden' value='form1' name='form'>
+            <input type='submit' value='Download as a CSV file' id='submitBtn'>
+            </form></div>";
+        }else{
+            exit("<div id='expForm'>There is something wrong with the evaluation form. Please contact your instructor if this was a mistake.</div>
+                    <form action='course.php'>
+                    <input type='hidden' value='".$_SESSION['courseCode']."' name='courseCode'>
+                    <input type='hidden' value='".$_SESSION['courseName']."' name='courseName'>
+                    <input type='submit' value='Go Back' id='backBtnForm'>
+                    <form>");
+        }
 ?>
 <script>
     $(function(){
@@ -527,9 +1252,7 @@
     });
     function doExport(selector, params) {
       var options = {
-        fileName: '<?php echo $_SESSION['courseCode'].'-'.$form_Name;?>',
-        tableName: 'Form Results',
-        worksheetName: 'Form Results'
+        fileName: '<?php echo $_SESSION['courseCode'].'-'.$form_Name;?>'
       };
 
       $.extend(true, options, params);

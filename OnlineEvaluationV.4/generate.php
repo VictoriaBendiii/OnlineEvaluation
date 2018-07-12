@@ -1,8 +1,86 @@
 <?php include('connection.php');
+	$title = $_POST['title'];
+	$type_eval = $_POST['typeEval'];
+	$scale = '';
+	if(isset($_POST['scale'])){
+		$scale = $_POST['scale'];
+	}
+	$criteria = $_POST['criteria'];
+	$crit_arr = '';
+
+	switch ($type_eval) {
+		case 'Descriptive':
+			$criteria_arr = '[{"criteria":'.' '.'"'.'descriptive'.'",';
+			
+			for($ctr = 1; $ctr < count($criteria); $ctr++){
+				$crit_arr .= '{"criteria": "'.$criteria[$ctr].'"},';
+			}
+			$crit_arr = substr($crit_arr, 0, -1);
+			$toJSON = $criteria_arr." ".$crit_arr."]";
+			break;
+		
+		case 'Multiple Choice':
+			$criteria_arr = '[{"criteria":'.' '.'"'.'multiple choice'.'",';
+			$choices_arr = '"choices": [';
+			
+			if($scale[0] == $scale[count($scale)-1]){
+				for($ctr = 1; $ctr < count($scale); $ctr++){
+					$choices_arr .= '"'.$scale[$ctr].'",';
+				}
+			}else{
+				for($ctr = 0; $ctr < count($scale); $ctr++){
+					$choices_arr .= '"'.$scale[$ctr].'",';
+				}
+			}
+			$choices_arr = substr($choices_arr, 0, -1);
+			$choices_arr .= ']},';
+			if($criteria[0] == $criteria[count($criteria)-1]){
+				for($ctr = 1; $ctr < count($criteria); $ctr++){
+					$crit_arr .= '{"criteria": "'.$criteria[$ctr].'"},';
+				}
+			}else{
+				for($ctr = 0; $ctr < count($criteria); $ctr++){
+					$crit_arr .= '{"criteria": "'.$criteria[$ctr].'"},';
+				}
+			}
+			
+			$crit_arr = substr($crit_arr, 0, -1);
+			$toJSON = $criteria_arr.$choices_arr.$crit_arr."]";
+			break;
+
+		case 'Number-based':
+			$criteria_arr = '[{"criteria":'.' '.'"'.'criteria'.'",';
+			$choices_arr = '"choices": [';
+			
+			if($scale[0] == $scale[count($scale)-1]){
+				for($ctr = 1; $ctr < count($scale); $ctr++){
+					$choices_arr .= '"'.$scale[$ctr].'",';
+				}
+			}else{
+				for($ctr = 0; $ctr < count($scale); $ctr++){
+					$choices_arr .= '"'.$scale[$ctr].'",';
+				}
+			}
+			$choices_arr = substr($choices_arr, 0, -1);
+			$choices_arr .= ']},';
+			if($criteria[0] == $criteria[count($criteria)-1]){
+				for($ctr = 1; $ctr < count($criteria); $ctr++){
+					$crit_arr .= '{"criteria": "'.$criteria[$ctr].'"},';
+				}
+			}else{
+				for($ctr = 0; $ctr < count($criteria); $ctr++){
+					$crit_arr .= '{"criteria": "'.$criteria[$ctr].'"},';
+				}
+			}
+			
+			$crit_arr = substr($crit_arr, 0, -1);
+			$toJSON = $criteria_arr.$choices_arr.$crit_arr."]";
+			break;
+	}
 ?>
 <html>
-    <head>
-        <meta name=viewport content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<head>
+		<meta name=viewport content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <link href="styles/formStyle.css" rel="stylesheet" type="text/css"/>
         <script src="assets/js/jquery.min.js"></script>
         <meta charset="UTF-8">
@@ -11,17 +89,16 @@
         <title>SLU Peer Evaluation | Upload</title>
 		<link rel="icon" href="css/images/slogo.png">
 		<link rel="stylesheet" href="css/pstyle.css"/>
-		<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
-        <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
-        <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Montserrat:400,700'>
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-		<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+        <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <script src="bootstrap.js"></script>
     </head>
+<body>
 
-    <body>
 	<div class="wrapper">
             <header>
-                <nav style="z-index: 1000; background-color: RGBA(92,115,139, 0.6); position: fixed; top: 0px;">
+                <nav style="z-index: 1000; background-color: RGBA(92,115,139, 0.6); position: fixed; top: 0px;"">
                     <div class="menu-icon">
                         <i class="fa fa-bars fa-2x"></i>
                     </div>
@@ -114,14 +191,34 @@
             }
         }
         </script>
-    <div id='uploadContainer'>
+
+	<div id="myModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title"><b>Successfully Generated JSON File</b></h4>
+	      </div>
+	      <div class="modal-body">
+	        <p><?php echo $title;?> is successfully generated. Click the Download button to download the file.</p>
+	      </div>
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-default"><a id="downloader">Download</a></button>
+          	<button type="button" class="btn btn-default" data-dismiss="modal"><a>Close</a></button>
+	      </div>
+	    </div>
+
+	  </div>
+	</div>
+
+	<div id='uploadContainer'>
       <p id="uploadTitle">Generate Evaluation Form</p>
         <form action="generate.php" method="POST" enctype="multipart/form-data" class="file-upload"  
             <label for="title" id="group">Title: </label>
             <input type="text" name="title" id="title" placeholder="Prelims Evaluation Form" maxlength="50" required><br>
             <label for="typeEval" id="typeFormLabl" style="font-weight:normal;">Type of Evaluation: </label>
             <select name="typeEval" id="typeEval" style="margin-left: 1%;">
-            	<option value="Number-based">Number-based</option>
+            	<option value="Likert">Likert</option>
             	<option value="Multiple Choice">Multiple Choice</option>
             	<option value="Descriptive">Descriptive</option>
             </select><br>
@@ -152,7 +249,18 @@
         </form>
     </div>
 <script>
-    var max = 15;
+	$(window).on('load',function(){
+        $('#myModal').modal('show');
+    });
+
+	var title = "<?php echo $_POST['title']; ?>";
+	var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(<?php echo $toJSON; ?>));
+	jQuery(function($){
+		$('#downloader').attr('href','data:'+data);
+		$('#downloader').attr('download',title+'.json');
+	});
+
+	var max = 15;
     var x = 1;
     var typeEval = $("#typeEval");
    	var selectedVal = '';

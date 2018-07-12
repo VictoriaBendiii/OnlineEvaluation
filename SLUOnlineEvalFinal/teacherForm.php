@@ -148,7 +148,7 @@
               </form>";
 		?>
         <li><a href="uploadForm.php"><img src='images/upload.png' class='tnavicon'> Upload New Form</a></li>
-        <li><a href="grouping.php"><img src='images/group.png' class='tnavicon'> Group Students</a></li>
+        <li><a href="studentgroups.php"><img src='images/group.png' class='tnavicon'> Groups</a></li>
     </ul>
  </div>
  <div class='formActivities'>

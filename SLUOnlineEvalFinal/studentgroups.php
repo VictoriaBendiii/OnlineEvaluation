@@ -87,6 +87,13 @@ if(!isset($_SESSION['username'])){
 				text-decoration: none;
 				font-size: 21px;
 			}
+			#movers{
+				text-decoration: none;
+				font-size: 24px;
+			}
+			#movers:hover{
+				text-decoration: none;
+			}
         </style>
     </head>
 
@@ -206,7 +213,7 @@ if(!isset($_SESSION['username'])){
 
 		<div class="col-lg-12" style="padding-top: 80px;">
                 <center><h2 id='classCode'>Groups</h2>
-				<a id="mover" href="grouping.php"><p style="text-decoration: none; font-size: 20px; padding-bottom: 10px;">Group Students</p></a>
+				<a id="mover" href="grouping.php"><p style="text-decoration: none; font-size: 20px; padding-bottom: 10px;">Group or Regroup Students</p></a>
                 <?php
 				$user = $_SESSION['username'];
 				$course = $_SESSION["course"];
@@ -226,6 +233,10 @@ if(!isset($_SESSION['username'])){
 					}
 				echo "</div></div></div>";
 				 }
+				 
+				if($num == 0){
+					echo "<p style='font-size: 24px; padding-top: 40px;'>No groups are formed yet. Click <a id='movers' href='grouping.php'>here</a> to group students.</p>";
+					}
 				}
 				?>   
                 </center>

@@ -23,26 +23,15 @@
 			$criteria_arr = '[{"criteria":'.' '.'"'.'multiple choice'.'",';
 			$choices_arr = '"choices": [';
 			
-			if($scale[0] == $scale[count($scale)-1]){
-				for($ctr = 1; $ctr < count($scale); $ctr++){
-					$choices_arr .= '"'.$scale[$ctr].'",';
-				}
-			}else{
-				for($ctr = 0; $ctr < count($scale); $ctr++){
-					$choices_arr .= '"'.$scale[$ctr].'",';
-				}
+			for($ctr = 1; $ctr < count($scale); $ctr++){
+				$choices_arr .= '"'.$scale[$ctr].'",';
 			}
 			$choices_arr = substr($choices_arr, 0, -1);
 			$choices_arr .= ']},';
-			if($criteria[0] == $criteria[count($criteria)-1]){
-				for($ctr = 1; $ctr < count($criteria); $ctr++){
-					$crit_arr .= '{"criteria": "'.$criteria[$ctr].'"},';
-				}
-			}else{
-				for($ctr = 0; $ctr < count($criteria); $ctr++){
-					$crit_arr .= '{"criteria": "'.$criteria[$ctr].'"},';
-				}
-			}
+
+			for($ctr = 1; $ctr < count($criteria); $ctr++){
+                $crit_arr .= '{"criteria": "'.$criteria[$ctr].'"},';
+            }
 			
 			$crit_arr = substr($crit_arr, 0, -1);
 			$toJSON = $criteria_arr.$choices_arr.$crit_arr."]";
@@ -52,26 +41,15 @@
 			$criteria_arr = '[{"criteria":'.' '.'"'.'criteria'.'",';
 			$choices_arr = '"choices": [';
 			
-			if($scale[0] == $scale[count($scale)-1]){
-				for($ctr = 1; $ctr < count($scale); $ctr++){
-					$choices_arr .= '"'.$scale[$ctr].'",';
-				}
-			}else{
-				for($ctr = 0; $ctr < count($scale); $ctr++){
-					$choices_arr .= '"'.$scale[$ctr].'",';
-				}
-			}
-			$choices_arr = substr($choices_arr, 0, -1);
-			$choices_arr .= ']},';
-			if($criteria[0] == $criteria[count($criteria)-1]){
-				for($ctr = 1; $ctr < count($criteria); $ctr++){
-					$crit_arr .= '{"criteria": "'.$criteria[$ctr].'"},';
-				}
-			}else{
-				for($ctr = 0; $ctr < count($criteria); $ctr++){
-					$crit_arr .= '{"criteria": "'.$criteria[$ctr].'"},';
-				}
-			}
+			for($ctr = 1; $ctr < count($scale); $ctr++){
+                $choices_arr .= '"'.$scale[$ctr].'",';
+            }
+            $choices_arr = substr($choices_arr, 0, -1);
+            $choices_arr .= ']},';
+
+            for($ctr = 1; $ctr < count($criteria); $ctr++){
+                $crit_arr .= '{"criteria": "'.$criteria[$ctr].'"},';
+            }
 			
 			$crit_arr = substr($crit_arr, 0, -1);
 			$toJSON = $criteria_arr.$choices_arr.$crit_arr."]";
@@ -81,6 +59,9 @@
 <html>
 	<head>
 		<meta name=viewport content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <script src="js/jquery-1.12.4.js"></script>
+        <script src="js/jquery-ui.js"></script>
+        <script src="js/jquery-3.2.1.js"></script>
         <link href="styles/formStyle.css" rel="stylesheet" type="text/css"/>
         <script src="assets/js/jquery.min.js"></script>
         <meta charset="UTF-8">
@@ -93,6 +74,16 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <link rel="stylesheet" href="css/bootstrap.css">
         <script src="bootstrap.js"></script>
+        <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery-ui.js"></script>
+          <script>
+          $( function() {
+            $( ".addScaleWrap" ).sortable();
+            $( ".addScaleWrap" ).disableSelection();
+            $( ".addCriteriaWrap" ).sortable();
+            $( ".addCriteriaWrap" ).disableSelection();
+          } );
+          </script>
     </head>
 <body>
 
@@ -218,33 +209,37 @@
             <input type="text" name="title" id="title" placeholder="Prelims Evaluation Form" maxlength="50" required><br>
             <label for="typeEval" id="typeFormLabl" style="font-weight:normal;">Type of Evaluation: </label>
             <select name="typeEval" id="typeEval" style="margin-left: 1%;">
-            	<option value="Likert">Likert</option>
-            	<option value="Multiple Choice">Multiple Choice</option>
-            	<option value="Descriptive">Descriptive</option>
+                <option value="Number-based">Number-based</option>
+                <option value="Multiple Choice">Multiple Choice</option>
+                <option value="Descriptive">Descriptive</option>
             </select><br>
             <div class="toAppendAfter">
             <div class="wrapScale">
             <label for="scale" id="scaleLabl" style="font-weight:normal;">Scale: </label><br>
-		        <div class="scaleWrap">
-		            <div>
-		            	<input type="text" name="scale[]" id="scale" placeholder="Good" maxlength="240" style="margin-left: 110px;width:50%;font-size:18px;" required>
-		            	<button type='button' id='addScale' style='margin:0%; padding: 0; border: none; background: none;'><img src='images/add.png' style='height: 28px; width: 28px; padding: 2px;' alt='add' id='add'></button>
-		            </div>
-		        </div>
-	    	</div>
-	    	</div>
+                <div class="scaleWrap">
+                    <div>
+                        <input type="text" name="scale[]" id="scale" placeholder="Good" maxlength="240" style="margin-left: 110px;width:50%;font-size:18px;" required>
+                        <button type='button' id='addScale' style='margin:0%; padding: 0; border: none; background: none;'><img src='images/add.png' style='height: 28px; width: 28px; padding: 2px;' alt='add' id='add'></button>
+                    </div>
+                    <ul class="addScaleWrap" style="list-style-type: none;">
+                    </ul>
+                </div>
+            </div>
+            </div>
             <br>
             <label for="criteria" id="criteriaLabl" style="font-weight:normal;">Criteria: </label><br>
             <div class="criteriaWrap">
-	            <div>
-		            <input type="text" name="criteria[]" id="criteria" placeholder="Describe the work ethic of the student." maxlength="240" style="margin-left: 110px;width:50%;font-size:18px;" required>
-		            <button type='button' id='addCriteria' style='margin:0%; padding: 0; border: none; background: none;'><img src='images/add.png' style='height: 28px; width: 28px; padding: 2px;' alt='add' id='addC'></button>
-		        </div>
-		    </div>
+                <div>
+                    <input type="text" name="criteria[]" id="criteria" placeholder="Describe the work ethic of the student." maxlength="240" style="margin-left: 110px;width:50%;font-size:18px;" required>
+                    <button type='button' id='addCriteria' style='margin:0%; padding: 0; border: none; background: none;'><img src='images/add.png' style='height: 28px; width: 28px; padding: 2px;' alt='add' id='addC'></button>
+                </div>
+                <ul class="addCriteriaWrap" style="list-style-type: none;">
+                </ul>
+            </div>
             <br>
             <div style="width: 80%;margin:0 auto;">
             </div>
-			<br>
+            <br>
             <input type="submit" value="Generate" class="uploadButton"/> 
         </form>
     </div>
@@ -260,35 +255,35 @@
 		$('#downloader').attr('download',title+'.json');
 	});
 
-	var max = 15;
+var max = 15;
     var x = 1;
     var typeEval = $("#typeEval");
-   	var selectedVal = '';
-   	var toAppend = '';
+    var selectedVal = '';
+    var toAppend = '';
 
     var y = 1;
     $(typeEval).click(function(e){
-    	var selectedValue = $("#typeEval option:selected").text();
-    	var className = document.getElementsByClassName("wrapScale");
-    	if(selectedValue == "Descriptive" && y == 1){
-        	y = 0;
-        	for (var i = 0; i < className.length; i++){
-			  className[i].style.display = 'none';
-			}
-    	}else if(selectedValue != "Descriptive" && y == 0){
-			y = 1;
-			x = 1;
-			for (var i = 0; i < className.length; i++){
-			  className[i].style.display = 'block';
-			}
-    	}
+        var selectedValue = $("#typeEval option:selected").text();
+        var className = document.getElementsByClassName("wrapScale");
+        if(selectedValue == "Descriptive" && y == 1){
+            y = 0;
+            for (var i = 0; i < className.length; i++){
+              className[i].style.display = 'none';
+            }
+        }else if(selectedValue != "Descriptive" && y == 0){
+            y = 1;
+            x = 1;
+            for (var i = 0; i < className.length; i++){
+              className[i].style.display = 'block';
+            }
+        }
     });
 
     $("#addScale").click(function(e){
-    	x = 1;
-	    var scaleWrap = $(".scaleWrap");
-    	var textVal = $('#scale').val();
-    	toAppend = '<div style="margin-top: 1%;"><input type="text" name="scale[]" value="'+textVal+'" maxlength="240" style="margin-left: 110px;width:50%;font-size:18px;" required /><a href="#" class="removeScale" style="margin-left:2%;">X</a></div>';
+        x = 1;
+        var scaleWrap = $(".addScaleWrap");
+        var textVal = $('#scale').val();
+        toAppend = '<li><div style="margin-top: 1%;"><span class="ui-icon ui-icon-arrowthick-2-n-s" style="margin-left: 84px;"></span><input type="text" name="scale[]" value="'+textVal+'" maxlength="240" style="margin-left:10px;width:50%;font-size:18px;" required /><a href="#" class="removeScale" style="margin-left:2%;">X</a></div></li>';
         e.preventDefault();
         if(x < max){ 
             x++; 
@@ -301,10 +296,10 @@
     })
   
     $("#addCriteria").click(function(e){
-    	var x = 1;
-    	var criteriaWrap = $(".criteriaWrap");
-    	var textVal = $('#criteria').val();
-    	var toAppend = '<div style="margin-top: 1%;"><input type="text" name="criteria[]" value="'+textVal+'" maxlength="240" style="margin-left: 110px;width:50%;font-size:18px;" required /><a href="#" class="removeCriteria" style="margin-left:2%;">X</a></div>';
+        var x = 1;
+        var criteriaWrap = $(".addCriteriaWrap");
+        var textVal = $('#criteria').val();
+        var toAppend = '<li><div style="margin-top: 1%;"><span class="ui-icon ui-icon-arrowthick-2-n-s" style="margin-left: 84px;"></span><input type="text" name="criteria[]" value="'+textVal+'" maxlength="240" style="margin-left:10px;width:50%;font-size:18px;" required /><a href="#" class="removeCriteria" style="margin-left:2%;">X</a></div></li>';
         e.preventDefault();
         if(x < max){ 
             x++; 
@@ -314,7 +309,7 @@
    
     $(".criteriaWrap").on("click",".removeCriteria", function(e){
         e.preventDefault(); $(this).parent('div').remove(); x--;
-    })
+    });
 </script>
 </body>
 </html>

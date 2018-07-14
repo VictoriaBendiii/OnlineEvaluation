@@ -3,7 +3,7 @@
         header('Location: login.php');
     }
 
-    if(!isset($_SESSION['courseCode']) && !isset($_SESSION['courseName'])){
+    if(isset($_SESSION['courseCode']) && isset($_SESSION['courseName'])){
         $_SESSION['courseCode'] = $_GET['courseCode'];
         $_SESSION['courseName'] = $_GET['courseName'];
     }else if($_SESSION['courseCode'] != $_GET['courseCode']) {
@@ -108,7 +108,9 @@
  </div>
  <div class='formActivities' style="top: 286px;">
     Activities
- </div>
+</div>
+<?php include('calendarWidget.php'); ?>
+
 <script type="text/javascript">
         
         $(document).ready(function(){

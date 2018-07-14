@@ -60,7 +60,7 @@
 						}
 						else
 						{
-							echo "Something went wrong. please try again.";
+							echo "Username Already Exists.";
 						}
 					}
 					else

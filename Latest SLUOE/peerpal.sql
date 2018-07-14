@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2018 at 08:59 AM
+-- Generation Time: Jul 14, 2018 at 08:16 AM
 -- Server version: 5.7.14
 -- PHP Version: 5.6.25
 
@@ -96,7 +96,8 @@ INSERT INTO `form` (`formID`, `formName`, `formDesc`, `due`, `path`, `expTime`, 
 (4, 'Project Evaluation form', 'Please make sure to follow the guidelines', '2018-07-10', '9358A-Project Evaluation form', '24:00:00', 'form1'),
 (5, 'Prelims Evaluation', 'Please fill up accordingly', '2018-08-01', '9361-Prelims Evaluation', '24:00:00', 'form1'),
 (6, 'dfdsf', '', '1970-01-01', '-dfdsf', '00:00:00', 'form1'),
-(7, 'fdf', '', '1970-01-01', '-fdf', '00:00:00', 'form1');
+(7, 'fdf', '', '1970-01-01', '-fdf', '00:00:00', 'form1'),
+(8, 'Midterms Evaluation Form', 'Please make sure to fill the form properly ', '2018-07-15', '9358B-Midterms Evaluation Form', '23:59:00', 'form1');
 
 -- --------------------------------------------------------
 
@@ -242,9 +243,7 @@ INSERT INTO `users` (`id`, `username`, `password`, `firstname`, `lastname`, `ide
 (7, '2160052', '2160052', 'Erin', 'Villanueva', 'student', 'default.jpg'),
 (8, '2160053', '2160053', 'Alfonso', 'Valdez', 'student', 'default.jpg'),
 (9, 'teacher', 'teacher', 'Michael', 'Pinto', 'teacher', 'default.jpg'),
-(10, '2000600', '12345', 'Michael', 'Pinto', 'student', 'default.jpg'),
-(11, '2000600', '123', 'Michael', 'Pinto', 'teacher', 'default.jpg'),
-(30, '20006001', '123', 'Michael', 'Pinto', 'teacher', 'default.jpg');
+(32, '2000600', '123', 'Michael', 'Pinto', 'student', 'default.jpg');
 
 -- --------------------------------------------------------
 
@@ -277,7 +276,11 @@ INSERT INTO `user_course` (`id`, `courseCode`, `groupID`) VALUES
 (4, '9358B', 1),
 (9, '9361', NULL),
 (4, '9361', 1),
-(5, '9361', 1);
+(5, '9361', 1),
+(32, '9361', NULL),
+(32, '9360', NULL),
+(32, '9358B', NULL),
+(32, '9358B', NULL);
 
 --
 -- Indexes for dumped tables
@@ -294,7 +297,8 @@ ALTER TABLE `course`
 -- Indexes for table `events`
 --
 ALTER TABLE `events`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id_UNIQUE` (`id`);
 
 --
 -- Indexes for table `form`
@@ -333,7 +337,8 @@ ALTER TABLE `result`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username_UNIQUE` (`username`);
 
 --
 -- Indexes for table `user_course`
@@ -357,7 +362,7 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `form`
 --
 ALTER TABLE `form`
-  MODIFY `formID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `formID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `group`
 --
@@ -372,7 +377,7 @@ ALTER TABLE `result`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
 -- Constraints for dumped tables
 --

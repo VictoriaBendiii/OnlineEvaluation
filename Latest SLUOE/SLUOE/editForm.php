@@ -67,6 +67,7 @@
         <ul>
         <li><a href="teacherpage.php"><img src='images/class.png' class='picnavicon'> Classes</a></li>
         <li><a href="profile.php"><img src='images/profile.png' class='picnavicon'> Profile</a></li>
+	<li><a href="calendar.php"><img src='images/calendar.jpg' class='picnavicon'>Calendar</a></li>
         <li><a href="signout.php"><img src='images/logout.png' class='picnavicon'> Log out</a></li>
         </ul>
         </div>

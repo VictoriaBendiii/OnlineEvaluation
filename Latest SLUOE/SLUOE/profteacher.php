@@ -32,7 +32,7 @@
                     <div class="logo">&emsp;SLU Peer Evaluation</div>
                     <div class="menu">
                         <ul>
-                            <li style="color: white; font-size: 20px; "><a class="active" href="#" onclick="websitenav();">
+                            <li style="color: white; font-size: 20px; "><a href="#" style="outline: none;" onclick="websitenav();">
                             <?php 
 							$username = $_SESSION['username'];
 							$query = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username';");
@@ -49,7 +49,7 @@
                 </nav>
             </header>
         </div>
-		<div id="pictureNavigation" style="display: none;">
+		<div id="pictureNavigation" style="display: none; height: 134px; font-weight: normal;">
 		<ul>
 		<li><a href="teacherpage.php"><img src='images/class.png' class='picnavicon'> Classes</a></li>
 		<li><a href="profteacher.php"><img src='images/profile.png' class='picnavicon'> Profile</a></li>

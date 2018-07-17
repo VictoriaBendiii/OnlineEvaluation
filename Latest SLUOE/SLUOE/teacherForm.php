@@ -82,7 +82,7 @@
         $instructor_name = $row['firstname'].' '.$row['lastname'];
     }
 
-    $get_forms = "SELECT DISTINCT formName, formDesc, formID, due, expTime from peerpal.group JOIN group_form USING(groupID) JOIN form USING(formID) WHERE courseCodeForm = '$course' ORDER BY 3 DESC";
+    $get_forms = "SELECT DISTINCT formName, formDesc, formID, startDate, due, expTime from peerpal.group JOIN group_form USING(groupID) JOIN form USING(formID) WHERE courseCodeForm = '$course' ORDER BY 3 DESC";
     $query = mysqli_query($conn, $get_forms);
         
     while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
@@ -118,6 +118,7 @@
                 <div class='editForm' style='display: block; position: relative;'>
                 <p style='text-align: center'>".$row['formName']."</p><br>
                 <b>Description:</b> ".$row['formDesc']."<br>
+                <b>Start Date:</b> ".$row['startDate']."<br>
                 <b>Due Date:</b> ".$row['due']."<br>
                 <b>Time Due:</b> ".$exp_time."<br>
                 <button type='submit' id='backBtn' style='margin-left:0%;'>Edit Form</button>

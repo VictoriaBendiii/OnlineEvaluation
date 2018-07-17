@@ -180,12 +180,14 @@
             $form_name = $row['formName'];
             $group_ID = $row['groupID'];
             $due = $row['due'];
+            $start = $row['startDate'];
             $date_now = date("Y-m-d", time());
             $time = $row['expTime'];
             $form_type = $row['type'];
             $url = 'uploads/'.$row['path'].'.json';
 
             $due = strtotime($due);
+            $start = strtotime($start);
             $now = $date_now;
             $now = strtotime($now);
             date_default_timezone_set('Asia/Manila');
@@ -195,6 +197,13 @@
 
             if(($due <= $now AND $time_now >= $time) OR ($due <= $now AND $time_now < $time)){
                 exit("<div id='expForm'>You have already surpassed the due date and time. Please contact your instructor for further details.</div>
+                    <form action='course.php'>
+                    <input type='hidden' value='".$_SESSION['courseCode']."' name='courseCode'>
+                    <input type='hidden' value='".$_SESSION['courseName']."' name='courseName'>
+                    <input type='submit' value='Go Back' id='backBtnForm'>
+                    <form>");
+            }else if(($start >= $now AND $time_now <= $time) OR ($start >= $now AND $time_now > $time)){
+                exit("<div id='expForm'>The evaluation is not yet available. Please come back later.</div>
                     <form action='course.php'>
                     <input type='hidden' value='".$_SESSION['courseCode']."' name='courseCode'>
                     <input type='hidden' value='".$_SESSION['courseName']."' name='courseName'>

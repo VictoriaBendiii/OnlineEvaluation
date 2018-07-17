@@ -154,6 +154,8 @@
             <label for="title" id="group">Title: </label>
             <input type="text" name="title" id="title" placeholder="Prelims Evaluation Form" maxlength="50" required><br>
             <textarea name="desc" rows="4" cols="30" id="desc" maxlength="500">Description...</textarea><br>
+            <label for="start" id="dueDate">Start Date: </label>
+            <input type="date" name="start" id="dueCal" required /><br>
             <label for="dueDate" id="dueDate">Due Date: </label>
             <input type="date" name="due" id="dueCal" required /><br>
             <label for="expTime" id="dueDate">Time: </label>

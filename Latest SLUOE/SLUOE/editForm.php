@@ -10,6 +10,7 @@
   while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)){
     $name = $row['formName'];
     $desc = $row['formDesc'];
+    $start = $row['startDate'];
     $due = $row['due'];
     $expTime = $row['expTime'];
   }
@@ -76,6 +77,8 @@
             <label for="title" id="group">Title: </label>
             <input type="text" style="font-size: 18px;top: 0px;" name="title" id="title" value='<?php echo $name; ?>' required><br>
             <textarea name="desc" rows="4" cols="30" id="desc"></textarea><br>
+            <label for="start" id="dueDate">Start Date: </label>
+            <input type="date" name="start" id="dueCal" value='<?php echo $start; ?>' required /><br>
             <label for="dueDate" id="dueDate">Due Date: </label>
             <input type="date" name="due" id="dueCal" value='<?php echo $due; ?>' required /><br>
             <label for="expTime" id="dueDate">Time: </label>

@@ -20,7 +20,15 @@
         <link rel="stylesheet" href="assets/css/bootstrap-theme.css" media="screen"> 
         <link rel="stylesheet" href="assets/css/style.css">
         <link rel='stylesheet' id='camera-css'  href='assets/css/camera.css' type='text/css' media='all'>
-            <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+        <style>
+        body{
+            overflow-x: hidden;
+        }
+        #tableForms tr:nth-child(2n) {
+            background-color: transparent!important;
+        }
+        </style>
     </head>
 
     <body>
@@ -283,14 +291,177 @@
         echo "</table>
             <input type='hidden' value='".$form_ID."' name='formID'>
             <input type='hidden' value='".$course."' name='course'>
+            <input type='hidden' value='".$size_criteria."' name='sizeCriteria'>
             <input type='hidden' value='$group_ID' name='groupID'>
-            <input type='hidden' value='form1' name='form'>
+            <input type='hidden' value='criteria' name='form'>
             <input type='submit' value='Submit' id='submitBtn'>
             </form></div>";
-        }else if($formCriteria[0]['criteria'] == 'multiple choice'){
-            
+        }else if($formCriteria[0]['criteria'] == 'multiple choice'){  
+            $data = file_get_contents($url); 
+            $size_criteria = count($formCriteria) - 1;
+            $formCriteria = json_decode($data, true);
+            $input_radio_arr = array();
+            $selected_radio = array();
+            $selected_arr = array();
+
+            if(filesize("$url") == 0){
+                exit("<div id='expForm'>There is something wrong with the evaluation form. Please contact your instructor if this was a mistake.</div>
+                    <form action='course.php'>
+                    <input type='hidden' value='".$_SESSION['courseCode']."' name='courseCode'>
+                    <input type='hidden' value='".$_SESSION['courseName']."' name='courseName'>
+                    <input type='submit' value='Go Back' id='backBtnForm'>
+                    <form>");
+            }
+
+            $query = "SELECT * from result WHERE evaluator = '$user' AND formID = $form_ID;";
+            $result = mysqli_query($conn, $query);
+
+            while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+                array_push($selected_radio, $row['score']);
+            }
+
+            foreach ($formCriteria as $formCriterias) {
+                if($formCriterias['criteria'] == 'multiple choice'){
+                    $size_groupmates = count($groupmates);
+                }
+            }
+
+            array_push($selected_arr, array_chunk($selected_radio, $size_groupmates));
+            echo "<div id='formContainer'>
+                    <div id='rating'>Rating:</div>
+                        <div id='ratingWrapper'>";
+            foreach ($formCriteria as $formCriterias) {
+                if($formCriterias['criteria'] == 'multiple choice'){
+                    $length = count($formCriterias['choices']);
+                    $size_criteria = count($formCriteria);
+                    $size_ctria = count($formCriteria)-1;
+                    $size_groupmates = count($groupmates);
+                    $size_table = count($groupmates) - 1;
+                    $number = 1;
+                    $totalnumber = 1;
+
+                    for($ctr = 0; $ctr < $length; $ctr++){
+                        echo "<div id='formChoice'>" . $formCriterias['choices'][$ctr] . "</div>";
+                    }
+
+                    echo "<br></div>
+                            <div class='tableContainer' id='tableForms'>
+                            <form action='updateResult.php' method='post'>                          
+                            <table class='tableForm'>";
+
+                    for($ctr = 0; $ctr < $size_ctria; $ctr++){
+                        $criteria = $formCriteria[$ctr+1]['criteria'];
+                        $k = $ctr+1;
+                        echo "<tr>
+                                <td style='text-align: left;'>$k. $criteria</td>
+                              </tr>";
+                        for($i = 0; $i < $size_groupmates; $i++){
+                            echo "<tr>
+                                    <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;$groupmates[$i]</td>";
+                            for($j = 0; $j < $length; $j++){
+                                $c = $formCriterias['choices'][$j];
+                                //echo "Radio btn: ".$i.$c."<br><br>";
+                                //echo "Selected btn: ".$selected_arr[0][$ctr][$i]."<br><br>";
+                                if($c == $selected_arr[0][$ctr][$i]){
+                                    echo "<td><input type='radio' checked name='".$i.$ctr."' value='".$c."' required> $c</td>";
+                                }else{
+                                    echo "<td><input type='radio' name='".$i.$ctr."' value='".$c."' required> $c</td>";
+                                }
+                                array_push($input_radio_arr, $i.$ctr);
+                            }
+                            echo "<td style='opacity: 0;'>$c$c$c$c</td></tr>";
+                        }
+                    }
+                    echo "</div>";                  
+                }            
+            }   
+            $id_com = implode("-", $id);
+            foreach($groupmates as $group){
+                echo '<input type="hidden" name="groupmates[]" value="'. $group. '">';
+            }
+            foreach($input_radio_arr as $input_arr){
+                echo '<input type="hidden" name="score[]" value="'. $input_arr. '">';
+            }
+            echo "</table>
+                <input type='hidden' value='".$form_ID."' name='formID'>
+                <input type='hidden' value='".$course."' name='course'>
+                <input type='hidden' value='".$id_com."' name='id[]'>
+                <input type='hidden' value='".$size_criteria."' name='sizeCriteria'>
+                <input type='hidden' value="."multiple choice"." name='criteria'>
+                <input type='hidden' value='".$length."' name='length'>
+                <input type='hidden' value='$group_ID' name='groupID'>
+                <input type='hidden' value='multiple choice' name='form'>
+                <input type='submit' value='Submit' id='submitBtn'>
+                </form></div>";
         }else if($formCriteria[0]['criteria'] == 'descriptive'){
-            
+            $data = file_get_contents($url); 
+            $formCriteria = json_decode($data, true);
+            $remarks_array = array();
+            $chunked_rem = array();
+
+            if(filesize("$url") == 0){
+                exit("<div id='expForm'>There is something wrong with the evaluation form. Please contact your instructor if this was a mistake.</div>
+                    <form action='course.php'>
+                    <input type='hidden' value='".$_SESSION['courseCode']."' name='courseCode'>
+                    <input type='hidden' value='".$_SESSION['courseName']."' name='courseName'>
+                    <input type='submit' value='Go Back' id='backBtnForm'>
+                    <form>");
+            }
+
+            echo "<div id='formContainer'>
+                        <div id='ratingWrapper'>";
+            foreach ($formCriteria as $formCriterias) {
+                if($formCriterias['criteria'] == 'descriptive'){
+                    $size_criteria = count($formCriteria);
+                    $size_ctria = count($formCriteria)-1;
+                    $size_groupmates = count($groupmates);
+                    $size_table = count($groupmates) - 1;
+                    $number = 1;
+                    $totalnumber = 1;
+                    $crt = 0;
+
+                    echo "</div>
+                            <div class='tableContainer' id='tableForms' style='position: relative; top: -50px;'>
+                            <form action='updateResult.php' method='post'>                          
+                            <table class='tableForm'>";
+
+                    for($i = 0; $i < $size_groupmates; $i++){
+                        $query = "SELECT * from result WHERE evaluator = '$user' AND formID = $form_ID AND courseCode = '$course' AND userID = $id[$i];";
+                        $query_Two = mysqli_query($conn, $query);
+                        while($row = mysqli_fetch_array($query_Two, MYSQLI_ASSOC)){
+                            $remarks_array[$crt] = $row['remarks'];
+                            $crt++;
+                        }
+                    }
+                    array_push($chunked_rem, array_chunk($remarks_array, $size_ctria));
+
+                    for($ctr = 0; $ctr < $size_ctria; $ctr++){
+                        $criteria = $formCriteria[$ctr+1]['criteria'];
+                        echo "<tr>
+                                <td style='text-align:left;'>$criteria</td>
+                              </tr>";
+
+                        for($i = 0; $i < $size_groupmates; $i++){
+                            echo "<tr>
+                                    <td>$groupmates[$i]:</td></tr>
+                                    <tr><td><textarea style='width: 60%; padding: 9px 12px; margin-bottom: 40px; resize:none;' maxlength='500' name='remarks[]' required>".$chunked_rem[0][$i][$ctr]."</textarea></td>
+                                  </tr>";
+                        }
+                    }
+                    echo "</div>";                  
+                }            
+            } 
+        $id_com = implode("-", $id);
+        echo "</table>
+            <input type='hidden' value='".$form_ID."' name='formID'>
+            <input type='hidden' value='".$course."' name='course'>
+            <input type='hidden' value='".$id_com."' name='id[]'>
+            <input type='hidden' value='".$size_criteria."' name='sizeCriteria'>
+            <input type='hidden' value='descriptive' name='criteria'>
+            <input type='hidden' value='$group_ID' name='groupID'>
+            <input type='hidden' value='descriptive' name='form'>
+            <input type='submit' value='Submit' id='submitBtn'>
+            </form></div>";
         }else{
             exit("<div id='expForm'>There is something wrong with the evaluation form. Please contact your instructor if this was a mistake.</div>
                     <form action='course.php'>

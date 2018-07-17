@@ -1,5 +1,5 @@
 <?php 
-	include('connection.php');
+    include('connection.php');
     if(!isset($_SESSION['username'])){
         header('Location: login.php');
     }
@@ -12,7 +12,7 @@
     $count = 0;
     $list_array = array();
 
-    if($form == 'form1'){
+    if($form == 'criteria'){
         $score = $_POST["score"];
         $remarks = $_POST["remarks"];
         $id = $_POST["id"];
@@ -29,25 +29,88 @@
                 }
             }
         }       
-    }else if($form == 'form2'){
+    }else if($form == 'multiple choice'){
+        $id = $_POST["id"];
+        $id = explode('-', $id[0]);
         $score = $_POST["score"];
-        $id = $_POST["idFormTwo"];
-        
-        $count = count($id);
+        $length = $_POST["length"];
+        $score_selected = array();
         $size_criteria = $_POST["sizeCriteria"];
-        array_push($list_array, array_chunk($score, $size_criteria));
+        array_push($score, array_chunk($score, $length));
+        $groupmates = $_POST["groupmates"];
 
-        for($ctr = 0; $ctr < count($list_array); $ctr++){
-            for($ct = 0; $ct < count($list_array[$ctr]); $ct++){
-                $score = implode("-", $list_array[$ctr][$ct]);
-                $query = "INSERT INTO result (score, formID, groupID, courseCode, evaluator, userID) VALUES ('".$score."', '$form_ID', '$group_ID', '$course', '$user', '".$id[$ct]."')";
-
-                if (mysqli_query($conn, $query)) {
-                } else {
-                    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        for($ctr = count($score)-1; $ctr < count($score); $ctr++){
+            for($ct = 0; $ct < count($score[$ctr]); $ct++){
+                for($c = count($score[$ctr][$ct])-1; $c < count($score[$ctr][$ct]); $c++){
+                    array_push($score_selected, $_POST[$score[$ctr][$ct][$c]]);
                 }
             }
-        }    
+        }
+        array_push($list_array, array_chunk($score_selected, count($id)));
+
+        $delete = "DELETE from result WHERE formID = $form_ID AND evaluator = '$user'";
+        if(mysqli_query($conn, $delete)){ 
+        }else{
+            echo "<script>alert('An error occured.');</script>";
+        }
+
+        $query = "SELECT resultID from result ORDER BY resultID DESC LIMIT 1;";
+        $result = mysqli_query($conn, $query);
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            $last_num = $row['resultID']+1;
+        }
+
+        $query = "ALTER TABLE result auto_increment = $last_num;";
+        if(mysqli_query($conn, $query)){ 
+        }else{
+            echo "<script>alert('An error occured.');</script>";
+        }
+
+        for($ctr = 0; $ctr < $size_criteria-1; $ctr++){
+            for($ct = 0; $ct < count($id); $ct++){
+                $query = "INSERT INTO result (score, formID, groupID, courseCode, evaluator, userID) VALUES ('".$list_array[0][$ctr][$ct]."','$form_ID', '$group_ID', '$course', '$user', '".$id[$ct]."')";
+                    if (mysqli_query($conn, $query)) {
+                    } else {
+                        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                    }
+            }
+        }
+
+    }else if($form == 'descriptive'){
+        $remarks = $_POST["remarks"];
+        $id = $_POST["id"];
+        $id = explode('-', $id[0]);
+        $score = count($id);
+        $size_criteria = $_POST["sizeCriteria"]-1;
+        array_push($list_array, array_chunk($remarks, $score));
+
+        $delete = "DELETE from result WHERE formID = $form_ID AND evaluator = '$user'";
+        if(mysqli_query($conn, $delete)){ 
+        }else{
+            echo "<script>alert('An error occured.');</script>";
+        }
+
+        $query = "SELECT resultID from result ORDER BY resultID DESC LIMIT 1;";
+        $result = mysqli_query($conn, $query);
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            $last_num = $row['resultID']+1;
+        }
+
+        $query = "ALTER TABLE result auto_increment = $last_num;";
+        if(mysqli_query($conn, $query)){ 
+        }else{
+            echo "<script>alert('An error occured.');</script>";
+        }
+
+        for($ctr = 0; $ctr < $size_criteria; $ctr++){
+            for($ct = 0; $ct < $score; $ct++){
+                $query = "INSERT INTO result (formID, groupID, courseCode, evaluator, remarks, userID) VALUES ('$form_ID', '$group_ID', '$course', '$user', '".$list_array[0][$ctr][$ct]."', '".$id[$ct]."')";
+                    if (mysqli_query($conn, $query)) {
+                    } else {
+                        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                    }
+            }
+        }
     }
 ?>
 <html>
@@ -59,17 +122,17 @@
         <meta name="description" content="online evaluation">
         <meta name="author" content="Group 2">
         <title>SLU Peer Evaluation | Successful Evaluation</title>
-		<link rel="icon" href="css/images/slogo.png">
-		<link rel="stylesheet" href="css/pstyle.css"/>
-		<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
+        <link rel="icon" href="css/images/slogo.png">
+        <link rel="stylesheet" href="css/pstyle.css"/>
+        <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
         <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
         <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Montserrat:400,700'>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-		<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     </head>
 
     <body>
-	<div class="wrapper">
+    <div class="wrapper">
             <header>
                 <nav style="z-index: 1000; background-color: RGBA(92,115,139, 0.6); position: fixed; top: 0px;"">
                     <div class="menu-icon">
@@ -103,7 +166,7 @@
         <li><a href="signout.php"><img src='images/logout.png' class='picnavicon'>Log out</a></li>
         </ul>
         </div>
-		<script type="text/javascript">
+        <script type="text/javascript">
         
         $(document).ready(function(){
             $(".menu-icon").on("click", function(){
@@ -181,13 +244,13 @@
             }
         }
         </script>
-    	<div id='expForm'>
-    		Your evaluation is successfully updated.
-    	</div>
+        <div id='expForm'>
+            Your evaluation is successfully updated.
+        </div>
         <form action='course.php'>
         <input type='hidden' value='<?php echo $_SESSION['courseCode']; ?>' name='courseCode'>
         <input type='hidden' value='<?php echo $_SESSION['courseName']; ?>'' name='courseName'>
         <input type='submit' value='Go Back' id='backBtnForm'>
         <form>
-	</body>
+    </body>
 </html>

@@ -303,7 +303,7 @@
             <input type='hidden' value='criteria' name='criteria'>
             <input type='hidden' value='".$size_criteria."' name='sizeCriteria'>
             <input type='hidden' value='$group_ID' name='groupID'>
-            <input type='hidden' value='form1' name='form'>
+            <input type='hidden' value='criteria' name='form'>
             <input type='submit' value='Submit' id='submitBtn'>
             </form></div>";
         }elseif ($formCriteria[0]['criteria'] == 'multiple choice') {
@@ -374,7 +374,7 @@
             <input type='hidden' value='multiple choice' name='criteria'>
             <input type='hidden' value='".$length."' name='length'>
             <input type='hidden' value='$group_ID' name='groupID'>
-            <input type='hidden' value='form1' name='form'>
+            <input type='hidden' value='"."multiple choice"."' name='form'>
             <input type='submit' value='Submit' id='submitBtn'>
             </form></div>";
         }elseif ($formCriteria[0]['criteria'] == 'descriptive') {
@@ -429,7 +429,7 @@
             <input type='hidden' value='".$id_com."' name='id[]'>
             <input type='hidden' value='descriptive' name='criteria'>
             <input type='hidden' value='$group_ID' name='groupID'>
-            <input type='hidden' value='form1' name='form'>
+            <input type='hidden' value='descriptive' name='form'>
             <input type='submit' value='Submit' id='submitBtn'>
             </form></div>";
         }else{

@@ -29,7 +29,22 @@ include('header.php');
         </div>
         <div class="col-md-3">
             <h4>Events, News & Announcements</h4>
-            <ul id="eventlist" class="nav nav-list"></ul>
+            <?php
+                $result = mysqli_query($conn,"SELECT formName, startDate, due, expTime from form");
+
+                while($row = mysqli_fetch_array($result))
+                {
+                    echo "Title: " . $row['formName'];
+                    echo "<br>";
+                    echo "Start date: " . $row['startDate'];
+                    echo "<br>";
+                    echo "Due date: " . $row['due'];
+                    echo "<br>";
+                    echo "Expiration Time: " . $row['expTime'];
+                    echo "<br>";
+                    echo "<br>";
+                }
+                ?>
             
            
         </div>

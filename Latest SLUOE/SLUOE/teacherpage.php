@@ -262,7 +262,7 @@ if(!isset($_SESSION['username'])){
                 })    
 
             </script>
-            <div id="pictureNavigation" style="display: none;">
+            <div id="pictureNavigation" style="display: none; height: 134px;">
                 <ul>
                     <li><a href="teacherpage.php"><img src='images/class.png' class='picnavicon'> Classes</a></li>
                     <li><a href="profteacher.php"><img src='images/profile.png' class='picnavicon'> Profile</a></li>
